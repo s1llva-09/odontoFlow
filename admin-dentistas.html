@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Dentistas</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="admin-page">
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-top">
+      <a href="./admin-dashboard.html" class="admin-brand">
+        <span class="admin-brand-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </a>
+
+      <nav class="admin-menu">
+      <a href="./admin-dashboard.html" class="admin-menu-item">
+        <span>▦</span>
+        Dashboard
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▣</span>
+        Agenda
+      </a>
+      <a href="./admin-agendamentos.html" class="admin-menu-item">
+        <span>▤</span>
+        Agendamentos
+      </a>
+      <a href="./admin-pacientes.html" class="admin-menu-item">
+        <span>♙</span>
+        Pacientes
+      </a>
+      <a href="./admin-dentistas.html" class="admin-menu-item active">
+        <span>♧</span>
+        Dentistas
+      </a>
+      <a href="./admin-procedimentos.html" class="admin-menu-item">
+        <span>▥</span>
+        Procedimentos
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▧</span>
+        Prontuários
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▩</span>
+        Orçamentos
+      </a>
+      <a href="./admin-financeiro.html" class="admin-menu-item">
+        <span>↗</span>
+        Financeiro
+      </a>
+      <a href="./admin-caixa.html" class="admin-menu-item">
+        <span>$</span>
+        Caixa
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▭</span>
+        A Receber
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▣</span>
+        A Pagar
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▥</span>
+        Relatórios
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>♙</span>
+        Usuários
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>⚙</span>
+        Configurações
+        <strong>›</strong>
+      </a>
+      </nav>
+    </div>
+
+    <div class="admin-sidebar-user">
+      <div class="admin-user-avatar">A</div>
+
+      <div>
+        <strong>Admin Geral</strong>
+        <small>admin@clinica.com</small>
+      </div>
+
+      <button id="logoutButton" title="Sair">↪</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-breadcrumb">
+        <span>Clínica OdontoFlow</span>
+        <strong>/ Dentistas</strong>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <label class="admin-search">
+          <span>⌕</span>
+          <input type="text" placeholder="Buscar..." />
+        </label>
+
+        <button class="admin-notification">
+          🔔
+          <span></span>
+        </button>
+
+        <div class="admin-top-avatar">
+          A
+        </div>
+      </div>
+    </header>
+
+    <section class="admin-content">
+
+    <section class="admin-panel">
+      <div class="admin-panel-header">
+        <div>
+          <h2>Novo dentista</h2>
+          <p>Preencha os dados do profissional para liberar no agendamento.</p>
+        </div>
+      </div>
+
+      <form class="admin-form" id="dentistForm">
+        <div class="admin-form-grid">
+          <div class="form-group">
+            <label for="dentistName">Nome do dentista *</label>
+            <input 
+              type="text" 
+              id="dentistName" 
+              placeholder="Ex: Dra. Ana Souza"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dentistCro">CRO</label>
+            <input 
+              type="text" 
+              id="dentistCro" 
+              placeholder="Ex: CRO-SP 12345"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dentistSpecialty">Especialidade *</label>
+            <input 
+              type="text" 
+              id="dentistSpecialty" 
+              placeholder="Ex: Ortodontia"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dentistInitials">Iniciais</label>
+            <input 
+              type="text" 
+              id="dentistInitials" 
+              placeholder="Ex: AS"
+              maxlength="3"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dentistColor">Cor do avatar</label>
+            <select id="dentistColor">
+              <option value="blue">Azul</option>
+              <option value="purple">Roxo</option>
+              <option value="pink">Rosa</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-form-actions">
+          <button type="submit" class="btn btn-primary" id="saveDentistButton">
+            Cadastrar dentista
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="admin-panel admin-panel-spacing">
+      <div class="admin-panel-header">
+        <div>
+          <h2>Lista de dentistas</h2>
+          <p>Profissionais cadastrados no sistema.</p>
+        </div>
+
+        <button class="btn btn-outline-neutral" id="reloadButton">
+          Atualizar
+        </button>
+      </div>
+
+      <div class="admin-search-box">
+        <input 
+          type="text" 
+          id="dentistSearchInput" 
+          placeholder="Buscar por nome, CRO ou especialidade..."
+        />
+      </div>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Avatar</th>
+              <th>Nome</th>
+              <th>CRO</th>
+              <th>Especialidade</th>
+              <th>Status</th>
+              <th>Cadastro</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody id="dentistsTable">
+            <tr>
+              <td colspan="7">Carregando dentistas...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/admin-dentistas.js"></script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+/* 
+  HERO
+
+  Primeira seção da página.
+  Usa espaçamento grande para criar impacto visual.
+*/
+.hero {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  padding: 82px 0 72px;
+  overflow: hidden;
+}
+
+/* 
+  CONTEÚDO DA HERO
+
+  Divide a seção em duas colunas:
+  texto à esquerda e card visual à direita.
+*/
+.hero-content {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: 70px;
+}
+
+/* 
+  BADGE
+
+  Pequeno selo acima do título para destacar que o sistema é online.
+*/
+.badge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--blue-light);
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+/* 
+  TÍTULO PRINCIPAL
+
+  Texto grande da primeira dobra do site.
+*/
+.hero h1 {
+  max-width: 660px;
+  font-size: clamp(38px, 5vw, 56px);
+  line-height: 1.12;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: var(--dark);
+  margin-bottom: 26px;
+}
+
+/* 
+  DESTAQUE AZUL NO TÍTULO
+
+  Realça a frase "simples e rápida".
+*/
+.hero h1 span {
+  color: var(--blue);
+}
+
+/* 
+  DESCRIÇÃO DA HERO
+
+  Texto explicativo abaixo do título.
+*/
+.hero-text p {
+  max-width: 620px;
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+/* 
+  BOTÕES DA HERO
+
+  Mantém os botões lado a lado e permite quebra em telas menores.
+*/
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* 
+  ÁREA VISUAL DA HERO
+
+  Base para posicionar o círculo decorativo e o card.
+*/
+.hero-visual {
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* 
+  CÍRCULO DECORATIVO
+
+  Cria o fundo azul claro atrás do card de consulta.
+*/
+.circle-bg {
+  width: 385px;
+  height: 385px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #dbeafe, #eaf3ff);
+  position: absolute;
+  z-index: 1;
+}
+
+/* 
+  CARD DE CONSULTA
+
+  Simula uma consulta futura para mostrar visualmente a proposta do sistema.
+*/
+.appointment-card {
+  width: min(100%, 320px);
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 32px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  z-index: 2;
+}
+
+/* 
+  CABEÇALHO DO CARD
+
+  Alinha o ícone do dente com o texto da consulta.
+*/
+.appointment-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+/* 
+  ÍCONE DO CARD
+
+  Bolinha azul clara atrás do emoji.
+*/
+.appointment-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 
+  TEXTO PEQUENO DO CARD
+
+  Mostra "Próxima consulta".
+*/
+.appointment-header span {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* 
+  PROCEDIMENTO NO CARD
+
+  Destaca o nome da consulta.
+*/
+.appointment-header strong {
+  display: block;
+  color: var(--dark);
+  font-size: 16px;
+}
+
+/* 
+  INFORMAÇÕES DA CONSULTA
+
+  Agrupa data, horário e dentista.
+*/
+.appointment-info {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* 
+  LINHAS DE INFORMAÇÃO
+
+  Deixa os detalhes mais discretos.
+*/
+.appointment-info p {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* 
+  STATUS DA CONSULTA
+
+  Caixa azul indicando que a consulta foi confirmada.
+*/
+.status-box {
+  width: 100%;
+  background: var(--blue-light);
+  color: var(--blue);
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+}

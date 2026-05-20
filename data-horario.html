@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OdontoFlow - Data e Horário</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="booking-page">
+  <header class="booking-header">
+    <div class="container booking-header-content">
+      <a href="./dentista.html" class="back-button">←</a>
+
+      <div class="logo booking-logo" aria-hidden="true">
+        <span class="logo-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="steps-section">
+      <div class="container">
+        <div class="steps">
+          <div class="step completed">
+            <span>✓</span>
+            <strong>Procedimento</strong>
+          </div>
+
+          <div class="step-line completed"></div>
+
+          <div class="step completed">
+            <span>✓</span>
+            <strong>Dentista</strong>
+          </div>
+
+          <div class="step-line completed"></div>
+
+          <div class="step active">
+            <span>3</span>
+            <strong>Data e Horário</strong>
+          </div>
+
+          <div class="step-line"></div>
+
+          <div class="step">
+            <span>4</span>
+            <strong>Dados</strong>
+          </div>
+
+          <div class="step-line"></div>
+
+          <div class="step">
+            <span>5</span>
+            <strong>Confirmação</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="appointment-flow">
+      <div class="container appointment-container">
+        <div class="appointment-title">
+          <h1>Escolha a data e horário</h1>
+          <p>Selecione o melhor dia e horário para sua consulta.</p>
+        </div>
+
+        <div class="schedule-layout">
+          <div class="calendar-card">
+            <div class="calendar-header">
+              <button type="button" class="calendar-prev">‹</button>
+              <h2></h2>
+              <button type="button" class="calendar-next">›</button>
+            </div>
+
+            <div class="calendar-weekdays">
+              <span>Dom</span>
+              <span>Seg</span>
+              <span>Ter</span>
+              <span>Qua</span>
+              <span>Qui</span>
+              <span>Sex</span>
+              <span>Sáb</span>
+            </div>
+
+            <div class="calendar-days"></div>
+          </div>
+
+          <div class="time-card">
+            <h2>Horários disponíveis</h2>
+
+            <div class="time-grid">
+              <button data-time="08:00">08:00</button>
+              <button data-time="09:30">09:30</button>
+              <button data-time="11:00">11:00</button>
+              <button data-time="14:00">14:00</button>
+              <button data-time="15:30">15:30</button>
+              <button data-time="17:00">17:00</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="appointment-actions">
+          <a href="./dentista.html" class="btn btn-outline-neutral">Voltar</a>
+          <a href="./dados.html" class="btn btn-primary continue-button disabled-link">
+            Continuar
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/data-horario.js"></script>
+</body>
+</html>

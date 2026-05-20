@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OdontoFlow - Agendamento Solicitado</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="booking-page">
+  <main>
+    <section class="success-section">
+      <div class="container success-container">
+        <div class="success-icon">✓</div>
+
+        <div class="success-title">
+          <h1>Agendamento solicitado com sucesso!</h1>
+          <p>A clínica irá confirmar seu agendamento em breve.</p>
+        </div>
+
+        <div class="success-card">
+          <div class="success-code-row">
+            <span>Código do agendamento</span>
+
+            <div class="code-wrapper">
+              <strong id="successCode">-</strong>
+              <button id="copyCodeButton">⧉</button>
+            </div>
+          </div>
+
+          <div class="success-row">
+            <span>Paciente</span>
+            <strong id="successPatient">-</strong>
+          </div>
+
+          <div class="success-row">
+            <span>Procedimento</span>
+            <strong id="successProcedure">-</strong>
+          </div>
+
+          <div class="success-row">
+            <span>Dentista</span>
+            <strong id="successDentist">-</strong>
+          </div>
+
+          <div class="success-row">
+            <span>Data</span>
+            <strong id="successDate">-</strong>
+          </div>
+
+          <div class="success-row">
+            <span>Horário</span>
+            <strong id="successTime">-</strong>
+          </div>
+
+          <div class="pending-status">
+            ● Status: Aguardando confirmação da clínica
+          </div>
+        </div>
+
+        <div class="success-actions">
+          <a href="./consultar-agendamento.html" class="btn btn-outline success-btn">
+            🔍 Consultar agendamento
+          </a>
+
+          <a href="./index.html" class="home-link">
+            ⌂ Voltar para início
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./scripts/sucesso.js"></script>
+</body>
+</html>

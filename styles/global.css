@@ -1,0 +1,60 @@
+/* 
+  CONFIGURAÇÕES BASE DO BODY
+
+  Define a fonte principal, cor padrão dos textos,
+  fundo da página e altura de linha confortável para leitura.
+*/
+body {
+  font-family: "Inter", Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+/* 
+  CONTAINER PADRÃO
+
+  Centraliza o conteúdo e limita a largura máxima.
+  O padding lateral evita que o conteúdo encoste nas bordas em telas pequenas.
+*/
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* 
+  TÍTULO PADRÃO DE SEÇÃO
+
+  Usado em blocos como "Nossos Procedimentos" e
+  "Por que escolher o OdontoFlow?".
+*/
+.section-title {
+  text-align: center;
+  margin-bottom: 46px;
+}
+
+/* 
+  TÍTULO DAS SEÇÕES
+
+  Usa clamp para adaptar o tamanho do texto conforme o tamanho da tela.
+*/
+.section-title h2 {
+  font-size: clamp(28px, 4vw, 34px);
+  color: var(--dark);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* 
+  TEXTO DE APOIO DAS SEÇÕES
+
+  Limita a largura do parágrafo para ficar mais agradável de ler.
+*/
+.section-title p {
+  max-width: 620px;
+  margin: 14px auto 0;
+  color: var(--muted);
+  font-size: 16px;
+}

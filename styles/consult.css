@@ -1,0 +1,406 @@
+/* 
+  SEÇÃO DA CONSULTA DE AGENDAMENTO
+
+  Centraliza o formulário na tela, como no print.
+*/
+.consult-section {
+  padding: 44px 0 80px;
+}
+
+/* 
+  CONTAINER DA PÁGINA DE CONSULTA
+
+  Limita a largura para o formulário não ficar grande demais.
+*/
+.consult-container {
+  max-width: 690px;
+}
+
+/* 
+  TÍTULO DA PÁGINA DE CONSULTA
+
+  Espaço acima do formulário.
+*/
+.consult-title {
+  margin-bottom: 30px;
+}
+
+/* 
+  TÍTULO PRINCIPAL
+
+  "Consultar agendamento".
+*/
+.consult-title h1 {
+  font-size: 25px;
+  line-height: 1.25;
+  color: var(--dark);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+/* 
+  TEXTO DE APOIO
+
+  Explica quais dados o paciente precisa informar.
+*/
+.consult-title p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* 
+  CARD DO FORMULÁRIO
+
+  Caixa branca com sombra leve contendo os campos.
+*/
+.consult-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 
+  GRUPO DE FORMULÁRIO
+
+  Separa label e input de cada campo.
+*/
+.form-group {
+  margin-bottom: 18px;
+}
+
+/* 
+  LABEL DO CAMPO
+
+  Texto acima do input.
+*/
+.form-group label {
+  display: block;
+  color: var(--dark);
+  font-size: 13px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+/* 
+  INPUTS DO FORMULÁRIO
+
+  Campos grandes, arredondados e com fundo levemente claro.
+*/
+.form-group input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #d7dde7;
+  border-radius: 14px;
+  background: #f8fafc;
+  padding: 0 16px;
+  color: var(--dark);
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+/* 
+  PLACEHOLDER DO INPUT
+
+  Cor mais clara para texto de exemplo.
+*/
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+/* 
+  FOCO NO INPUT
+
+  Quando o usuário clica no campo, a borda fica azul.
+*/
+.form-group input:focus {
+  background: #ffffff;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* 
+  BOTÃO DE CONSULTAR
+
+  Ocupa toda a largura do formulário.
+  Por enquanto está com aparência desabilitada igual ao print.
+*/
+.consult-submit {
+  width: 100%;
+  min-height: 50px;
+  background: #cbd1da;
+  color: #ffffff;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* 
+  REMOVE HOVER DO BOTÃO DESABILITADO
+
+  Evita movimento visual.
+*/
+.consult-submit:hover {
+  transform: none;
+}
+
+/* 
+  ALERTA DE TESTE
+
+  Caixa azul clara abaixo do formulário,
+  mostrando um código fictício para teste.
+*/
+.test-alert {
+  margin-top: 24px;
+  background: #eaf3ff;
+  color: var(--blue);
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+
+/* 
+  CÓDIGO DO ALERTA
+
+  Deixa o código de teste mais forte.
+*/
+.test-alert strong {
+  font-weight: 800;
+}
+
+/* 
+  RESULTADO DA CONSULTA
+
+  Área onde o JavaScript exibirá os dados do agendamento encontrado.
+*/
+.consult-result {
+  margin-top: 24px;
+}
+
+/* 
+  AÇÕES DA CONSULTA
+
+  Exibe o botão para retornar para a página inicial.
+*/
+.consult-actions {
+  margin-top: 24px;
+}
+
+/* 
+  BOTÃO DE VOLTAR PARA O INÍCIO
+
+  Ocupa toda a largura do formulário, seguindo o padrão da tela de sucesso.
+*/
+.consult-home-btn {
+  width: 100%;
+  min-height: 50px;
+}
+
+/* 
+  BOTÃO ATIVO DA CONSULTA
+
+  Quando código e contato são preenchidos,
+  o botão passa a ficar azul e clicável.
+*/
+.consult-submit.active {
+  background: var(--blue);
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: var(--shadow-blue);
+}
+
+/* 
+  ÁREA DO RESULTADO
+
+  Espaçamento entre o formulário e o card de resultado.
+*/
+.consult-result {
+  margin-top: 24px;
+}
+
+/* 
+  CARD DO RESULTADO
+
+  Exibe os dados do agendamento encontrado.
+*/
+.result-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 
+  CABEÇALHO DO CARD
+
+  Mostra o código e o status.
+*/
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+/* 
+  TEXTO PEQUENO DO CABEÇALHO
+
+  Usado no rótulo "Código".
+*/
+.result-header span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* 
+  CÓDIGO DO AGENDAMENTO
+
+  Destaque azul dentro do cabeçalho.
+*/
+.result-header strong {
+  display: block;
+  color: var(--blue);
+  margin-top: 2px;
+}
+
+/* 
+  STATUS DO AGENDAMENTO
+
+  Badge amarelo indicando a situação atual.
+*/
+.result-status {
+  background: #fef9c3;
+  border: 1px solid #fde68a;
+  color: var(--dark) !important;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* 
+  LINHA DE INFORMAÇÃO
+
+  Mostra rótulo à esquerda e valor à direita.
+*/
+.result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+}
+
+/* 
+  REMOVE BORDA DA ÚLTIMA LINHA
+
+  Mantém o card mais limpo.
+*/
+.result-row:last-of-type {
+  border-bottom: none;
+}
+
+/* 
+  RÓTULO DAS INFORMAÇÕES
+
+  Exemplo: Paciente, Procedimento, Dentista.
+*/
+.result-row span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* 
+  VALORES DAS INFORMAÇÕES
+
+  Dados reais vindos do banco.
+*/
+.result-row strong {
+  color: var(--dark);
+  font-size: 14px;
+  text-align: right;
+}
+
+/* 
+  BOTÕES DE AÇÃO
+
+  Área dos botões Confirmar presença, Reagendar e Cancelar.
+*/
+.result-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* 
+  BOTÃO PADRÃO DO RESULTADO
+
+  Visual azul para ações normais.
+*/
+.result-actions button {
+  height: 44px;
+  border: none;
+  border-radius: 12px;
+  background: var(--blue);
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 
+  HOVER DOS BOTÕES DE AÇÃO
+
+  Escurece levemente ao passar o mouse.
+*/
+.result-actions button:hover {
+  background: var(--blue-dark);
+}
+
+/* 
+  BOTÃO DE CANCELAR
+
+  Vermelho por ser uma ação destrutiva.
+*/
+.result-actions button.danger {
+  background: #ef4444;
+}
+
+/* 
+  HOVER DO BOTÃO DE CANCELAR
+
+  Vermelho mais escuro.
+*/
+.result-actions button.danger:hover {
+  background: #dc2626;
+}
+
+/* 
+  BOTÃO DESABILITADO
+
+  Usado quando o status já foi confirmado ou cancelado.
+*/
+.result-actions button:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+/* 
+  MENSAGEM DE ERRO
+
+  Aparece quando código não existe ou contato não bate.
+*/
+.result-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-weight: 700;
+}

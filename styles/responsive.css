@@ -1,0 +1,325 @@
+/* 
+  RESPONSIVO PARA NOTEBOOKS MENORES E TABLETS GRANDES
+
+  Reduz espaçamentos para o layout caber melhor.
+*/
+@media (max-width: 1100px) {
+  .header-actions {
+    gap: 8px;
+  }
+
+  .nav {
+    gap: 18px;
+  }
+
+  .hero-content {
+    gap: 38px;
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 
+  RESPONSIVO PARA TABLETS
+
+  A hero deixa de ter duas colunas e passa a ficar empilhada.
+*/
+@media (max-width: 900px) {
+  .header {
+    height: auto;
+  }
+
+  .header-content {
+    flex-wrap: wrap;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .header-actions {
+    margin-left: auto;
+  }
+
+  .hero {
+    padding: 60px 0;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .badge,
+  .hero-buttons {
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+  }
+
+  .hero-text p,
+  .hero h1 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .procedures-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* 
+  RESPONSIVO PARA CELULARES
+
+  Ajusta botões, cards e grids para ficarem em uma coluna.
+*/
+@media (max-width: 640px) {
+  .container {
+    padding: 0 18px;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+
+  .header-content {
+    justify-content: center;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-left: 0;
+  }
+
+  .nav {
+    gap: 16px;
+  }
+
+  .nav a {
+    font-size: 14px;
+  }
+
+  .hero {
+    padding: 46px 0 54px;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .hero-text p {
+    font-size: 16px;
+  }
+
+  .hero-buttons {
+    width: 100%;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+  }
+
+  .hero-visual {
+    min-height: 330px;
+  }
+
+  .circle-bg {
+    width: 290px;
+    height: 290px;
+  }
+
+  .appointment-card {
+    width: 100%;
+    max-width: 310px;
+    padding: 24px;
+  }
+
+  .procedures,
+  .benefits {
+    padding: 56px 0;
+  }
+
+  .procedures-grid,
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta {
+    padding: 62px 0;
+  }
+
+  .cta .btn {
+    width: 100%;
+  }
+}
+
+/* 
+  RESPONSIVO PARA CELULARES MUITO PEQUENOS
+
+  Evita que textos e botões fiquem apertados demais.
+*/
+@media (max-width: 420px) {
+  .header-actions .btn {
+    width: 100%;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .btn-large {
+    min-height: 54px;
+    padding: 0 22px;
+  }
+}
+
+/* 
+  RESPONSIVO DAS PÁGINAS DE AGENDAMENTO
+
+  Ajusta etapas, grid e formulários em telas menores.
+*/
+@media (max-width: 900px) {
+  .steps {
+    justify-content: flex-start;
+  }
+
+  .step-line {
+    width: 48px;
+  }
+
+  .appointment-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .appointment-container,
+  .consult-container {
+    max-width: 100%;
+  }
+}
+
+/* 
+  RESPONSIVO PARA CELULAR NAS PÁGINAS INTERNAS
+
+  Cards ficam em uma coluna e botões ocupam a largura disponível.
+*/
+@media (max-width: 640px) {
+  .booking-header-content {
+    justify-content: flex-start;
+  }
+
+  .steps-section {
+    padding: 14px 0;
+  }
+
+  .steps {
+    gap: 10px;
+  }
+
+  .step strong {
+    font-size: 12px;
+  }
+
+  .step span {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+
+  .step-line {
+    width: 28px;
+  }
+
+  .appointment-flow {
+    padding: 28px 0 56px;
+  }
+
+  .appointment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .appointment-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .appointment-actions .btn {
+    width: 100%;
+  }
+
+  .consult-section {
+    padding: 32px 0 64px;
+  }
+
+  .consult-card {
+    padding: 20px;
+  }
+}
+
+/* 
+  RESPONSIVO DO FLUXO COMPLETO DE AGENDAMENTO
+
+  Ajusta dentistas, calendário, formulário, confirmação e sucesso.
+*/
+@media (max-width: 900px) {
+  .dentist-grid,
+  .schedule-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .time-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .dentist-card {
+    min-height: auto;
+  }
+
+  .calendar-card,
+  .time-card,
+  .patient-form-card,
+  .confirmation-card,
+  .success-card {
+    padding: 20px;
+  }
+
+  .summary-row,
+  .success-row,
+  .success-code-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .summary-row strong,
+  .success-row strong {
+    text-align: left;
+  }
+
+  .time-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .success-title h1 {
+    font-size: 22px;
+  }
+}

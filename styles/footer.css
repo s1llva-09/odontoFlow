@@ -1,0 +1,98 @@
+/* 
+  FOOTER
+
+  Rodapé escuro do site com informações da clínica e links.
+*/
+.footer {
+  background: var(--footer);
+  color: var(--footer-text);
+  padding: 48px 0 0;
+}
+
+/* 
+  GRID DO FOOTER
+
+  Divide o rodapé em três colunas:
+  marca, contato e links.
+*/
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 80px;
+  padding-bottom: 42px;
+}
+
+/* 
+  LOGO NO FOOTER
+
+  Mantém a logo visível no fundo escuro.
+*/
+.footer-logo {
+  color: #ffffff;
+  margin-bottom: 18px;
+}
+
+/* 
+  TEXTO DA MARCA
+
+  Descrição curta do sistema.
+*/
+.footer-brand p {
+  max-width: 420px;
+  color: var(--footer-text);
+  font-size: 14px;
+}
+
+/* 
+  TÍTULOS DAS COLUNAS
+
+  "Contato" e "Links".
+*/
+.footer-column h3 {
+  color: #ffffff;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+/* 
+  TEXTOS E LINKS DO FOOTER
+
+  Mantém tamanho e cor consistentes.
+*/
+.footer-column p,
+.footer-column a {
+  display: block;
+  color: var(--footer-text);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* 
+  HOVER NOS LINKS DO FOOTER
+
+  Links ficam brancos ao passar o mouse.
+*/
+.footer-column a:hover {
+  color: #ffffff;
+}
+
+/* 
+  LINHA FINAL DO FOOTER
+
+  Área do copyright separada por borda superior.
+*/
+.footer-bottom {
+  border-top: 1px solid rgba(226, 232, 240, 0.16);
+  padding: 24px 0;
+  text-align: center;
+}
+
+/* 
+  TEXTO DE COPYRIGHT
+
+  Mais discreto que o restante do rodapé.
+*/
+.footer-bottom p {
+  color: var(--footer-muted);
+  font-size: 13px;
+}

@@ -1,0 +1,101 @@
+/* 
+  CARD DE CONFIRMAÇÃO
+
+  Caixa onde aparecem todos os dados antes de finalizar.
+*/
+.confirmation-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 
+  LINHA DO RESUMO
+
+  Cada linha mostra um rótulo à esquerda e o valor à direita.
+*/
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 
+  REMOVE BORDA DA ÚLTIMA LINHA ANTES DO ALERTA
+
+  Mantém o visual mais limpo.
+*/
+.summary-row:last-of-type {
+  border-bottom: none;
+}
+
+/* 
+  RÓTULO DO RESUMO
+
+  Exemplo: Procedimento, Dentista, Data.
+*/
+.summary-row span {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* 
+  VALOR DO RESUMO
+
+  Exemplo: Avaliação Odontológica, Dra. Ana Souza.
+*/
+.summary-row strong {
+  color: var(--dark);
+  font-size: 15px;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* 
+  PREÇO EM AZUL
+
+  Destaca o valor estimado do atendimento.
+*/
+.summary-row .price {
+  color: var(--blue);
+}
+
+/* 
+  ALERTA INFORMATIVO
+
+  Explica que a clínica ainda irá revisar o agendamento.
+*/
+.info-alert {
+  margin-top: 18px;
+  background: #eaf3ff;
+  color: var(--blue);
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+
+/* 
+  BOTÃO VERDE DE CONFIRMAÇÃO
+
+  Usado na ação final do agendamento.
+*/
+.btn-success {
+  background: var(--green);
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(34, 197, 94, 0.24);
+}
+
+/* 
+  HOVER DO BOTÃO VERDE
+
+  Escurece levemente e sobe o botão.
+*/
+.btn-success:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+}

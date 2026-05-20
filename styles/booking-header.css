@@ -1,0 +1,84 @@
+/* 
+  BODY DAS PÁGINAS DE AGENDAMENTO
+
+  Essa classe é usada apenas nas páginas internas do paciente,
+  como agendamento e consulta de agendamento.
+  Ela deixa o fundo cinza claro igual ao print.
+*/
+.booking-page {
+  background: var(--bg-soft);
+  min-height: 100vh;
+}
+
+/* 
+  HEADER SIMPLES DO FLUXO
+
+  Diferente do header da landing page, esse topo é mais limpo.
+  Ele mostra apenas o botão de voltar e a logo.
+*/
+.booking-header {
+  width: 100%;
+  height: 68px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 
+  CONTEÚDO DO HEADER INTERNO
+
+  Centraliza o conteúdo e mantém o botão voltar + logo alinhados.
+*/
+.booking-header-content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+/* 
+  BOTÃO DE VOLTAR
+
+  Ícone simples de seta para retornar para a página anterior/inicial.
+*/
+.back-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f172a;
+  font-size: 28px;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+/* 
+  HOVER DO BOTÃO VOLTAR
+
+  Aplica fundo cinza claro para mostrar interação.
+*/
+.back-button:hover {
+  background: var(--bg-soft);
+}
+
+/* 
+  LOGO NAS PÁGINAS INTERNAS
+
+  Reduz levemente o tamanho para combinar com o topo simples.
+*/
+.booking-logo {
+  font-size: 16px;
+}
+
+/* 
+  ÍCONE DA LOGO NAS PÁGINAS INTERNAS
+
+  Mantém proporção menor do que na landing page.
+*/
+.booking-logo .logo-icon {
+  width: 29px;
+  height: 29px;
+  font-size: 14px;
+  border-radius: 9px;
+}

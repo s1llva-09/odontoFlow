@@ -1,0 +1,125 @@
+/* 
+  SEÇÃO DOS PASSOS
+
+  Área logo abaixo do header que mostra em qual etapa
+  do agendamento o paciente está.
+*/
+.steps-section {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 0;
+}
+
+/* 
+  CONTAINER DOS PASSOS
+
+  Usa flexbox para deixar as etapas alinhadas horizontalmente.
+*/
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 0 8px;
+}
+
+/* 
+  CADA ETAPA DO FLUXO
+
+  Mostra o número e o nome da etapa.
+*/
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+/* 
+  BOLINHA COM O NÚMERO DA ETAPA
+
+  Por padrão fica cinza enquanto a etapa não está ativa.
+*/
+.step span {
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* 
+  TEXTO DA ETAPA
+
+  Nome da etapa do agendamento.
+*/
+.step strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* 
+  ETAPA ATIVA
+
+  Quando a etapa está ativa, número e texto ficam azuis.
+*/
+.step.active {
+  color: var(--blue);
+}
+
+/* 
+  BOLINHA DA ETAPA ATIVA
+
+  Fundo azul e texto branco para destacar o passo atual.
+*/
+.step.active span {
+  background: var(--blue);
+  color: #ffffff;
+}
+
+/* 
+  ETAPA CONCLUÍDA
+
+  Representa os passos que o paciente já completou.
+*/
+.step.completed {
+  color: var(--blue);
+}
+
+/* 
+  BOLINHA DA ETAPA CONCLUÍDA
+
+  Usa verde com check para indicar conclusão.
+*/
+.step.completed span {
+  background: var(--green);
+  color: #ffffff;
+}
+
+/* 
+  LINHA ENTRE ETAPAS
+
+  Cria o separador horizontal entre cada passo.
+*/
+.step-line {
+  width: 72px;
+  height: 1px;
+  background: #cbd5e1;
+  flex-shrink: 0;
+}
+
+/* 
+  LINHA CONCLUÍDA ENTRE ETAPAS
+
+  Quando uma etapa já foi concluída, a linha fica verde.
+*/
+.step-line.completed {
+  background: var(--green);
+}

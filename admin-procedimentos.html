@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Procedimentos</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="admin-page">
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-top">
+      <a href="./admin-dashboard.html" class="admin-brand">
+        <span class="admin-brand-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </a>
+
+      <nav class="admin-menu">
+      <a href="./admin-dashboard.html" class="admin-menu-item">
+        <span>▦</span>
+        Dashboard
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▣</span>
+        Agenda
+      </a>
+      <a href="./admin-agendamentos.html" class="admin-menu-item">
+        <span>▤</span>
+        Agendamentos
+      </a>
+      <a href="./admin-pacientes.html" class="admin-menu-item">
+        <span>♙</span>
+        Pacientes
+      </a>
+      <a href="./admin-dentistas.html" class="admin-menu-item">
+        <span>♧</span>
+        Dentistas
+      </a>
+      <a href="./admin-procedimentos.html" class="admin-menu-item active">
+        <span>▥</span>
+        Procedimentos
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▧</span>
+        Prontuários
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▩</span>
+        Orçamentos
+      </a>
+      <a href="./admin-financeiro.html" class="admin-menu-item">
+        <span>↗</span>
+        Financeiro
+      </a>
+      <a href="./admin-caixa.html" class="admin-menu-item">
+        <span>$</span>
+        Caixa
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▭</span>
+        A Receber
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▣</span>
+        A Pagar
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▥</span>
+        Relatórios
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>♙</span>
+        Usuários
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>⚙</span>
+        Configurações
+        <strong>›</strong>
+      </a>
+      </nav>
+    </div>
+
+    <div class="admin-sidebar-user">
+      <div class="admin-user-avatar">A</div>
+
+      <div>
+        <strong>Admin Geral</strong>
+        <small>admin@clinica.com</small>
+      </div>
+
+      <button id="logoutButton" title="Sair">↪</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-breadcrumb">
+        <span>Clínica OdontoFlow</span>
+        <strong>/ Procedimentos</strong>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <label class="admin-search">
+          <span>⌕</span>
+          <input type="text" placeholder="Buscar..." />
+        </label>
+
+        <button class="admin-notification">
+          🔔
+          <span></span>
+        </button>
+
+        <div class="admin-top-avatar">
+          A
+        </div>
+      </div>
+    </header>
+
+    <section class="admin-content">
+
+    <section class="admin-panel">
+      <div class="admin-panel-header">
+        <div>
+          <h2>Novo procedimento</h2>
+          <p>Esses procedimentos aparecem para o paciente no agendamento.</p>
+        </div>
+      </div>
+
+      <form class="admin-form" id="procedureForm">
+        <div class="admin-form-grid">
+          <div class="form-group">
+            <label for="procedureName">Nome do procedimento *</label>
+            <input 
+              type="text" 
+              id="procedureName" 
+              placeholder="Ex: Limpeza"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="procedureDuration">Duração em minutos *</label>
+            <input 
+              type="number" 
+              id="procedureDuration" 
+              placeholder="Ex: 40"
+              min="1"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="procedurePrice">Valor *</label>
+            <input 
+              type="number" 
+              id="procedurePrice" 
+              placeholder="Ex: 200"
+              min="0"
+              step="0.01"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="procedureIcon">Ícone</label>
+            <input 
+              type="text" 
+              id="procedureIcon" 
+              placeholder="Ex: 🦷"
+              maxlength="4"
+            />
+          </div>
+
+          <div class="form-group admin-form-wide">
+            <label for="procedureDescription">Descrição</label>
+            <input 
+              type="text" 
+              id="procedureDescription" 
+              placeholder="Ex: Profilaxia e remoção de tártaro"
+            />
+          </div>
+        </div>
+
+        <div class="admin-form-actions">
+          <button type="submit" class="btn btn-primary" id="saveProcedureButton">
+            Cadastrar procedimento
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <section class="admin-panel admin-panel-spacing">
+      <div class="admin-panel-header">
+        <div>
+          <h2>Lista de procedimentos</h2>
+          <p>Procedimentos cadastrados no sistema.</p>
+        </div>
+
+        <button class="btn btn-outline-neutral" id="reloadButton">
+          Atualizar
+        </button>
+      </div>
+
+      <div class="admin-search-box">
+        <input 
+          type="text" 
+          id="procedureSearchInput" 
+          placeholder="Buscar por nome ou descrição..."
+        />
+      </div>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Ícone</th>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Duração</th>
+              <th>Valor</th>
+              <th>Status</th>
+              <th>Cadastro</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody id="proceduresTable">
+            <tr>
+              <td colspan="8">Carregando procedimentos...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/admin-procedimentos.js"></script>
+</body>
+</html>

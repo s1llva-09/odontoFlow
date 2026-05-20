@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Agendar Consulta</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="booking-page">
+  <header class="booking-header">
+    <div class="container booking-header-content">
+      <a href="./index.html" class="back-button">←</a>
+
+      <div class="logo booking-logo" aria-hidden="true">
+        <span class="logo-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="steps-section">
+      <div class="container">
+        <div class="steps">
+          <div class="step active">
+            <span>1</span>
+            <strong>Procedimento</strong>
+          </div>
+
+          <div class="step-line"></div>
+
+          <div class="step">
+            <span>2</span>
+            <strong>Dentista</strong>
+          </div>
+
+          <div class="step-line"></div>
+
+          <div class="step">
+            <span>3</span>
+            <strong>Data e Horário</strong>
+          </div>
+
+          <div class="step-line"></div>
+
+          <div class="step">
+            <span>4</span>
+            <strong>Dados</strong>
+          </div>
+
+          <div class="step-line"></div>
+
+          <div class="step">
+            <span>5</span>
+            <strong>Confirmação</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="appointment-flow">
+      <div class="container appointment-container">
+        <div class="appointment-title">
+          <h1>Escolha o procedimento</h1>
+          <p>Selecione o procedimento que deseja realizar.</p>
+        </div>
+
+        <div class="appointment-grid">
+          <button class="service-card selected">
+            <span class="service-icon">🦷</span>
+
+            <div>
+              <h2>Avaliação Odontológica</h2>
+
+              <div class="service-meta">
+                <span>🕘 30 min</span>
+                <strong>R$ 150,00</strong>
+              </div>
+            </div>
+          </button>
+
+          <button class="service-card">
+            <span class="service-icon">✨</span>
+
+            <div>
+              <h2>Limpeza</h2>
+
+              <div class="service-meta">
+                <span>🕘 40 min</span>
+                <strong>R$ 200,00</strong>
+              </div>
+            </div>
+          </button>
+
+          <button class="service-card">
+            <span class="service-icon">⚡</span>
+
+            <div>
+              <h2>Clareamento</h2>
+
+              <div class="service-meta">
+                <span>🕘 1h</span>
+                <strong>R$ 800,00</strong>
+              </div>
+            </div>
+          </button>
+
+          <button class="service-card">
+            <span class="service-icon">🔧</span>
+
+            <div>
+              <h2>Manutenção de Aparelho</h2>
+
+              <div class="service-meta">
+                <span>🕘 30 min</span>
+                <strong>R$ 120,00</strong>
+              </div>
+            </div>
+          </button>
+
+          <button class="service-card">
+            <span class="service-icon">🛡️</span>
+
+            <div>
+              <h2>Restauração</h2>
+
+              <div class="service-meta">
+                <span>🕘 50 min</span>
+                <strong>R$ 350,00</strong>
+              </div>
+            </div>
+          </button>
+
+          <button class="service-card">
+            <span class="service-icon">💉</span>
+
+            <div>
+              <h2>Extração</h2>
+
+              <div class="service-meta">
+                <span>🕘 1h</span>
+                <strong>R$ 400,00</strong>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <div class="appointment-actions">
+          <a href="./index.html" class="btn btn-outline-neutral">Voltar</a>
+
+          <a href="./dentista.html" class="btn btn-primary continue-button disabled-link">
+            Continuar
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/agendamento.js"></script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+/* 
+  SEÇÃO DE SUCESSO
+
+  Centraliza todo o conteúdo da tela final.
+*/
+.success-section {
+  min-height: 100vh;
+  padding: 48px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* 
+  CONTAINER DA TELA DE SUCESSO
+
+  Mantém tudo em largura menor e centralizado.
+*/
+.success-container {
+  max-width: 500px;
+  text-align: center;
+}
+
+/* 
+  ÍCONE DE SUCESSO
+
+  Círculo verde claro com check no centro.
+*/
+.success-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 22px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  font-weight: 800;
+}
+
+/* 
+  TÍTULO DA TELA FINAL
+
+  Mensagem principal de sucesso.
+*/
+.success-title h1 {
+  color: var(--dark);
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+/* 
+  SUBTÍTULO DA TELA FINAL
+
+  Explica que a clínica irá confirmar em breve.
+*/
+.success-title p {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+/* 
+  CARD COM DADOS DO AGENDAMENTO
+
+  Mostra código, paciente, procedimento, dentista, data e horário.
+*/
+.success-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+}
+
+/* 
+  LINHA DO CÓDIGO
+
+  Fica no topo do card de sucesso.
+*/
+.success-code-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+/* 
+  TEXTO DO CÓDIGO
+
+  Rótulo "Código do agendamento".
+*/
+.success-code-row span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* 
+  ÁREA DO CÓDIGO + BOTÃO COPIAR
+
+  Mantém o código destacado e o ícone ao lado.
+*/
+.code-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 
+  CÓDIGO DESTACADO
+
+  Fundo azul claro para chamar atenção.
+*/
+.code-wrapper strong {
+  background: var(--blue-light);
+  color: var(--blue);
+  padding: 5px 12px;
+  border-radius: 9px;
+  font-size: 13px;
+}
+
+/* 
+  BOTÃO DE COPIAR
+
+  Visual simples para futuramente copiar o código via JavaScript.
+*/
+.code-wrapper button {
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+/* 
+  LINHAS DO CARD FINAL
+
+  Rótulo à esquerda e valor à direita.
+*/
+.success-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+/* 
+  RÓTULOS DO CARD
+
+  Exemplo: Paciente, Procedimento, Dentista.
+*/
+.success-row span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* 
+  VALORES DO CARD
+
+  Dados reais do agendamento.
+*/
+.success-row strong {
+  color: var(--dark);
+  font-size: 14px;
+  font-weight: 800;
+  text-align: right;
+}
+
+/* 
+  STATUS PENDENTE
+
+  Caixa amarela indicando que a clínica ainda irá confirmar.
+*/
+.pending-status {
+  margin-top: 18px;
+  background: #fef9c3;
+  border: 1px solid #fde68a;
+  color: var(--dark);
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* 
+  AÇÕES DA TELA FINAL
+
+  Botão de consultar e link para voltar ao início.
+*/
+.success-actions {
+  margin-top: 24px;
+  display: grid;
+  gap: 18px;
+}
+
+/* 
+  BOTÃO DE CONSULTA
+
+  Ocupa toda a largura, como no print.
+*/
+.success-btn {
+  width: 100%;
+  min-height: 50px;
+}
+
+/* 
+  LINK PARA HOME
+
+  Link simples abaixo do botão principal.
+*/
+.home-link {
+  color: var(--dark);
+  font-weight: 800;
+  font-size: 15px;
+}

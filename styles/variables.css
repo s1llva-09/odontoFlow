@@ -1,0 +1,41 @@
+/* 
+  VARIÁVEIS GLOBAIS
+
+  Aqui ficam cores, sombras, bordas e tamanhos reutilizados no projeto inteiro.
+  Isso facilita manutenção.
+
+  Exemplo:
+  se quiser trocar o azul principal do sistema,
+  basta alterar --blue uma vez aqui.
+*/
+:root {
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --blue-light: #eff6ff;
+
+  --green: #22c55e;
+
+  --dark: #1e293b;
+  --text: #334155;
+  --muted: #64748b;
+
+  --bg: #ffffff;
+  --bg-soft: #f8fafc;
+  --card: #ffffff;
+
+  --border: #e2e8f0;
+
+  --footer: #334155;
+  --footer-text: #cbd5e1;
+  --footer-muted: #94a3b8;
+
+  --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.12);
+  --shadow-blue: 0 10px 24px rgba(37, 99, 235, 0.28);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --container: 1280px;
+}

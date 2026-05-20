@@ -1,0 +1,42 @@
+/* 
+  CTA FINAL
+
+  Seção azul de chamada para ação.
+  Serve para incentivar o paciente a agendar depois de conhecer o sistema.
+*/
+.cta {
+  background: var(--blue);
+  padding: 82px 0;
+  color: #ffffff;
+}
+
+/* 
+  CONTEÚDO DO CTA
+
+  Centraliza título, texto e botão.
+*/
+.cta-content {
+  text-align: center;
+}
+
+/* 
+  TÍTULO DO CTA
+
+  Frase principal da chamada final.
+*/
+.cta h2 {
+  font-size: clamp(28px, 4vw, 34px);
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+/* 
+  TEXTO DO CTA
+
+  Texto explicativo abaixo do título.
+*/
+.cta p {
+  max-width: 700px;
+  margin: 0 auto 32px;
+  color: rgba(255, 255, 255, 0.9);
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OdontoFlow - Confirmar Agendamento</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="booking-page">
+  <header class="booking-header">
+    <div class="container booking-header-content">
+      <a href="./dados.html" class="back-button">←</a>
+
+      <div class="logo booking-logo" aria-hidden="true">
+        <span class="logo-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="steps-section">
+      <div class="container">
+        <div class="steps">
+          <div class="step completed">
+            <span>✓</span>
+            <strong>Procedimento</strong>
+          </div>
+
+          <div class="step-line completed"></div>
+
+          <div class="step completed">
+            <span>✓</span>
+            <strong>Dentista</strong>
+          </div>
+
+          <div class="step-line completed"></div>
+
+          <div class="step completed">
+            <span>✓</span>
+            <strong>Data e Horário</strong>
+          </div>
+
+          <div class="step-line completed"></div>
+
+          <div class="step completed">
+            <span>✓</span>
+            <strong>Dados</strong>
+          </div>
+
+          <div class="step-line completed"></div>
+
+          <div class="step active">
+            <span>5</span>
+            <strong>Confirmação</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="appointment-flow">
+      <div class="container appointment-container">
+        <div class="appointment-title">
+          <h1>Confirme seu agendamento</h1>
+          <p>Revise as informações antes de confirmar.</p>
+        </div>
+
+        <div class="confirmation-card">
+          <div class="summary-row">
+            <span>Procedimento</span>
+            <strong id="summaryProcedure">-</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Dentista</span>
+            <strong id="summaryDentist">-</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Data</span>
+            <strong id="summaryDate">-</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Horário</span>
+            <strong id="summaryTime">-</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Paciente</span>
+            <strong id="summaryPatient">-</strong>
+          </div>
+
+          <div class="summary-row">
+            <span>Valor estimado</span>
+            <strong class="price" id="summaryPrice">-</strong>
+          </div>
+
+          <div class="info-alert">
+            ♙ Após confirmar, a clínica irá revisar e confirmar seu agendamento. Você receberá um código de acompanhamento.
+          </div>
+        </div>
+
+        <div class="appointment-actions">
+          <a href="./dados.html" class="btn btn-outline-neutral">Voltar</a>
+          <a href="./sucesso.html" class="btn btn-success" id="confirmButton">Confirmar agendamento</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/confirmacao.js"></script>
+</body>
+</html>

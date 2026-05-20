@@ -1,0 +1,86 @@
+/* 
+  SEÇÃO DE BENEFÍCIOS
+
+  Fundo levemente cinza para separar visualmente da seção de procedimentos.
+*/
+.benefits {
+  padding: 72px 0 80px;
+  background: var(--bg-soft);
+}
+
+/* 
+  GRID DOS BENEFÍCIOS
+
+  Cria 4 colunas no desktop.
+*/
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+/* 
+  CARD DE BENEFÍCIO
+
+  Card branco centralizado com borda e sombra leve.
+*/
+.benefit-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 28px 22px;
+  min-height: 188px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.04);
+  transition: all 0.2s ease;
+}
+
+/* 
+  HOVER DO CARD DE BENEFÍCIO
+
+  Dá sensação de interação e profundidade.
+*/
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 
+  ÍCONE DO BENEFÍCIO
+
+  Cria uma bolinha azul clara atrás do ícone.
+*/
+.benefit-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* 
+  TÍTULO DO BENEFÍCIO
+
+  Nome da vantagem apresentada.
+*/
+.benefit-card h3 {
+  font-size: 18px;
+  color: var(--dark);
+  margin-bottom: 10px;
+}
+
+/* 
+  TEXTO DO BENEFÍCIO
+
+  Descrição curta e centralizada.
+*/
+.benefit-card p {
+  color: var(--muted);
+  font-size: 14px;
+}

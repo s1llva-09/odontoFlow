@@ -1,0 +1,32 @@
+/* 
+  RESET GERAL
+
+  Remove margens e paddings padrões que o navegador coloca automaticamente.
+  Isso ajuda a evitar diferenças visuais entre Chrome, Edge, Firefox etc.
+*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 
+  SUAVIZA A ROLAGEM
+
+  Quando o usuário clica em links como #procedimentos,
+  a página rola suavemente até a seção.
+*/
+html {
+  scroll-behavior: smooth;
+}
+
+/* 
+  REMOVE ESTILO PADRÃO DOS LINKS
+
+  Por padrão, links vêm azuis e sublinhados.
+  Aqui removemos isso para estilizar manualmente.
+*/
+a {
+  text-decoration: none;
+  color: inherit;
+}

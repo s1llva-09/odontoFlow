@@ -1,0 +1,104 @@
+/* 
+  BOTÃO BASE
+
+  Essa classe define a estrutura comum de todos os botões.
+  Depois combinamos com btn-primary, btn-outline ou btn-light.
+*/
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* 
+  BOTÃO PRINCIPAL
+
+  Usado nas ações mais importantes:
+  "Agendar consulta" e "Área Clínica".
+*/
+.btn-primary {
+  background: var(--blue);
+  color: #ffffff;
+  box-shadow: var(--shadow-blue);
+}
+
+/* 
+  EFEITO DO BOTÃO PRINCIPAL
+
+  Ao passar o mouse, o botão fica mais escuro e sobe levemente.
+*/
+.btn-primary:hover {
+  background: var(--blue-dark);
+  transform: translateY(-2px);
+}
+
+/* 
+  BOTÃO SECUNDÁRIO COM BORDA
+
+  Usado para ações secundárias, como "Consultar agendamento".
+*/
+.btn-outline {
+  background: #ffffff;
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+/* 
+  EFEITO DO BOTÃO SECUNDÁRIO
+
+  Fundo azul bem claro para indicar interação.
+*/
+.btn-outline:hover {
+  background: var(--blue-light);
+  transform: translateY(-2px);
+}
+
+/* 
+  BOTÃO CLARO
+
+  Usado em seções com fundo azul para criar contraste.
+*/
+.btn-light {
+  background: #ffffff;
+  color: var(--blue);
+}
+
+/* 
+  EFEITO DO BOTÃO CLARO
+
+  Adiciona sombra e movimento para destacar o botão.
+*/
+.btn-light:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* 
+  BOTÃO GRANDE
+
+  Variação usada na hero e no CTA final.
+*/
+.btn-large {
+  min-height: 60px;
+  padding: 0 32px;
+  border-radius: 12px;
+}
+
+/* 
+  LINK DESABILITADO
+
+  Usado em links que funcionam como botão enquanto aguardam seleção.
+*/
+.disabled-link {
+  pointer-events: none;
+  opacity: 0.55;
+}

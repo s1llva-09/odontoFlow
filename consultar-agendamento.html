@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Consultar Agendamento</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="booking-page">
+  <header class="booking-header">
+    <div class="container booking-header-content">
+      <a href="./index.html" class="back-button">←</a>
+
+      <div class="logo booking-logo" aria-hidden="true">
+        <span class="logo-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="consult-section">
+      <div class="container consult-container">
+        <div class="consult-title">
+          <h1>Consultar agendamento</h1>
+          <p>Informe o código do agendamento e seu contato para acompanhar o status.</p>
+        </div>
+
+        <form class="consult-card" id="consultForm">
+          <div class="form-group">
+            <label for="codigo">Código do agendamento</label>
+            <input 
+              type="text" 
+              id="codigo" 
+              name="codigo" 
+              placeholder="EX: OF-ABC123"
+              maxlength="12"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="contato">Telefone ou CPF</label>
+            <input 
+              type="text" 
+              id="contato" 
+              name="contato" 
+              placeholder="(11) 99999-9999 ou 000.000.000-00"
+              maxlength="15"
+              inputmode="numeric"
+              autocomplete="off"
+            />
+          </div>
+
+          <button type="submit" class="btn consult-submit" id="consultButton" disabled>
+            🔍 Consultar agendamento
+          </button>
+        </form>
+
+        <div class="test-alert">
+          💡 Use o código gerado na tela de sucesso para consultar seu agendamento.
+        </div>
+
+        <div class="consult-result" id="consultResult"></div>
+
+        <div class="consult-actions">
+          <a href="./index.html" class="btn btn-outline consult-home-btn">
+            ⌂ Voltar para início
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/consultar-agendamento.js"></script>
+</body>
+</html>

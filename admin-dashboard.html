@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Dashboard</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="admin-page">
+
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-top">
+      <a href="./admin-dashboard.html" class="admin-brand">
+        <span class="admin-brand-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </a>
+
+      <nav class="admin-menu">
+        <a href="./admin-dashboard.html" class="admin-menu-item active">
+          <span>▦</span>
+          Dashboard
+          <strong>›</strong>
+        </a>
+
+        <a href="./admin-agenda.html" class="admin-menu-item">
+          <span>▣</span>
+          Agenda
+        </a>
+
+        <a href="./admin-agendamentos.html" class="admin-menu-item">
+          <span>▤</span>
+          Agendamentos
+        </a>
+
+        <a href="./admin-pacientes.html" class="admin-menu-item">
+          <span>♙</span>
+          Pacientes
+        </a>
+
+        <a href="./admin-dentistas.html" class="admin-menu-item">
+          <span>♧</span>
+          Dentistas
+        </a>
+
+        <a href="./admin-procedimentos.html" class="admin-menu-item">
+          <span>▥</span>
+          Procedimentos
+        </a>
+
+        <a href="./admin-prontuarios.html" class="admin-menu-item">
+          <span>▧</span>
+          Prontuários
+        </a>
+
+        <a href="./admin-orcamentos.html" class="admin-menu-item">
+          <span>▩</span>
+          Orçamentos
+        </a>
+
+        <a href="./admin-financeiro.html" class="admin-menu-item">
+          <span>↗</span>
+          Financeiro
+        </a>
+
+        <a href="./admin-caixa.html" class="admin-menu-item">
+          <span>$</span>
+          Caixa
+        </a>
+
+        <a href="./admin-receber.html" class="admin-menu-item">
+          <span>▭</span>
+          A Receber
+        </a>
+
+        <a href="./admin-pagar.html" class="admin-menu-item">
+          <span>▣</span>
+          A Pagar
+        </a>
+
+        <a href="./admin-relatorios.html" class="admin-menu-item">
+          <span>▥</span>
+          Relatórios
+        </a>
+
+        <a href="./admin-usuarios.html" class="admin-menu-item">
+          <span>♙</span>
+          Usuários
+        </a>
+
+        <a href="./admin-configuracoes.html" class="admin-menu-item">
+          <span>⚙</span>
+          Configurações
+        </a>
+      </nav>
+    </div>
+
+    <div class="admin-sidebar-user">
+      <div class="admin-user-avatar">A</div>
+
+      <div>
+        <strong>Admin Geral</strong>
+        <small>admin@clinica.com</small>
+      </div>
+
+      <button id="logoutButton" title="Sair">↪</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-topbar">
+      <div class="admin-breadcrumb">
+        <span>Clínica OdontoFlow</span>
+        <strong>/ Dashboard</strong>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <label class="admin-search">
+          <span>⌕</span>
+          <input type="text" placeholder="Buscar..." />
+        </label>
+
+        <button class="admin-notification">
+          🔔
+          <span></span>
+        </button>
+
+        <div class="admin-top-avatar">
+          A
+        </div>
+      </div>
+    </header>
+
+    <section class="admin-content">
+
+      <section class="admin-cards-grid">
+        <article class="admin-stat-card">
+          <span>Consultas hoje</span>
+          <strong id="todayAppointments">0</strong>
+          <small>Agendamentos para hoje</small>
+        </article>
+
+        <article class="admin-stat-card">
+          <span>Agend. pendentes</span>
+          <strong id="pendingAppointments">0</strong>
+          <small>Solicitações aguardando confirmação</small>
+        </article>
+
+        <article class="admin-stat-card">
+          <span>Pacientes cad.</span>
+          <strong id="totalPatients">0</strong>
+          <small>Total de pacientes cadastrados</small>
+        </article>
+
+        <article class="admin-stat-card">
+          <span>Faturamento mês</span>
+          <strong id="estimatedRevenue">R$ 0,00</strong>
+          <small>Estimativa com agendamentos ativos</small>
+        </article>
+
+        <article class="admin-stat-card">
+          <span>A receber</span>
+          <strong id="dashboardReceivable">R$ 0,00</strong>
+          <small>Valores pendentes</small>
+        </article>
+
+        <article class="admin-stat-card">
+          <span>A pagar</span>
+          <strong id="dashboardPayable">R$ 0,00</strong>
+          <small>Despesas em aberto</small>
+        </article>
+
+        <article class="admin-stat-card">
+          <span>Cancelamentos</span>
+          <strong id="cancelledAppointments">0</strong>
+          <small>Este mês</small>
+        </article>
+
+        <article class="admin-stat-card">
+          <span>Presenças conf.</span>
+          <strong id="confirmedAppointments">0</strong>
+          <small>Pacientes confirmados</small>
+        </article>
+      </section>
+
+      <section class="admin-charts-grid">
+        <article class="admin-chart-card">
+          <h2>Faturamento Mensal</h2>
+
+          <!--
+            O JavaScript preenche este bloco com as barras reais.
+            Cada barra representa o faturamento de um dos ultimos 6 meses.
+          -->
+          <div class="fake-bars" id="monthlyRevenueChart">
+            <div class="chart-loading">Carregando gráfico...</div>
+          </div>
+        </article>
+
+        <article class="admin-chart-card">
+          <h2>Status dos Agendamentos</h2>
+
+          <!--
+            A rosca tambem e dinamica.
+            O JavaScript troca o background por um conic-gradient
+            calculado com os status reais dos agendamentos.
+          -->
+          <div class="fake-donut" id="appointmentsStatusChart"></div>
+
+          <div class="dashboard-status-list">
+            <div>
+              <span class="dot blue"></span>
+              Confirmado
+              <strong id="statusConfirmedCount">0</strong>
+            </div>
+
+            <div>
+              <span class="dot yellow"></span>
+              Solicitado
+              <strong id="statusRequestedCount">0</strong>
+            </div>
+
+            <div>
+              <span class="dot green"></span>
+              Concluído
+              <strong id="statusCompletedCount">0</strong>
+            </div>
+
+            <div>
+              <span class="dot red"></span>
+              Cancelado
+              <strong id="statusCancelledCount">0</strong>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="admin-panel admin-panel-spacing">
+        <div class="admin-panel-header">
+          <div>
+            <h2>Próximos agendamentos</h2>
+            <p>Últimas solicitações feitas pelos pacientes.</p>
+          </div>
+
+          <a href="./admin-agendamentos.html" class="admin-primary-btn">
+            Ver todos
+          </a>
+        </div>
+
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Procedimento</th>
+                <th>Dentista</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody id="recentAppointmentsTable">
+              <tr>
+                <td colspan="6">Carregando agendamentos...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/admin-dashboard.js"></script>
+</body>
+</html>

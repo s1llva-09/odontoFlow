@@ -1,0 +1,81 @@
+/* 
+  CARD DO FORMULÁRIO DO PACIENTE
+
+  Caixa branca onde ficam os dados do paciente.
+*/
+.patient-form-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 26px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 
+  LINHA COM DOIS CAMPOS
+
+  Usada para telefone/e-mail e CPF/nascimento.
+*/
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* 
+  CAMPO OCUPANDO LARGURA TOTAL
+
+  Usado em nome completo e observações.
+*/
+.form-group.full {
+  width: 100%;
+}
+
+/* 
+  TEXTO OPCIONAL NO LABEL
+
+  Deixa "(opcional)" mais discreto.
+*/
+.form-group label span {
+  color: #94a3b8;
+}
+
+/* 
+  TEXTAREA DE OBSERVAÇÕES
+
+  Campo maior para o paciente escrever informações adicionais.
+*/
+.form-group textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  border: 1px solid #d7dde7;
+  border-radius: 14px;
+  background: #f8fafc;
+  padding: 16px;
+  color: var(--dark);
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+/* 
+  PLACEHOLDER DO TEXTAREA
+
+  Cor suave para o texto de exemplo.
+*/
+.form-group textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* 
+  FOCO DO TEXTAREA
+
+  Quando o usuário clica, destaca em azul.
+*/
+.form-group textarea:focus {
+  background: #ffffff;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}

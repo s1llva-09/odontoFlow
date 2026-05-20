@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Login Admin</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="admin-login-page">
+  <main class="admin-login-wrapper">
+    <section class="admin-login-card">
+      <a href="./index.html" class="admin-login-back">←</a>
+
+      <a href="./index.html" class="logo admin-login-logo">
+        <span class="logo-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </a>
+
+      <div class="admin-login-title">
+        <h1>Acesso da Clínica</h1>
+        <p>Entre para gerenciar agendamentos, pacientes e financeiro.</p>
+      </div>
+
+      <form class="admin-login-form" id="adminLoginForm">
+        <div class="form-group">
+          <label for="adminEmail">E-mail</label>
+          <input 
+            type="email" 
+            id="adminEmail" 
+            placeholder="admin@clinica.com"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword">Senha</label>
+          <input 
+            type="password" 
+            id="adminPassword" 
+            placeholder="Digite sua senha"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary admin-login-button">
+          Entrar
+        </button>
+      </form>
+
+      <p class="admin-login-test">
+        Para teste, clique em entrar com qualquer e-mail e senha.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const adminLoginForm = document.querySelector("#adminLoginForm");
+
+    adminLoginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      localStorage.setItem("odontoflow_admin_logged", "true");
+
+      window.location.href = "./admin-dashboard.html";
+    });
+  </script>
+</body>
+</html>

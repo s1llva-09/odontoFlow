@@ -1,0 +1,124 @@
+/* 
+  GRID DOS DENTISTAS
+
+  Organiza os profissionais em três colunas no desktop.
+*/
+.dentist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* 
+  CARD DO DENTISTA
+
+  Cada card é um botão selecionável.
+  A estrutura já fica preparada para usar JavaScript depois.
+*/
+.dentist-card {
+  min-height: 180px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+/* 
+  HOVER DO CARD DO DENTISTA
+
+  Ao passar o mouse, o card ganha borda azul, sombra e sobe levemente.
+*/
+.dentist-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 
+  CARD SELECIONADO
+
+  Destaca o dentista escolhido com fundo azul claro e borda azul.
+*/
+.dentist-card.selected {
+  background: var(--blue-light);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+/* 
+  AVATAR DO DENTISTA
+
+  Bolinha com as iniciais do profissional.
+*/
+.dentist-avatar {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue);
+  font-weight: 800;
+  font-size: 20px;
+}
+
+/* 
+  CORES DOS AVATARES
+
+  Diferencia visualmente os profissionais.
+*/
+.dentist-avatar.blue {
+  background: #dbeafe;
+}
+
+.dentist-avatar.purple {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.dentist-avatar.pink {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+/* 
+  NOME DO DENTISTA
+
+  Texto principal do card.
+*/
+.dentist-card h2 {
+  color: var(--dark);
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+/* 
+  ESPECIALIDADE
+
+  Texto em azul abaixo do nome.
+*/
+.dentist-card p {
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* 
+  TEXTO DE SELECIONADO
+
+  Aparece no card escolhido.
+*/
+.selected-label {
+  display: block;
+  margin-top: 12px;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 800;
+}

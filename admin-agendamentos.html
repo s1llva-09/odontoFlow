@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Agendamentos</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="admin-page">
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-top">
+      <a href="./admin-dashboard.html" class="admin-brand">
+        <span class="admin-brand-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </a>
+
+      <nav class="admin-menu">
+      <a href="./admin-dashboard.html" class="admin-menu-item">
+        <span>▦</span>
+        Dashboard
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▣</span>
+        Agenda
+      </a>
+      <a href="./admin-agendamentos.html" class="admin-menu-item active">
+        <span>▤</span>
+        Agendamentos
+      </a>
+      <a href="./admin-pacientes.html" class="admin-menu-item">
+        <span>♙</span>
+        Pacientes
+      </a>
+      <a href="./admin-dentistas.html" class="admin-menu-item">
+        <span>♧</span>
+        Dentistas
+      </a>
+      <a href="./admin-procedimentos.html" class="admin-menu-item">
+        <span>▥</span>
+        Procedimentos
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▧</span>
+        Prontuários
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▩</span>
+        Orçamentos
+      </a>
+      <a href="./admin-financeiro.html" class="admin-menu-item">
+        <span>↗</span>
+        Financeiro
+      </a>
+      <a href="./admin-caixa.html" class="admin-menu-item">
+        <span>$</span>
+        Caixa
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▭</span>
+        A Receber
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▣</span>
+        A Pagar
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>▥</span>
+        Relatórios
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>♙</span>
+        Usuários
+      </a>
+      <a href="#" class="admin-menu-item">
+        <span>⚙</span>
+        Configurações
+        <strong>›</strong>
+      </a>
+      </nav>
+    </div>
+
+    <div class="admin-sidebar-user">
+      <div class="admin-user-avatar">A</div>
+
+      <div>
+        <strong>Admin Geral</strong>
+        <small>admin@clinica.com</small>
+      </div>
+
+      <button id="logoutButton" title="Sair">↪</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-breadcrumb">
+        <span>Clínica OdontoFlow</span>
+        <strong>/ Agendamentos</strong>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <label class="admin-search">
+          <span>⌕</span>
+          <input type="text" placeholder="Buscar..." />
+        </label>
+
+        <button class="admin-notification">
+          🔔
+          <span></span>
+        </button>
+
+        <div class="admin-top-avatar">
+          A
+        </div>
+      </div>
+    </header>
+
+    <section class="admin-content">
+
+    <section class="admin-panel">
+      <div class="admin-panel-header">
+        <div>
+          <h2>Lista de agendamentos</h2>
+          <p>Confirme, cancele ou finalize os atendimentos.</p>
+        </div>
+
+        <button class="btn btn-outline-neutral" id="reloadButton">
+          Atualizar
+        </button>
+      </div>
+
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Paciente</th>
+              <th>Telefone</th>
+              <th>Procedimento</th>
+              <th>Dentista</th>
+              <th>Data</th>
+              <th>Horário</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody id="appointmentsTable">
+            <tr>
+              <td colspan="9">Carregando agendamentos...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/admin-agendamentos.js"></script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Agendamento Odontológico</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <a href="#inicio" class="logo">
+        <span class="logo-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </a>
+
+      <nav class="nav">
+        <a href="#inicio">Início</a>
+        <a href="#procedimentos">Procedimentos</a>
+        <a href="./agendamento.html" class="active">Agendar</a>
+        <a href="#contato">Contato</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="./consultar-agendamento.html" class="btn btn-outline">Consultar agendamento</a>
+        <a href="./admin-login.html" class="btn btn-primary">Área Clínica</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-content">
+        <div class="hero-text">
+          <div class="badge">
+            <span>✓</span>
+            Sistema de agendamento online
+          </div>
+
+          <h1>
+            Agende sua consulta odontológica de forma
+            <span>simples e rápida</span>
+          </h1>
+
+          <p>
+            Escolha o procedimento, selecione o melhor horário e acompanhe seu
+            agendamento pelo próprio sistema.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="./agendamento.html" class="btn btn-primary btn-large">
+              Agendar consulta
+            </a>
+
+            <a href="./consultar-agendamento.html" class="btn btn-outline btn-large">
+              Consultar agendamento
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="circle-bg"></div>
+
+          <div class="appointment-card">
+            <div class="appointment-header">
+              <div class="appointment-icon">🦷</div>
+
+              <div>
+                <span>Próxima consulta</span>
+                <strong>Limpeza Dental</strong>
+              </div>
+            </div>
+
+            <div class="appointment-info">
+              <p>📅 Segunda, 23 de Junho — 09:30</p>
+              <p>☆ Dra. Ana Souza — Clínico Geral</p>
+            </div>
+
+            <div class="status-box">
+              ✓ Status: Confirmado pela clínica
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="procedures" id="procedimentos">
+      <div class="container">
+        <div class="section-title">
+          <h2>Nossos Procedimentos</h2>
+          <p>
+            Oferecemos uma ampla gama de tratamentos odontológicos com qualidade
+            e tecnologia de ponta.
+          </p>
+        </div>
+
+        <div class="procedures-grid">
+          <article class="procedure-card">
+            <div class="procedure-icon">🦷</div>
+            <h3>Avaliação Odontológica</h3>
+            <p>Diagnóstico completo da saúde bucal</p>
+            <a href="./agendamento.html">Agendar →</a>
+          </article>
+
+          <article class="procedure-card">
+            <div class="procedure-icon">✨</div>
+            <h3>Limpeza</h3>
+            <p>Profilaxia e remoção de tártaro</p>
+            <a href="./agendamento.html">Agendar →</a>
+          </article>
+
+          <article class="procedure-card">
+            <div class="procedure-icon">⚡</div>
+            <h3>Clareamento</h3>
+            <p>Clareamento dental a laser</p>
+            <a href="./agendamento.html">Agendar →</a>
+          </article>
+
+          <article class="procedure-card">
+            <div class="procedure-icon">🔧</div>
+            <h3>Manutenção de Aparelho</h3>
+            <p>Ajuste e controle do tratamento</p>
+            <a href="./agendamento.html">Agendar →</a>
+          </article>
+
+          <article class="procedure-card">
+            <div class="procedure-icon">🛡️</div>
+            <h3>Restauração</h3>
+            <p>Restaurações em resina composta</p>
+            <a href="./agendamento.html">Agendar →</a>
+          </article>
+
+          <article class="procedure-card">
+            <div class="procedure-icon">💉</div>
+            <h3>Extração</h3>
+            <p>Exodontia simples e complexa</p>
+            <a href="./agendamento.html">Agendar →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits">
+      <div class="container">
+        <div class="section-title">
+          <h2>Por que escolher o OdontoFlow?</h2>
+        </div>
+
+        <div class="benefits-grid">
+          <article class="benefit-card">
+            <div class="benefit-icon">📅</div>
+            <h3>Agendamento Online</h3>
+            <p>Agende sua consulta em qualquer hora, sem precisar ligar.</p>
+          </article>
+
+          <article class="benefit-card">
+            <div class="benefit-icon">✓</div>
+            <h3>Confirmação pelo Sistema</h3>
+            <p>Receba confirmação automática do seu agendamento.</p>
+          </article>
+
+          <article class="benefit-card">
+            <div class="benefit-icon">☆</div>
+            <h3>Acompanhamento do Status</h3>
+            <p>Acompanhe o status da sua consulta em tempo real.</p>
+          </article>
+
+          <article class="benefit-card">
+            <div class="benefit-icon">🕘</div>
+            <h3>Atendimento Organizado</h3>
+            <p>Sem filas, sem espera desnecessária.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="agendar">
+      <div class="container cta-content">
+        <h2>Pronto para cuidar do seu sorriso?</h2>
+        <p>
+          Agende sua consulta agora mesmo e cuide da sua saúde bucal com praticidade.
+        </p>
+        <a href="./agendamento.html" class="btn btn-light btn-large">
+          Agendar consulta agora
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contato">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#inicio" class="logo footer-logo">
+            <span class="logo-icon">🦷</span>
+            <span>OdontoFlow</span>
+          </a>
+
+          <p>
+            Sistema moderno para gestão de clínicas odontológicas.
+          </p>
+        </div>
+
+        <div class="footer-column">
+          <h3>Contato</h3>
+          <p>📞 (11) 3456-7890</p>
+          <p>📍 Av. Paulista, 1000 — São Paulo/SP</p>
+          <p>🕘 Seg–Sex: 8h–18h | Sáb: 8h–13h</p>
+        </div>
+
+        <div class="footer-column">
+          <h3>Links</h3>
+          <a href="./agendamento.html">Agendar consulta</a>
+          <a href="./consultar-agendamento.html">Consultar agendamento</a>
+          <a href="./admin-login.html">Área administrativa</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 OdontoFlow. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
