@@ -38,6 +38,16 @@ const saveNotificationSettingsButton = document.querySelector("#saveNotification
 let clinicSettings = null;
 let workingHours = [];
 
+const DEFAULT_CLINIC_SETTINGS = {
+  clinic_name: "Clínica OdontoFlow",
+  phone: "(11) 3456-7890",
+  email: "contato@odontoflow.com",
+  address: "Av. Paulista, 1000 — São Paulo/SP",
+  cnpj: "00.000.000/0001-00",
+  cro: "CRO-SP 00000",
+  description: "Clínica odontológica especializada em saúde bucal e estética dental."
+};
+
 const DEFAULT_WORKING_HOURS = [
   {
     week_day: 1,
@@ -89,6 +99,15 @@ const DEFAULT_WORKING_HOURS = [
     close_time: null
   }
 ];
+
+const DEFAULT_NOTIFICATION_SETTINGS = {
+  new_appointment: true,
+  cancelled_appointment: true,
+  patient_confirmation: true,
+  payable_due: true,
+  receivable_due: true,
+  daily_report: false
+};
 
 settingsTabs.forEach((tab) => {
   tab.addEventListener("click", () => {
@@ -316,7 +335,7 @@ if (clearTestDataButton) {
     Apenas administrador pode apagar dados de teste.
   */
   if (!canManageClinicSettings()) {
-    alert("Você não tem permissão para excluir dados de teste.");
+    alert("Você não tem permissão para resetar dados de teste.");
     return;
   }
 
@@ -325,7 +344,7 @@ if (clearTestDataButton) {
     Aqui explicamos claramente que é uma ação perigosa.
   */
   const firstConfirm = confirm(
-    "ATENÇÃO!\n\nEssa ação irá apagar dados de teste como pacientes, agendamentos, caixa, financeiro, orçamentos e prontuários.\n\nUsuários, dentistas, procedimentos e configurações serão mantidos.\n\nDeseja continuar?"
+    "ATENÇÃO!\n\nEssa ação irá apagar dados de teste como pacientes, agendamentos, caixa, financeiro, orçamentos e prontuários.\n\nAs configurações da clínica, horários e notificações voltarão ao padrão do sistema.\n\nUsuários, dentistas e procedimentos serão mantidos.\n\nDeseja continuar?"
   );
 
   if (!firstConfirm) {
@@ -334,14 +353,14 @@ if (clearTestDataButton) {
 
   /*
     Segunda confirmação.
-    O usuário precisa digitar exatamente EXCLUIR.
+    O usuário precisa digitar exatamente RESETAR.
   */
   const typedConfirmation = prompt(
-    "Para confirmar, digite exatamente: EXCLUIR"
+    "Para confirmar, digite exatamente: RESETAR"
   );
 
-  if (typedConfirmation !== "EXCLUIR") {
-    alert("Confirmação inválida. Nenhum dado foi apagado.");
+  if (typedConfirmation !== "RESETAR") {
+    alert("Confirmação inválida. Nenhum dado foi alterado.");
     return;
   }
 
@@ -350,14 +369,14 @@ if (clearTestDataButton) {
     Confirma de novo antes de executar.
   */
   const finalConfirm = confirm(
-    "Última confirmação: deseja realmente excluir os dados de teste?"
+    "Última confirmação: deseja realmente resetar os dados de teste e restaurar as configurações padrão?"
   );
 
   if (!finalConfirm) {
     return;
   }
 
-  await clearTestData();
+  await resetTestDataAndSettings();
   });
 }
 
@@ -386,7 +405,7 @@ function blockSettingsIfNeeded() {
   */
   if (clearTestDataButton) {
     clearTestDataButton.disabled = false;
-    clearTestDataButton.title = "Apenas administradores podem excluir dados de teste.";
+    clearTestDataButton.title = "Apenas administradores podem resetar dados de teste.";
   }
 
   if (saveNotificationSettingsButton) {
@@ -427,15 +446,7 @@ async function loadClinicSettings() {
 async function createDefaultClinicSettings() {
   const { error } = await supabaseClient
     .from("clinic_settings")
-    .insert({
-      clinic_name: "Clínica OdontoFlow",
-      phone: "(11) 3456-7890",
-      email: "contato@odontoflow.com",
-      address: "Av. Paulista, 1000 — São Paulo/SP",
-      cnpj: "00.000.000/0001-00",
-      cro: "CRO-SP 00000",
-      description: "Clínica odontológica especializada em saúde bucal e estética dental."
-    });
+    .insert(DEFAULT_CLINIC_SETTINGS);
 
   if (error) {
     console.error("Erro ao criar configurações padrão:", JSON.stringify(error, null, 2));
@@ -589,14 +600,7 @@ async function loadNotificationSettings() {
 async function createDefaultNotificationSettings() {
   const { error } = await supabaseClient
     .from("notification_settings")
-    .insert({
-      new_appointment: true,
-      cancelled_appointment: true,
-      patient_confirmation: true,
-      payable_due: true,
-      receivable_due: true,
-      daily_report: false
-    });
+    .insert(DEFAULT_NOTIFICATION_SETTINGS);
 
   if (error) {
     console.error("Erro ao criar notificações padrão:", JSON.stringify(error, null, 2));
@@ -604,7 +608,7 @@ async function createDefaultNotificationSettings() {
 }
 
 /*
-  EXCLUI DADOS DE TESTE
+  RESETA DADOS DE TESTE E CONFIGURAÇÕES
 
   Importante:
   A ordem importa.
@@ -615,10 +619,10 @@ async function createDefaultNotificationSettings() {
   - appointments pode depender de patients
   - prontuários dependem de patients
 
-  Depois apagamos pacientes.
+  Depois apagamos pacientes e recriamos as configurações padrão.
 */
-async function clearTestData() {
-  clearTestDataButton.textContent = "Excluindo...";
+async function resetTestDataAndSettings() {
+  clearTestDataButton.textContent = "Resetando...";
   clearTestDataButton.disabled = true;
 
   const tablesToClear = [
@@ -633,13 +637,10 @@ async function clearTestData() {
     "patients"
   ];
 
-  const failedTables = [];
+  const failedSteps = [];
 
   for (const tableName of tablesToClear) {
-    const { error } = await supabaseClient
-      .from(tableName)
-      .delete()
-      .neq("id", "00000000-0000-0000-0000-000000000000");
+    const error = await deleteAllRowsFromTable(tableName);
 
     if (error) {
       /*
@@ -648,20 +649,56 @@ async function clearTestData() {
       */
       console.warn(`Não foi possível limpar ${tableName}:`, JSON.stringify(error, null, 2));
 
-      failedTables.push(tableName);
+      failedSteps.push(`limpar ${tableName}`);
     }
   }
 
-  clearTestDataButton.textContent = "Excluir dados de teste";
+  await resetDefaultTable("clinic_settings", DEFAULT_CLINIC_SETTINGS, failedSteps);
+  await resetDefaultTable("clinic_working_hours", DEFAULT_WORKING_HOURS, failedSteps);
+  await resetDefaultTable("notification_settings", DEFAULT_NOTIFICATION_SETTINGS, failedSteps);
+
+  localStorage.removeItem("odontoflow_current_appointment");
+
+  clearTestDataButton.textContent = "Resetar dados de teste";
   clearTestDataButton.disabled = false;
 
-  if (failedTables.length) {
+  if (failedSteps.length) {
     alert(
-      `Limpeza concluída parcialmente.\n\nAlgumas tabelas não foram limpas ou não existem:\n${failedTables.join(", ")}`
+      `Reset concluído parcialmente.\n\nAlgumas etapas falharam:\n${failedSteps.join("\n")}`
     );
   } else {
-    alert("Dados de teste excluídos com sucesso!");
+    alert("Dados de teste resetados e configurações padrão restauradas com sucesso!");
   }
 
   window.location.reload();
+}
+
+async function resetDefaultTable(tableName, defaultData, failedSteps) {
+  const deleteError = await deleteAllRowsFromTable(tableName);
+
+  if (deleteError) {
+    console.warn(`Não foi possível limpar ${tableName}:`, JSON.stringify(deleteError, null, 2));
+    failedSteps.push(`limpar ${tableName}`);
+    return;
+  }
+
+  const rows = Array.isArray(defaultData) ? defaultData : [defaultData];
+
+  const { error } = await supabaseClient
+    .from(tableName)
+    .insert(rows);
+
+  if (error) {
+    console.warn(`Não foi possível restaurar ${tableName}:`, JSON.stringify(error, null, 2));
+    failedSteps.push(`restaurar ${tableName}`);
+  }
+}
+
+async function deleteAllRowsFromTable(tableName) {
+  const { error } = await supabaseClient
+    .from(tableName)
+    .delete()
+    .neq("id", "00000000-0000-0000-0000-000000000000");
+
+  return error;
 }

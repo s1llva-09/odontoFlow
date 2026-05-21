@@ -203,4 +203,157 @@
   color: #2563eb;
 }
 
-/* 
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+/*
+  Cards do dashboard.
+*/
+.dashboard-cards-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/*
+  Grid superior com gráfico grande + gráfico pequeno.
+*/
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+/*
+  Grid inferior com tabela + alertas.
+*/
+.dashboard-bottom-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 18px;
+}
+
+.dashboard-bottom-grid > .admin-panel {
+  min-height: 260px;
+}
+
+.dashboard-bottom-grid > .admin-panel:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+  Card de gráfico.
+*/
+.dashboard-chart-card {
+  min-height: 390px;
+}
+
+/*
+  Botão de link dentro do painel.
+*/
+.admin-link-btn {
+  min-height: 36px;
+  border-radius: 10px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef4ff;
+  color: #1455ff;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+/*
+  Lista de alertas financeiros.
+*/
+.dashboard-alert-list {
+  flex: 1;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 18px 20px 22px;
+}
+
+/*
+  Card de alerta.
+*/
+.dashboard-alert {
+  min-height: 76px;
+  border: 1px solid #eef2f7;
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 14px;
+  display: grid;
+  align-content: center;
+  gap: 6px;
+}
+
+/*
+  Título do alerta.
+*/
+.dashboard-alert strong {
+  color: #14213d;
+  font-size: 14px;
+}
+
+/*
+  Descrição do alerta.
+*/
+.dashboard-alert span {
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/*
+  Alerta perigoso.
+*/
+.dashboard-alert.danger {
+  background: #fff1f2;
+  border-color: #fecdd3;
+}
+
+.dashboard-alert.danger strong {
+  color: #ef4444;
+}
+
+/*
+  Alerta de atenção.
+*/
+.dashboard-alert.warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.dashboard-alert.warning strong {
+  color: #ca8a04;
+}
+
+/*
+  Alerta vazio.
+*/
+.dashboard-alert.empty {
+  min-height: 112px;
+  background: #f8fafc;
+  border-style: dashed;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid,
+  .dashboard-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .dashboard-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
