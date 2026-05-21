@@ -142,17 +142,3 @@
   margin-top: 6px;
 }
 
-.admin-login-test,
-.admin-login-help {
-  margin-top: 10px;
-  color: #ffffff;
-  font-size: 14px;
-}
-
-.admin-login-help {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-
