@@ -28,6 +28,7 @@ const continueButton = document.querySelector(".continue-button");
   Guarda temporariamente o dentista selecionado nesta tela.
 */
 let selectedDentist = null;
+let dentists = [];
 
 /*
   Assim que a página carrega, chamamos a função que busca os dentistas.
@@ -85,7 +86,9 @@ async function loadDentists() {
   /*
     Se tudo der certo, criamos os cards dos dentistas.
   */
-  renderDentists(data);
+  dentists = data || [];
+
+  renderDentists(dentists);
 }
 
 /*
@@ -210,7 +213,10 @@ function selectDentist(card, dentist) {
     Salva o dentista escolhido no localStorage temporário.
   */
   saveCurrentAppointment({
-    dentist: selectedDentist
+    dentist: selectedDentist,
+    dentist_id: selectedDentist.id,
+    date: null,
+    time: null
   });
 
   /*

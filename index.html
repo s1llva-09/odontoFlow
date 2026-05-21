@@ -21,7 +21,7 @@
     <div class="container header-content">
       <a href="#inicio" class="logo">
         <span class="logo-icon">🦷</span>
-        <span>OdontoFlow</span>
+        <span data-clinic-name>OdontoFlow</span>
       </a>
 
       <nav class="nav">
@@ -203,7 +203,7 @@
         <div class="footer-brand">
           <a href="#inicio" class="logo footer-logo">
             <span class="logo-icon">🦷</span>
-            <span>OdontoFlow</span>
+            <span data-clinic-name>OdontoFlow</span>
           </a>
 
           <p>
@@ -213,9 +213,22 @@
 
         <div class="footer-column">
           <h3>Contato</h3>
-          <p>📞 (11) 3456-7890</p>
-          <p>📍 Av. Paulista, 1000 — São Paulo/SP</p>
-          <p>🕘 Seg–Sex: 8h–18h | Sáb: 8h–13h</p>
+          <p>
+            <span>📞</span>
+            <span data-clinic-phone>(11) 3456-7890</span>
+          </p>
+          <p>
+            <span>✉️</span>
+            <span data-clinic-email>contato@odontoflow.com</span>
+          </p>
+          <p>
+            <span>📍</span>
+            <span data-clinic-address>Av. Paulista, 1000 — São Paulo/SP</span>
+          </p>
+          <p>
+            <span>🕘</span>
+            <span data-clinic-hours>Seg–Sex: 8h–18h | Sáb: 8h–13h</span>
+          </p>
         </div>
 
         <div class="footer-column">
@@ -227,9 +240,13 @@
       </div>
 
       <div class="footer-bottom">
-        <p>© 2026 OdontoFlow. Todos os direitos reservados.</p>
+        <p>© 2026 <strong data-clinic-name>OdontoFlow</strong>. Todos os direitos reservados.</p>
       </div>
     </div>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>

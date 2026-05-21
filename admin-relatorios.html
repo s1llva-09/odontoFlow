@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>OdontoFlow - Financeiro</title>
+  <title>OdontoFlow - Relatórios</title>
 
   <link rel="stylesheet" href="./styles/index.css" />
 
@@ -66,10 +66,9 @@
           Orçamentos
         </a>
 
-        <a href="./admin-financeiro.html" class="admin-menu-item active">
+        <a href="./admin-financeiro.html" class="admin-menu-item">
           <span>↗</span>
           Financeiro
-          <strong>›</strong>
         </a>
 
         <a href="./admin-caixa.html" class="admin-menu-item">
@@ -87,9 +86,10 @@
           A Pagar
         </a>
 
-        <a href="./admin-relatorios.html" class="admin-menu-item">
+        <a href="./admin-relatorios.html" class="admin-menu-item active">
           <span>▥</span>
           Relatórios
+          <strong>›</strong>
         </a>
 
         <a href="./admin-usuarios.html" class="admin-menu-item">
@@ -121,7 +121,7 @@
     <header class="admin-topbar">
       <div class="admin-breadcrumb">
         <span>Clínica OdontoFlow</span>
-        <strong>/ Financeiro</strong>
+        <strong>/ Relatórios</strong>
       </div>
 
       <div class="admin-topbar-actions">
@@ -143,8 +143,8 @@
 
       <div class="admin-page-title">
         <div>
-          <h1>Financeiro Geral</h1>
-          <p>Resumo financeiro com base nas movimentações reais do sistema.</p>
+          <h1>Relatórios</h1>
+          <p>Análise geral da clínica com dados reais do sistema.</p>
         </div>
 
         <div class="finance-period-tabs">
@@ -155,127 +155,122 @@
         </div>
       </div>
 
-      <section class="admin-cards-grid finance-cards-grid">
+      <section class="admin-cards-grid reports-cards-grid">
         <article class="admin-stat-card">
-          <span>Entradas</span>
-          <strong class="success-text" id="incomeTotalText">R$ 0,00</strong>
-          <small>Receitas no período</small>
+          <span>Faturamento</span>
+          <strong class="success-text" id="reportIncomeText">R$ 0,00</strong>
+          <small>Entradas no período</small>
         </article>
 
         <article class="admin-stat-card">
-          <span>Saídas</span>
-          <strong class="danger-text" id="expenseTotalText">R$ 0,00</strong>
-          <small>Despesas no período</small>
+          <span>Despesas</span>
+          <strong class="danger-text" id="reportExpenseText">R$ 0,00</strong>
+          <small>Saídas no período</small>
         </article>
 
         <article class="admin-stat-card">
           <span>Lucro estimado</span>
-          <strong class="primary-text" id="profitTotalText">R$ 0,00</strong>
+          <strong class="primary-text" id="reportProfitText">R$ 0,00</strong>
           <small>Entradas - saídas</small>
         </article>
 
         <article class="admin-stat-card">
-          <span>A receber</span>
-          <strong id="receivableTotalText">R$ 0,00</strong>
-          <small>Pendente em cobranças</small>
+          <span>Agendamentos</span>
+          <strong id="reportAppointmentsText">0</strong>
+          <small>Total no período</small>
         </article>
 
         <article class="admin-stat-card">
-          <span>A pagar</span>
-          <strong id="payableTotalText">R$ 0,00</strong>
-          <small>Pendente em despesas</small>
+          <span>Novos pacientes</span>
+          <strong id="reportPatientsText">0</strong>
+          <small>Cadastrados no período</small>
         </article>
 
         <article class="admin-stat-card">
           <span>Ticket médio</span>
-          <strong id="averageTicketText">R$ 0,00</strong>
+          <strong id="reportAverageTicketText">R$ 0,00</strong>
           <small>Média por entrada</small>
         </article>
       </section>
 
-      <section class="finance-chart-grid">
-        <article class="admin-panel finance-chart-card">
+      <section class="reports-chart-grid">
+        <article class="admin-panel report-chart-card large">
           <div class="admin-panel-header">
             <div>
-              <h2>Entradas x Saídas</h2>
-              <p>Comparativo por dia/mês dentro do período escolhido.</p>
+              <h2>Receita x Despesa</h2>
+              <p>Comparativo financeiro dentro do período selecionado.</p>
             </div>
           </div>
 
           <div class="chart-box">
-            <canvas id="incomeExpenseChart"></canvas>
+            <canvas id="reportIncomeExpenseChart"></canvas>
           </div>
         </article>
 
-        <article class="admin-panel finance-chart-card">
+        <article class="admin-panel report-chart-card">
           <div class="admin-panel-header">
             <div>
-              <h2>Faturamento por Forma de Pagamento</h2>
-              <p>Distribuição das entradas por método de pagamento.</p>
+              <h2>Status dos agendamentos</h2>
+              <p>Distribuição por situação.</p>
             </div>
           </div>
 
           <div class="chart-box small">
-            <canvas id="paymentMethodChart"></canvas>
+            <canvas id="reportAppointmentStatusChart"></canvas>
           </div>
         </article>
 
-        <article class="admin-panel finance-chart-card">
+        <article class="admin-panel report-chart-card">
           <div class="admin-panel-header">
             <div>
-              <h2>Despesas por Categoria</h2>
-              <p>Principais categorias de saída no período.</p>
+              <h2>Procedimentos mais realizados</h2>
+              <p>Ranking de procedimentos no período.</p>
             </div>
           </div>
 
           <div class="chart-box">
-            <canvas id="expenseCategoryChart"></canvas>
+            <canvas id="reportProcedureChart"></canvas>
           </div>
         </article>
 
-        <article class="admin-panel finance-chart-card">
+        <article class="admin-panel report-chart-card">
           <div class="admin-panel-header">
             <div>
-              <h2>Receitas por Categoria</h2>
-              <p>Origem das entradas registradas no financeiro.</p>
+              <h2>Formas de pagamento</h2>
+              <p>Entradas por método de pagamento.</p>
+            </div>
+          </div>
+
+          <div class="chart-box small">
+            <canvas id="reportPaymentChart"></canvas>
+          </div>
+        </article>
+
+        <article class="admin-panel report-chart-card">
+          <div class="admin-panel-header">
+            <div>
+              <h2>A receber x A pagar</h2>
+              <p>Valores pendentes no sistema.</p>
             </div>
           </div>
 
           <div class="chart-box">
-            <canvas id="incomeCategoryChart"></canvas>
+            <canvas id="reportReceivablePayableChart"></canvas>
           </div>
         </article>
-      </section>
 
-      <section class="admin-panel">
-        <div class="admin-panel-header">
-          <div>
-            <h2>Movimentações financeiras</h2>
-            <p>Entradas, saídas, sangrias e reforços do período.</p>
+        <article class="admin-panel report-chart-card">
+          <div class="admin-panel-header">
+            <div>
+              <h2>Pacientes novos</h2>
+              <p>Evolução de cadastros no período.</p>
+            </div>
           </div>
-        </div>
 
-        <div class="admin-table-wrapper">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Data</th>
-                <th>Tipo</th>
-                <th>Descrição</th>
-                <th>Categoria</th>
-                <th>Paciente</th>
-                <th>Pagamento</th>
-                <th>Valor</th>
-              </tr>
-            </thead>
-
-            <tbody id="financialTable">
-              <tr>
-                <td colspan="7">Carregando movimentações...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <div class="chart-box">
+            <canvas id="reportPatientsChart"></canvas>
+          </div>
+        </article>
       </section>
 
     </section>
@@ -287,6 +282,6 @@
   <script src="./scripts/storage.js"></script>
   <script src="./scripts/admin-auth.js"></script>
   <script src="./scripts/admin-clinic-ui.js"></script>
-  <script src="./scripts/admin-financeiro.js"></script>
+  <script src="./scripts/admin-relatorios.js"></script>
 </body>
 </html>

@@ -1,0 +1,74 @@
+/* =========================================================
+   FINANCEIRO / CAIXA
+========================================================= */
+
+/* 
+  Cards financeiros com 4 colunas.
+*/
+.finance-cards-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* 
+  Filtros do financeiro.
+*/
+.finance-filters {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 12px;
+}
+
+/* 
+  Entrada.
+*/
+.finance-type-income {
+  background: #dcfce7;
+  color: #008236;
+}
+
+/* 
+  Saída.
+*/
+.finance-type-expense {
+  background: #ffe8e8;
+  color: #ef4444;
+}
+
+/* 
+  Valor de entrada.
+*/
+.finance-value-income {
+  color: #00b845 !important;
+  font-weight: 800;
+}
+
+/* 
+  Valor de saída.
+*/
+.finance-value-expense {
+  color: #ef4444 !important;
+  font-weight: 800;
+}
+
+/* 
+  Status de caixa aberto.
+*/
+.cash-status-open {
+  color: #008236 !important;
+}
+
+/* 
+  Status de caixa fechado.
+*/
+.cash-status-closed {
+  color: #ef4444 !important;
+}
+
+/* 
+  Esconde painel via JS.
+*/
+.hidden-panel {
+  display: none;
+}
+
+

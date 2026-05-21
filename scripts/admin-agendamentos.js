@@ -1,17 +1,16 @@
 /*
-  TELA DE AGENDAMENTOS DA CLÍNICA
+  TELA ADMIN DE AGENDAMENTOS
 
   Responsabilidades:
   1. Proteger a tela com login fake temporário
-  2. Buscar todos os agendamentos no Supabase
-  3. Renderizar a tabela
-  4. Confirmar agendamento
-  5. Cancelar agendamento pela clínica
-  6. Marcar atendimento como concluído
+  2. Buscar agendamentos reais no Supabase
+  3. Renderizar tabela no padrão do Figma
+  4. Filtrar por texto e status
+  5. Confirmar, cancelar e concluir agendamentos
 */
 
 /*
-  Verifica se o admin está logado no modo teste.
+  Verifica se o admin está logado.
 */
 const isAdminLogged = localStorage.getItem("odontoflow_admin_logged");
 
@@ -20,14 +19,22 @@ if (isAdminLogged !== "true") {
 }
 
 /*
-  Seleciona elementos da tela.
+  Elementos da tela.
 */
 const appointmentsTable = document.querySelector("#appointmentsTable");
-const reloadButton = document.querySelector("#reloadButton");
+const appointmentSearchInput = document.querySelector("#appointmentSearchInput");
+const statusFilter = document.querySelector("#statusFilter");
+const appointmentsCount = document.querySelector("#appointmentsCount");
 const logoutButton = document.querySelector("#logoutButton");
+const newAppointmentButton = document.querySelector("#newAppointmentButton");
 
 /*
-  Botão sair.
+  Lista completa carregada do Supabase.
+*/
+let allAppointments = [];
+
+/*
+  Logout.
 */
 logoutButton.addEventListener("click", () => {
   localStorage.removeItem("odontoflow_admin_logged");
@@ -35,14 +42,22 @@ logoutButton.addEventListener("click", () => {
 });
 
 /*
-  Botão atualizar.
+  Botão novo agendamento.
+  Por enquanto redireciona para o fluxo público de agendamento.
+  Depois podemos criar modal interno do admin.
 */
-reloadButton.addEventListener("click", () => {
-  loadAppointments();
+newAppointmentButton.addEventListener("click", () => {
+  window.location.href = "./agendamento.html";
 });
 
 /*
-  Carrega agendamentos ao abrir a página.
+  Filtros.
+*/
+appointmentSearchInput.addEventListener("input", applyFilters);
+statusFilter.addEventListener("change", applyFilters);
+
+/*
+  Carrega ao abrir.
 */
 loadAppointments();
 
@@ -52,7 +67,7 @@ loadAppointments();
 async function loadAppointments() {
   appointmentsTable.innerHTML = `
     <tr>
-      <td colspan="9">Carregando agendamentos...</td>
+      <td colspan="8">Carregando agendamentos...</td>
     </tr>
   `;
 
@@ -72,24 +87,68 @@ async function loadAppointments() {
 
     appointmentsTable.innerHTML = `
       <tr>
-        <td colspan="9">Erro ao carregar agendamentos.</td>
+        <td colspan="8">Erro ao carregar agendamentos.</td>
       </tr>
     `;
 
     return;
   }
 
-  renderAppointments(data || []);
+  allAppointments = data || [];
+
+  renderAppointments(allAppointments);
 }
 
 /*
-  Renderiza a tabela com agendamentos.
+  Aplica busca e filtro de status.
+*/
+function applyFilters() {
+  const searchTerm = appointmentSearchInput.value.trim().toLowerCase();
+  const selectedStatus = statusFilter.value;
+
+  let filteredAppointments = [...allAppointments];
+
+  /*
+    Filtro por status.
+  */
+  if (selectedStatus !== "all") {
+    filteredAppointments = filteredAppointments.filter((appointment) => {
+      return appointment.status === selectedStatus;
+    });
+  }
+
+  /*
+    Filtro por texto.
+  */
+  if (searchTerm) {
+    filteredAppointments = filteredAppointments.filter((appointment) => {
+      const code = appointment.code || "";
+      const patient = appointment.patients?.full_name || "";
+      const procedure = appointment.procedures?.name || "";
+      const dentist = appointment.dentists?.name || "";
+
+      return (
+        code.toLowerCase().includes(searchTerm) ||
+        patient.toLowerCase().includes(searchTerm) ||
+        procedure.toLowerCase().includes(searchTerm) ||
+        dentist.toLowerCase().includes(searchTerm)
+      );
+    });
+  }
+
+  renderAppointments(filteredAppointments);
+}
+
+/*
+  Renderiza tabela.
 */
 function renderAppointments(appointments) {
+  appointmentsCount.textContent = `Mostrando ${appointments.length} de ${allAppointments.length} agendamentos`;
+
   if (!appointments.length) {
     appointmentsTable.innerHTML = `
       <tr>
-        <td colspan="9">Nenhum agendamento encontrado.</td>
+        <td colspan="8">Nenhum agendamento encontrado.</td>
       </tr>
     `;
     return;
@@ -97,55 +156,67 @@ function renderAppointments(appointments) {
 
   appointmentsTable.innerHTML = appointments.map((appointment) => {
     const canConfirm = appointment.status === "requested";
-    const canCancel = ![
-      "cancelled_by_patient",
-      "cancelled_by_clinic",
-      "completed"
-    ].includes(appointment.status);
 
     const canComplete = [
       "clinic_confirmed",
       "patient_confirmed"
     ].includes(appointment.status);
 
+    const canCancel = ![
+      "cancelled_by_patient",
+      "cancelled_by_clinic",
+      "completed"
+    ].includes(appointment.status);
+
     return `
       <tr>
-        <td>${appointment.code}</td>
+        <td>${appointment.code || "-"}</td>
+
         <td>${appointment.patients?.full_name || "-"}</td>
-        <td>${appointment.patients?.phone || "-"}</td>
+
         <td>${appointment.procedures?.name || "-"}</td>
+
         <td>${appointment.dentists?.name || "-"}</td>
+
         <td>${formatDateToBR(appointment.appointment_date)}</td>
-        <td>${appointment.appointment_time.slice(0, 5)}</td>
+
+        <td>
+          <strong>${appointment.appointment_time?.slice(0, 5) || "-"}</strong>
+        </td>
+
         <td>
           <span class="status-badge status-${appointment.status}">
             ${translateStatus(appointment.status)}
           </span>
         </td>
+
         <td>
           <div class="table-actions">
-            <button 
+            <button
               class="table-action-btn confirm"
               onclick="confirmAppointment('${appointment.id}')"
               ${canConfirm ? "" : "disabled"}
+              title="Confirmar"
             >
-              Confirmar
+              ✓
             </button>
 
-            <button 
+            <button
               class="table-action-btn complete"
               onclick="completeAppointment('${appointment.id}')"
               ${canComplete ? "" : "disabled"}
+              title="Concluir"
             >
-              Concluir
+              ✔
             </button>
 
-            <button 
+            <button
               class="table-action-btn cancel"
               onclick="cancelAppointmentByClinic('${appointment.id}')"
               ${canCancel ? "" : "disabled"}
+              title="Cancelar"
             >
-              Cancelar
+              ×
             </button>
           </div>
         </td>
@@ -155,7 +226,7 @@ function renderAppointments(appointments) {
 }
 
 /*
-  Confirma o agendamento pela clínica.
+  Confirma agendamento pela clínica.
 */
 async function confirmAppointment(appointmentId) {
   const confirmAction = confirm("Deseja confirmar este agendamento?");
@@ -178,8 +249,7 @@ async function confirmAppointment(appointmentId) {
     return;
   }
 
-  alert("Agendamento confirmado pela clínica.");
-  loadAppointments();
+  await loadAppointments();
 }
 
 /*
@@ -205,12 +275,11 @@ async function completeAppointment(appointmentId) {
     return;
   }
 
-  alert("Atendimento concluído.");
-  loadAppointments();
+  await loadAppointments();
 }
 
 /*
-  Cancela o agendamento pela clínica.
+  Cancela agendamento pela clínica.
 */
 async function cancelAppointmentByClinic(appointmentId) {
   const confirmAction = confirm("Tem certeza que deseja cancelar este agendamento pela clínica?");
@@ -233,20 +302,19 @@ async function cancelAppointmentByClinic(appointmentId) {
     return;
   }
 
-  alert("Agendamento cancelado pela clínica.");
-  loadAppointments();
+  await loadAppointments();
 }
 
 /*
-  Traduz status técnico para texto amigável.
+  Traduz status para o texto do admin.
 */
 function translateStatus(status) {
   const statusMap = {
     requested: "Solicitado",
-    clinic_confirmed: "Confirmado pela clínica",
-    patient_confirmed: "Presença confirmada",
-    cancelled_by_patient: "Cancelado pelo paciente",
-    cancelled_by_clinic: "Cancelado pela clínica",
+    clinic_confirmed: "Confirmado",
+    patient_confirmed: "Presença conf.",
+    cancelled_by_patient: "Cancelado",
+    cancelled_by_clinic: "Cancelado",
     completed: "Concluído",
     no_show: "Faltou"
   };

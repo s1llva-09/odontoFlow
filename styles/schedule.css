@@ -219,3 +219,14 @@
   background: var(--blue);
   color: #ffffff;
 }
+
+.empty-times-message {
+  grid-column: 1 / -1;
+  min-height: 120px;
+  display: grid;
+  place-items: center;
+  color: #8a96ad;
+  font-size: 14px;
+  text-align: center;
+  padding: 20px;
+}

@@ -1,0 +1,106 @@
+/* =========================================================
+   FINANCEIRO
+========================================================= */
+
+/* 
+  Abas de período do financeiro.
+*/
+.finance-period-tabs {
+  background: #f1f5f9;
+  border-radius: 14px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 
+  Botões das abas.
+*/
+.finance-period-tabs button {
+  min-height: 36px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  padding: 0 14px;
+  font-family: inherit;
+  color: #64748b;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 
+  Aba ativa.
+*/
+.finance-period-tabs button.active {
+  background: #ffffff;
+  color: #1455ff;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.08);
+}
+
+/* 
+  Grid dos cards financeiros.
+*/
+.finance-cards-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* 
+  Grid dos gráficos.
+*/
+.finance-chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+/* 
+  Card com gráfico.
+*/
+.finance-chart-card {
+  min-height: 390px;
+}
+
+/* 
+  Área do canvas.
+
+  Sem altura definida, o Chart.js pode quebrar ou ficar achatado.
+*/
+.chart-box {
+  height: 280px;
+  padding: 10px 20px 24px;
+}
+
+/* 
+  Gráfico menor para doughnut.
+*/
+.chart-box.small {
+  height: 280px;
+}
+
+@media (max-width: 1100px) {
+  .finance-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .finance-chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .finance-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .finance-period-tabs {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .finance-period-tabs button {
+    flex: 1;
+  }
+}
+

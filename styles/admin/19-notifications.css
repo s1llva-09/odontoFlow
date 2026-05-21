@@ -1,0 +1,120 @@
+/* =========================================================
+   NOTIFICACOES DO ADMIN
+========================================================= */
+
+/*
+  Painel aberto pelo sininho da topbar.
+*/
+.admin-notification-panel {
+  width: min(360px, calc(100vw - 32px));
+  position: absolute;
+  top: 52px;
+  right: 0;
+  z-index: 50;
+  display: none;
+  background: #ffffff;
+  border: 1px solid #e7ebf2;
+  border-radius: 16px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16);
+  overflow: hidden;
+}
+
+/*
+  Estado aberto do painel.
+*/
+.admin-notification-panel.active {
+  display: block;
+}
+
+/*
+  Cabecalho do painel de notificacoes.
+*/
+.admin-notification-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid #eef2f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-notification-header strong {
+  color: #14213d;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.admin-notification-header small {
+  color: #8a96ad;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/*
+  Lista interna com scroll quando houver muitos avisos.
+*/
+.admin-notification-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+/*
+  Item clicavel de notificacao.
+*/
+.admin-notification-item {
+  display: grid;
+  gap: 4px;
+  padding: 14px 18px 14px 16px;
+  border-left: 3px solid #2563eb;
+  border-bottom: 1px solid #eef2f7;
+  transition: background 0.2s ease;
+}
+
+.admin-notification-item:hover {
+  background: #f8fafc;
+}
+
+.admin-notification-item:last-child {
+  border-bottom: none;
+}
+
+.admin-notification-item strong {
+  color: #14213d;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.admin-notification-item span {
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.admin-notification-item.success {
+  border-left-color: #22c55e;
+}
+
+.admin-notification-item.warning {
+  border-left-color: #facc15;
+}
+
+.admin-notification-item.danger {
+  border-left-color: #ef4444;
+}
+
+/*
+  Estado vazio/carregando.
+*/
+.admin-notification-empty {
+  color: #8a96ad;
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 18px;
+}
+
+@media (max-width: 640px) {
+  .admin-notification-panel {
+    top: 100%;
+    right: 0;
+  }
+}

@@ -1,0 +1,685 @@
+/* =========================================================
+   PAINÉIS E CARDS
+========================================================= */
+
+/* 
+  Painel branco padrão.
+  Usado para tabelas, formulários e blocos grandes.
+*/
+.admin-panel {
+  background: #ffffff;
+  border: 1px solid #e7ebf2;
+  border-radius: 16px;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+/* 
+  Painel com padding interno.
+*/
+.admin-panel.padded {
+  padding: 22px;
+}
+
+/* 
+  Espaçamento entre painéis.
+*/
+.admin-panel + .admin-panel,
+.admin-panel-spacing {
+  margin-top: 22px;
+}
+
+/* 
+  Cabeçalho de painel.
+*/
+.admin-panel-header {
+  padding: 20px 22px;
+  border-bottom: 1px solid #eef2f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* 
+  Título do painel.
+*/
+.admin-panel-header h2 {
+  color: #14213d;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* 
+  Descrição do painel.
+*/
+.admin-panel-header p {
+  color: #8a96ad;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+/* 
+  Grid padrão dos cards.
+*/
+.admin-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+/* 
+  Card de estatística.
+*/
+.admin-stat-card {
+  min-height: 102px;
+  background: #ffffff;
+  border: 1px solid #e7ebf2;
+  border-radius: 15px;
+  padding: 18px;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.06);
+}
+
+/* 
+  Texto pequeno do card.
+*/
+.admin-stat-card span {
+  display: block;
+  color: #8a96ad;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+/* 
+  Valor principal do card.
+*/
+.admin-stat-card strong {
+  color: #14213d;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* 
+  Grid com 5 cards.
+  Usado no caixa e alguns dashboards.
+*/
+.admin-cards-grid.five,
+.cash-cards-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+/* 
+  Grid com 3 cards.
+*/
+.admin-cards-grid.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+
+/* =========================================================
+   TABELAS
+========================================================= */
+
+/* 
+  Wrapper para permitir scroll horizontal em telas menores.
+*/
+.admin-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* 
+  Tabela padrão do admin.
+*/
+.admin-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+/* 
+  Células.
+*/
+.admin-table th,
+.admin-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eef2f7;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* 
+  Cabeçalho da tabela.
+*/
+.admin-table th {
+  color: #8a96ad;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* 
+  Dados da tabela.
+*/
+.admin-table td {
+  color: #31415f;
+}
+
+/* 
+  Primeira coluna com mais destaque.
+*/
+.admin-table td:first-child {
+  color: #14213d;
+  font-weight: 700;
+}
+
+/* 
+  Remove borda da última linha.
+*/
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 
+  Rodapé de tabela, usado para paginação/textos.
+*/
+.admin-table-footer {
+  min-height: 56px;
+  padding: 0 16px;
+  border-top: 1px solid #eef2f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #8a96ad;
+  font-size: 14px;
+}
+
+/* 
+  Paginação.
+*/
+.admin-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 
+  Botão da paginação.
+*/
+.admin-pagination button {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 11px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 
+  Botão discreto da paginação.
+*/
+.admin-pagination .ghost {
+  background: transparent;
+  color: #8a96ad;
+}
+
+
+/* =========================================================
+   BUSCAS E FILTROS
+========================================================= */
+
+/* 
+  Área de filtros acima das tabelas.
+*/
+.admin-filter-bar {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 12px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+/* 
+  Campo de busca dentro dos painéis.
+*/
+.admin-search-box {
+  width: 100%;
+}
+
+/* 
+  Input da busca interna.
+*/
+.admin-search-box input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #dce3ee;
+  border-radius: 13px;
+  background: #f8fafc;
+  padding: 0 14px;
+  color: #14213d;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+/* 
+  Placeholder.
+*/
+.admin-search-box input::placeholder {
+  color: #9aa7bc;
+}
+
+/* 
+  Select de filtro.
+*/
+.admin-filter-select,
+.admin-filter-bar select {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #dce3ee;
+  border-radius: 13px;
+  background: #ffffff;
+  padding: 0 14px;
+  color: #14213d;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+
+/* =========================================================
+   FORMULÁRIOS
+========================================================= */
+
+/* 
+  Formulário dentro do admin.
+*/
+.admin-form {
+  padding: 22px;
+}
+
+/* 
+  Grid dos campos do formulário.
+*/
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* 
+  Campo largo.
+*/
+.admin-form-wide {
+  grid-column: span 2;
+}
+
+/* 
+  Grupo de campo.
+*/
+.form-group {
+  display: grid;
+  gap: 8px;
+}
+
+/* 
+  Label.
+*/
+.form-group label {
+  color: #14213d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* 
+  Inputs, selects e textareas.
+*/
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #dce3ee;
+  border-radius: 13px;
+  background: #f8fafc;
+  padding: 0 14px;
+  color: #14213d;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+/* 
+  Textarea.
+*/
+.form-group textarea {
+  min-height: 90px;
+  padding: 14px;
+  resize: vertical;
+}
+
+/* 
+  Foco dos campos.
+*/
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* 
+  Ações do formulário.
+*/
+.admin-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+
+/* =========================================================
+   BOTÕES
+========================================================= */
+
+/* 
+  Linha de botões.
+*/
+.admin-action-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 
+  Botão azul principal.
+*/
+.admin-primary-btn,
+.btn-primary {
+  min-height: 40px;
+  border: none;
+  border-radius: 13px;
+  background: #2563eb;
+  color: #ffffff;
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 
+  Botão verde.
+*/
+.admin-success-btn,
+.btn-success {
+  min-height: 40px;
+  border: none;
+  border-radius: 13px;
+  background: #22c55e;
+  color: #ffffff;
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 
+  Botão vermelho.
+*/
+.admin-danger-btn {
+  min-height: 40px;
+  border: none;
+  border-radius: 13px;
+  background: #ef4444;
+  color: #ffffff;
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 
+  Botão amarelo.
+*/
+.admin-warning-btn {
+  min-height: 40px;
+  border: none;
+  border-radius: 13px;
+  background: #facc15;
+  color: #ffffff;
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 
+  Botão contorno.
+*/
+.admin-outline-btn,
+.btn-outline-neutral {
+  min-height: 40px;
+  border: 1px solid #dce3ee;
+  border-radius: 13px;
+  background: #ffffff;
+  color: #31415f;
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 
+  Botões pequenos em tabela.
+*/
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 
+  Botão pequeno.
+*/
+.table-action-btn {
+  height: 32px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 9px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 
+  Confirmar.
+*/
+.table-action-btn.confirm {
+  background: #2563eb;
+}
+
+/* 
+  Concluir/ativar.
+*/
+.table-action-btn.complete,
+.table-action-btn.activate {
+  background: #22c55e;
+}
+
+/* 
+  Cancelar/desativar.
+*/
+.table-action-btn.cancel,
+.table-action-btn.deactivate {
+  background: #ef4444;
+}
+
+/* 
+  Botão desabilitado.
+*/
+.table-action-btn:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   BADGES / STATUS
+========================================================= */
+
+/* 
+  Badge padrão.
+*/
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 
+  Verde.
+*/
+.status-active,
+.status-paid,
+.status-completed,
+.status-patient_confirmed,
+.status-success {
+  background: #dcfce7;
+  color: #008236;
+}
+
+/* 
+  Azul.
+*/
+.status-clinic_confirmed,
+.status-sent,
+.status-partial,
+.status-confirmed {
+  background: #eaf2ff;
+  color: #1455ff;
+}
+
+/* 
+  Amarelo.
+*/
+.status-requested,
+.status-pending,
+.status-warning {
+  background: #fff7d6;
+  color: #b77900;
+}
+
+/* 
+  Vermelho.
+*/
+.status-cancelled_by_patient,
+.status-cancelled_by_clinic,
+.status-overdue,
+.status-refused,
+.status-danger {
+  background: #ffe8e8;
+  color: #ef4444;
+}
+
+/* 
+  Cinza.
+*/
+.status-draft,
+.status-inactive,
+.status-neutral {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+/* 
+  Roxo.
+*/
+.status-rescheduled,
+.status-converted {
+  background: #f3e8ff;
+  color: #8b00d6;
+}
+
+
+/* =========================================================
+   AVATARES / ÍCONES DE TABELA
+========================================================= */
+
+/* 
+  Avatar pequeno para pacientes/dentistas/usuários.
+*/
+.admin-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #eaf2ff;
+  color: #1455ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* 
+  Avatar azul.
+*/
+.admin-avatar.blue {
+  background: #eaf2ff;
+  color: #1455ff;
+}
+
+/* 
+  Avatar roxo.
+*/
+.admin-avatar.purple {
+  background: #f3e8ff;
+  color: #8b00d6;
+}
+
+/* 
+  Avatar rosa.
+*/
+.admin-avatar.pink {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+/* 
+  Ícone de procedimento na tabela.
+*/
+.procedure-table-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #eaf2ff;
+  color: #1455ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+

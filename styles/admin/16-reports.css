@@ -1,0 +1,57 @@
+/* =========================================================
+   RELATÓRIOS
+========================================================= */
+
+/* 
+  Cards de relatórios em 3 colunas.
+*/
+.reports-cards-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* 
+  Grid dos gráficos de relatórios.
+*/
+.reports-chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* 
+  Card dos gráficos.
+*/
+.report-chart-card {
+  min-height: 390px;
+}
+
+/* 
+  Card largo, se quiser usar depois.
+*/
+.report-chart-card.large {
+  grid-column: span 2;
+}
+
+/* 
+  Responsividade.
+*/
+@media (max-width: 1100px) {
+  .reports-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .reports-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-chart-card.large {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .reports-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

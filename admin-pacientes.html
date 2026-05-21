@@ -17,6 +17,7 @@
 </head>
 
 <body class="admin-page">
+
   <aside class="admin-sidebar">
     <div class="admin-sidebar-top">
       <a href="./admin-dashboard.html" class="admin-brand">
@@ -25,67 +26,81 @@
       </a>
 
       <nav class="admin-menu">
-      <a href="./admin-dashboard.html" class="admin-menu-item">
-        <span>▦</span>
-        Dashboard
-      </a>
-      <a href="#" class="admin-menu-item">
-        <span>▣</span>
-        Agenda
-      </a>
-      <a href="./admin-agendamentos.html" class="admin-menu-item">
-        <span>▤</span>
-        Agendamentos
-      </a>
-      <a href="./admin-pacientes.html" class="admin-menu-item active">
-        <span>♙</span>
-        Pacientes
-      </a>
-      <a href="./admin-dentistas.html" class="admin-menu-item">
-        <span>♧</span>
-        Dentistas
-      </a>
-      <a href="./admin-procedimentos.html" class="admin-menu-item">
-        <span>▥</span>
-        Procedimentos
-      </a>
-      <a href="#" class="admin-menu-item">
-        <span>▧</span>
-        Prontuários
-      </a>
-      <a href="#" class="admin-menu-item">
-        <span>▩</span>
-        Orçamentos
-      </a>
-      <a href="./admin-financeiro.html" class="admin-menu-item">
-        <span>↗</span>
-        Financeiro
-      </a>
-      <a href="./admin-caixa.html" class="admin-menu-item">
-        <span>$</span>
-        Caixa
-      </a>
-      <a href="#" class="admin-menu-item">
-        <span>▭</span>
-        A Receber
-      </a>
-      <a href="#" class="admin-menu-item">
-        <span>▣</span>
-        A Pagar
-      </a>
-      <a href="#" class="admin-menu-item">
-        <span>▥</span>
-        Relatórios
-      </a>
-      <a href="#" class="admin-menu-item">
-        <span>♙</span>
-        Usuários
-      </a>
-      <a href="#" class="admin-menu-item">
-        <span>⚙</span>
-        Configurações
-        <strong>›</strong>
-      </a>
+        <a href="./admin-dashboard.html" class="admin-menu-item">
+          <span>▦</span>
+          Dashboard
+        </a>
+
+        <a href="./admin-agenda.html" class="admin-menu-item">
+          <span>▣</span>
+          Agenda
+        </a>
+
+        <a href="./admin-agendamentos.html" class="admin-menu-item">
+          <span>▤</span>
+          Agendamentos
+        </a>
+
+        <a href="./admin-pacientes.html" class="admin-menu-item active">
+          <span>♙</span>
+          Pacientes
+          <strong>›</strong>
+        </a>
+
+        <a href="./admin-dentistas.html" class="admin-menu-item">
+          <span>♧</span>
+          Dentistas
+        </a>
+
+        <a href="./admin-procedimentos.html" class="admin-menu-item">
+          <span>▥</span>
+          Procedimentos
+        </a>
+
+        <a href="./admin-prontuarios.html" class="admin-menu-item">
+          <span>▧</span>
+          Prontuários
+        </a>
+
+        <a href="./admin-orcamentos.html" class="admin-menu-item">
+          <span>▩</span>
+          Orçamentos
+        </a>
+
+        <a href="./admin-financeiro.html" class="admin-menu-item">
+          <span>↗</span>
+          Financeiro
+        </a>
+
+        <a href="./admin-caixa.html" class="admin-menu-item">
+          <span>$</span>
+          Caixa
+        </a>
+
+        <a href="./admin-receber.html" class="admin-menu-item">
+          <span>▭</span>
+          A Receber
+        </a>
+
+        <a href="./admin-pagar.html" class="admin-menu-item">
+          <span>▣</span>
+          A Pagar
+        </a>
+
+        <a href="./admin-relatorios.html" class="admin-menu-item">
+          <span>▥</span>
+          Relatórios
+        </a>
+
+        <a href="./admin-usuarios.html" class="admin-menu-item">
+          <span>♙</span>
+          Usuários
+        </a>
+
+        <a href="./admin-configuracoes.html" class="admin-menu-item">
+          <span>⚙</span>
+          Configurações
+        </a>
       </nav>
     </div>
 
@@ -102,6 +117,7 @@
   </aside>
 
   <main class="admin-main">
+
     <header class="admin-topbar">
       <div class="admin-breadcrumb">
         <span>Clínica OdontoFlow</span>
@@ -119,62 +135,158 @@
           <span></span>
         </button>
 
-        <div class="admin-top-avatar">
-          A
-        </div>
+        <div class="admin-top-avatar">A</div>
       </div>
     </header>
 
     <section class="admin-content">
 
-    <section class="admin-panel">
-      <div class="admin-panel-header">
+      <div class="admin-page-title">
         <div>
-          <h2>Lista de pacientes</h2>
-          <p>Pacientes registrados no sistema.</p>
+          <h1>Pacientes</h1>
         </div>
 
-        <button class="btn btn-outline-neutral" id="reloadButton">
-          Atualizar
+        <button class="admin-primary-btn" id="newPatientButton">
+          + Novo paciente
         </button>
       </div>
 
-      <div class="admin-search-box">
-        <input 
-          type="text" 
-          id="patientSearchInput" 
-          placeholder="Buscar por nome, telefone, e-mail ou CPF..."
-        />
-      </div>
+      <section class="admin-panel">
+        <div class="admin-filter-bar">
+          <div class="admin-search-box">
+            <input 
+              type="text" 
+              id="patientSearchInput" 
+              placeholder="Buscar paciente..."
+            />
+          </div>
 
-      <div class="admin-table-wrapper">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Telefone</th>
-              <th>E-mail</th>
-              <th>CPF</th>
-              <th>Cadastro</th>
-              <th>Total de agendamentos</th>
-              <th>Última consulta</th>
-            </tr>
-          </thead>
+          <select id="patientStatusFilter">
+            <option value="all">Todos os status</option>
+            <option value="active">Ativo</option>
+            <option value="inactive">Inativo</option>
+          </select>
+        </div>
 
-          <tbody id="patientsTable">
-            <tr>
-              <td colspan="7">Carregando pacientes...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>E-mail</th>
+                <th>Última consulta</th>
+                <th>Total gasto</th>
+                <th>Status</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+
+            <tbody id="patientsTable">
+              <tr>
+                <td colspan="7">Carregando pacientes...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="admin-table-footer">
+          <span id="patientsCount">Mostrando 0 pacientes</span>
+
+          <div class="admin-pagination">
+            <button class="ghost" type="button">‹</button>
+            <button type="button">1</button>
+            <button class="ghost" type="button">›</button>
+          </div>
+        </div>
+      </section>
+
     </section>
   </main>
+
+  <div class="admin-modal-overlay" id="patientModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <div>
+        <h2 id="modalPatientName">Paciente</h2>
+        <p id="modalPatientEmail">-</p>
+      </div>
+
+      <button type="button" id="closePatientModal">×</button>
+    </div>
+
+    <div class="admin-modal-body">
+      <div class="patient-detail-grid">
+        <div class="patient-detail-card">
+          <span>Telefone</span>
+          <strong id="modalPatientPhone">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>CPF</span>
+          <strong id="modalPatientCpf">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Data de nascimento</span>
+          <strong id="modalPatientBirth">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Total gasto</span>
+          <strong id="modalPatientSpent">R$ 0,00</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Total de consultas</span>
+          <strong id="modalPatientAppointments">0</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Última consulta</span>
+          <strong id="modalPatientLastAppointment">-</strong>
+        </div>
+      </div>
+
+      <div class="admin-modal-section">
+        <h3>Histórico de agendamentos</h3>
+
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Procedimento</th>
+                <th>Dentista</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody id="modalPatientAppointmentsTable">
+              <tr>
+                <td colspan="6">Nenhum agendamento encontrado.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-modal-footer">
+      <button type="button" class="admin-outline-btn" id="closePatientModalFooter">
+        Fechar
+      </button>
+    </div>
+  </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./scripts/supabase.js"></script>
   <script src="./scripts/storage.js"></script>
+  <script src="./scripts/admin-auth.js"></script>
+  <script src="./scripts/admin-clinic-ui.js"></script>
   <script src="./scripts/admin-pacientes.js"></script>
 </body>
 </html>

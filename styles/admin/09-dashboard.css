@@ -1,0 +1,206 @@
+/*TEXTO PEQUENO DOS CARDS DO DASHBOARD
+
+  Aparece abaixo do valor principal.
+*/
+.admin-stat-card small {
+  display: block;
+  color: #8a96ad;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* 
+  LISTA DE STATUS DO GRÁFICO DE ROSCA
+
+  Mostra legenda e quantidade dos status.
+*/
+.dashboard-status-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* 
+  ITEM DA LISTA DE STATUS
+
+  Linha com cor, texto e número.
+*/
+.dashboard-status-list div {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  color: #31415f;
+  font-size: 14px;
+}
+
+/* 
+  VALOR DA LISTA DE STATUS
+*/
+.dashboard-status-list strong {
+  color: #14213d;
+  font-weight: 800;
+}
+
+/* 
+  BOLINHA DA LEGENDA
+*/
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* 
+  CORES DAS BOLINHAS
+*/
+.dot.blue {
+  background: #2563eb;
+}
+
+.dot.yellow {
+  background: #facc15;
+}
+
+.dot.green {
+  background: #22c55e;
+}
+
+.dot.red {
+  background: #ef4444;
+}
+
+/* 
+  ESTADO DE CARREGAMENTO DO GRÁFICO
+*/
+.chart-loading {
+  width: 100%;
+  color: #8a96ad;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* 
+  GRÁFICO REAL DE BARRAS
+
+  Cada barra é criada pelo JavaScript com base no faturamento mensal.
+*/
+.fake-bars {
+  height: 260px;
+  min-height: 260px;
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  padding: 12px 8px 4px;
+}
+
+/* 
+  COLUNA DE CADA MÊS
+*/
+.fake-bar-item {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: 28px 1fr 22px;
+  align-items: end;
+  gap: 8px;
+  text-align: center;
+}
+
+/* 
+  VALOR ACIMA DA BARRA
+*/
+.fake-bar-value {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* 
+  TRILHO VERTICAL DA BARRA
+*/
+.fake-bar-track {
+  height: 185px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-bottom: 1px solid #eef2f7;
+}
+
+/* 
+  BARRA DINÂMICA
+*/
+.fake-bar {
+  width: 100%;
+  max-width: 42px;
+  min-height: 6px;
+  flex: none;
+  background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+  transition: height 0.3s ease;
+}
+
+/* 
+  MÊS ABAIXO DA BARRA
+*/
+.fake-bar-item small {
+  color: #8a96ad;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* 
+  ROSCA DINÂMICA
+
+  O JavaScript muda o background usando conic-gradient.
+*/
+.fake-donut {
+  transition: background 0.3s ease;
+}
+
+/* 
+  CÉLULA COM NOME DO PACIENTE
+
+  Junta avatar e nome na mesma coluna.
+*/
+.patient-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 
+  NOME DO PACIENTE
+
+  Mantém destaque no nome.
+*/
+.patient-name-cell strong {
+  color: #14213d;
+  font-weight: 800;
+}
+
+/* 
+  BOTÃO DE ÍCONE EM TABELA
+
+  Usado para visualizar/editar registros.
+*/
+.admin-icon-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+/* 
+  HOVER DO BOTÃO DE ÍCONE
+*/
+.admin-icon-btn:hover {
+  background: #f3f7ff;
+  color: #2563eb;
+}
+
+/* 

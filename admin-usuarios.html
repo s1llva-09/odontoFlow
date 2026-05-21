@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>OdontoFlow - Procedimentos</title>
+  <title>OdontoFlow - Usuários</title>
 
   <link rel="stylesheet" href="./styles/index.css" />
 
@@ -51,10 +51,9 @@
           Dentistas
         </a>
 
-        <a href="./admin-procedimentos.html" class="admin-menu-item active">
+        <a href="./admin-procedimentos.html" class="admin-menu-item">
           <span>▥</span>
           Procedimentos
-          <strong>›</strong>
         </a>
 
         <a href="./admin-prontuarios.html" class="admin-menu-item">
@@ -92,9 +91,10 @@
           Relatórios
         </a>
 
-        <a href="./admin-usuarios.html" class="admin-menu-item">
+        <a href="./admin-usuarios.html" class="admin-menu-item active">
           <span>♙</span>
           Usuários
+          <strong>›</strong>
         </a>
 
         <a href="./admin-configuracoes.html" class="admin-menu-item">
@@ -121,7 +121,7 @@
     <header class="admin-topbar">
       <div class="admin-breadcrumb">
         <span>Clínica OdontoFlow</span>
-        <strong>/ Procedimentos</strong>
+        <strong>/ Usuários</strong>
       </div>
 
       <div class="admin-topbar-actions">
@@ -143,109 +143,178 @@
 
       <div class="admin-page-title">
         <div>
-          <h1>Procedimentos</h1>
+          <h1>Usuários e Permissões</h1>
+          <p>Gerencie os acessos internos da clínica.</p>
         </div>
 
-        <button class="admin-primary-btn" id="openProcedureFormButton">
-          + Novo procedimento
+        <button class="admin-primary-btn" id="openUserFormButton">
+          + Novo usuário
         </button>
       </div>
 
-      <section class="admin-panel" id="procedureFormPanel" style="display: none;">
+      <section class="permissions-grid">
+        <article class="permission-card admin">
+          <div class="permission-icon">🛡️</div>
+
+          <h2>Administrador</h2>
+
+          <h3>Pode acessar</h3>
+          <ul>
+            <li>Dashboard completo</li>
+            <li>Agenda e agendamentos</li>
+            <li>Pacientes e prontuários</li>
+            <li>Dentistas e procedimentos</li>
+            <li>Financeiro e caixa</li>
+            <li>Relatórios avançados</li>
+            <li>Usuários e permissões</li>
+            <li>Configurações do sistema</li>
+          </ul>
+        </article>
+
+        <article class="permission-card receptionist">
+          <div class="permission-icon">👥</div>
+
+          <h2>Recepcionista</h2>
+
+          <h3>Pode acessar</h3>
+          <ul>
+            <li>Agenda e agendamentos</li>
+            <li>Cadastro e consulta de pacientes</li>
+            <li>Registrar pagamentos</li>
+            <li>Orçamentos básicos</li>
+          </ul>
+
+          <h3>Não pode ver</h3>
+          <ul class="denied">
+            <li>Lucro total e relatórios avançados</li>
+            <li>Configurações críticas</li>
+            <li>Gestão de usuários</li>
+          </ul>
+        </article>
+
+        <article class="permission-card dentist">
+          <div class="permission-icon">🩺</div>
+
+          <h2>Dentista</h2>
+
+          <h3>Pode acessar</h3>
+          <ul>
+            <li>Sua própria agenda</li>
+            <li>Seus pacientes</li>
+            <li>Prontuários clínicos</li>
+            <li>Histórico clínico</li>
+          </ul>
+
+          <h3>Não pode ver</h3>
+          <ul class="denied">
+            <li>Caixa geral</li>
+            <li>Lucro da clínica</li>
+            <li>Contas a pagar</li>
+            <li>Relatórios financeiros gerais</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="admin-panel" id="userFormPanel" style="display: none;">
         <div class="admin-panel-header">
           <div>
-            <h2 id="procedureFormTitle">Novo procedimento</h2>
-            <p>Cadastre ou edite os serviços oferecidos pela clínica.</p>
+            <h2 id="userFormTitle">Novo usuário</h2>
+            <p>Cadastre ou edite um usuário interno.</p>
           </div>
         </div>
 
-        <form class="admin-form" id="procedureForm">
-          <input type="hidden" id="editingProcedureId" />
+        <form class="admin-form" id="userForm">
+          <input type="hidden" id="editingUserId" />
 
           <div class="admin-form-grid">
             <div class="form-group">
-              <label for="procedureName">Nome *</label>
+              <label for="userFullName">Nome completo *</label>
               <input 
                 type="text" 
-                id="procedureName" 
-                placeholder="Ex: Limpeza"
+                id="userFullName" 
+                placeholder="Ex: Ana Recepcionista"
               />
             </div>
 
             <div class="form-group">
-              <label for="procedureCategory">Categoria</label>
+              <label for="userEmail">E-mail *</label>
               <input 
-                type="text" 
-                id="procedureCategory" 
-                placeholder="Ex: Preventivo"
+                type="email" 
+                id="userEmail" 
+                placeholder="ana@clinica.com"
               />
             </div>
 
             <div class="form-group">
-              <label for="procedureDuration">Duração em minutos *</label>
+              <label for="userPhone">Telefone</label>
               <input 
-                type="number" 
-                id="procedureDuration" 
-                placeholder="Ex: 40"
-                min="1"
+                type="text" 
+                id="userPhone" 
+                placeholder="(11) 99999-9999"
               />
             </div>
 
             <div class="form-group">
-              <label for="procedurePrice">Valor *</label>
-              <input 
-                type="number" 
-                id="procedurePrice" 
-                placeholder="Ex: 200"
-                min="0"
-                step="0.01"
-              />
+              <label for="userRole">Perfil *</label>
+              <select id="userRole">
+                <option value="admin">Administrador</option>
+                <option value="receptionist">Recepcionista</option>
+                <option value="dentist">Dentista</option>
+                <option value="financial">Financeiro</option>
+              </select>
+            </div>
+
+            <div class="form-group" id="dentistRelationGroup">
+              <label for="userDentist">Vincular dentista</label>
+              <select id="userDentist">
+                <option value="">Nenhum</option>
+              </select>
             </div>
 
             <div class="form-group">
-              <label for="procedureIcon">Ícone</label>
-              <input 
-                type="text" 
-                id="procedureIcon" 
-                placeholder="Ex: 🦷"
-                maxlength="4"
-              />
-            </div>
-
-            <div class="form-group admin-form-wide">
-              <label for="procedureDescription">Descrição</label>
-              <input 
-                type="text" 
-                id="procedureDescription" 
-                placeholder="Ex: Profilaxia e remoção de tártaro"
-              />
+              <label for="userStatus">Status</label>
+              <select id="userStatus">
+                <option value="active">Ativo</option>
+                <option value="inactive">Inativo</option>
+              </select>
             </div>
           </div>
 
           <div class="admin-form-actions">
-            <button type="button" class="admin-outline-btn" id="cancelProcedureFormButton">
+            <button type="button" class="admin-outline-btn" id="cancelUserFormButton">
               Cancelar
             </button>
 
-            <button type="submit" class="admin-primary-btn" id="saveProcedureButton">
-              Cadastrar procedimento
+            <button type="submit" class="admin-primary-btn" id="saveUserButton">
+              Salvar usuário
             </button>
           </div>
         </form>
       </section>
 
       <section class="admin-panel">
+        <div class="admin-panel-header">
+          <div>
+            <h2>Usuários cadastrados</h2>
+            <p>Lista de acessos internos registrados.</p>
+          </div>
+        </div>
+
         <div class="admin-filter-bar">
           <div class="admin-search-box">
             <input 
               type="text" 
-              id="procedureSearchInput" 
-              placeholder="Buscar procedimento..."
+              id="userSearchInput" 
+              placeholder="Buscar usuário..."
             />
           </div>
 
-          <select id="procedureCategoryFilter">
-            <option value="all">Todas as categorias</option>
+          <select id="userRoleFilter">
+            <option value="all">Todos os perfis</option>
+            <option value="admin">Administrador</option>
+            <option value="receptionist">Recepcionista</option>
+            <option value="dentist">Dentista</option>
+            <option value="financial">Financeiro</option>
           </select>
         </div>
 
@@ -253,25 +322,26 @@
           <table class="admin-table">
             <thead>
               <tr>
-                <th>Procedimento</th>
-                <th>Categoria</th>
-                <th>Duração</th>
-                <th>Valor</th>
+                <th>Usuário</th>
+                <th>E-mail</th>
+                <th>Perfil</th>
+                <th>Dentista vinculado</th>
                 <th>Status</th>
+                <th>Último acesso</th>
                 <th>Ação</th>
               </tr>
             </thead>
 
-            <tbody id="proceduresTable">
+            <tbody id="usersTable">
               <tr>
-                <td colspan="6">Carregando procedimentos...</td>
+                <td colspan="7">Carregando usuários...</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="admin-table-footer">
-          <span id="proceduresCount">Mostrando 0 procedimentos</span>
+          <span id="usersCount">Mostrando 0 usuários</span>
 
           <div class="admin-pagination">
             <button class="ghost" type="button">‹</button>
@@ -289,6 +359,6 @@
   <script src="./scripts/storage.js"></script>
   <script src="./scripts/admin-auth.js"></script>
   <script src="./scripts/admin-clinic-ui.js"></script>
-  <script src="./scripts/admin-procedimentos.js"></script>
+  <script src="./scripts/admin-usuarios.js"></script>
 </body>
 </html>

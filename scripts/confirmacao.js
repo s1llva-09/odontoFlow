@@ -78,6 +78,26 @@ confirmButton.addEventListener("click", async (event) => {
     confirmButton.classList.add("disabled-link")
 
 try {
+    const dentistId = getAppointmentDentistId();
+
+    /*
+      Confere de novo se o horario continua livre.
+      Isso evita conflito caso duas pessoas tentem agendar ao mesmo tempo.
+    */
+    const isStillAvailable = await checkTimeStillAvailable({
+      date: appointment.date,
+      time: appointment.time,
+      dentistId
+    });
+
+    if (!isStillAvailable) {
+      alert("Esse horário acabou de ser ocupado. Escolha outro horário.");
+
+      confirmButton.textContent = "Confirmar agendamento";
+      confirmButton.classList.remove("disabled-link");
+      return;
+    }
+
     /*
       Primeiro criamos o paciente no banco.
     */
@@ -169,6 +189,27 @@ async function createPatient() {
 }
 
 /*
+  Confere no banco se o horario ainda esta livre antes de salvar.
+*/
+async function checkTimeStillAvailable({ date, time, dentistId }) {
+  const { data, error } = await supabaseClient
+    .from("appointments")
+    .select("id")
+    .eq("appointment_date", date)
+    .eq("appointment_time", time)
+    .eq("dentist_id", dentistId)
+    .not("status", "in", "(cancelled_by_patient,cancelled_by_clinic,cancelled)")
+    .limit(1);
+
+  if (error) {
+    console.error("Erro ao validar disponibilidade:", JSON.stringify(error, null, 2));
+    return false;
+  }
+
+  return !data || data.length === 0;
+}
+
+/*
   Cria o agendamento na tabela appointments.
 */
 async function createAppointment(patientId) {
@@ -179,7 +220,7 @@ async function createAppointment(patientId) {
     code: generateAppointmentCode(),
     patient_id: patientId,
     procedure_id: appointment.procedure.id,
-    dentist_id: appointment.dentist.id,
+    dentist_id: getAppointmentDentistId(),
     appointment_date: appointment.date,
     appointment_time: appointment.time,
     status: "requested",
@@ -214,6 +255,10 @@ async function createAppointment(patientId) {
     Retorna o agendamento criado.
   */
   return data;
+}
+
+function getAppointmentDentistId() {
+  return appointment.dentist?.id || appointment.dentist_id;
 }
 
 /*

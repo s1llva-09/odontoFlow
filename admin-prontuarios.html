@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Prontuários</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="admin-page">
+
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-top">
+      <a href="./admin-dashboard.html" class="admin-brand">
+        <span class="admin-brand-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </a>
+
+      <nav class="admin-menu">
+        <a href="./admin-dashboard.html" class="admin-menu-item">
+          <span>▦</span>
+          Dashboard
+        </a>
+
+        <a href="./admin-agenda.html" class="admin-menu-item">
+          <span>▣</span>
+          Agenda
+        </a>
+
+        <a href="./admin-agendamentos.html" class="admin-menu-item">
+          <span>▤</span>
+          Agendamentos
+        </a>
+
+        <a href="./admin-pacientes.html" class="admin-menu-item">
+          <span>♙</span>
+          Pacientes
+        </a>
+
+        <a href="./admin-dentistas.html" class="admin-menu-item">
+          <span>♧</span>
+          Dentistas
+        </a>
+
+        <a href="./admin-procedimentos.html" class="admin-menu-item">
+          <span>▥</span>
+          Procedimentos
+        </a>
+
+        <a href="./admin-prontuarios.html" class="admin-menu-item active">
+          <span>▧</span>
+          Prontuários
+          <strong>›</strong>
+        </a>
+
+        <a href="./admin-orcamentos.html" class="admin-menu-item">
+          <span>▩</span>
+          Orçamentos
+        </a>
+
+        <a href="./admin-financeiro.html" class="admin-menu-item">
+          <span>↗</span>
+          Financeiro
+        </a>
+
+        <a href="./admin-caixa.html" class="admin-menu-item">
+          <span>$</span>
+          Caixa
+        </a>
+
+        <a href="./admin-receber.html" class="admin-menu-item">
+          <span>▭</span>
+          A Receber
+        </a>
+
+        <a href="./admin-pagar.html" class="admin-menu-item">
+          <span>▣</span>
+          A Pagar
+        </a>
+
+        <a href="./admin-relatorios.html" class="admin-menu-item">
+          <span>▥</span>
+          Relatórios
+        </a>
+
+        <a href="./admin-usuarios.html" class="admin-menu-item">
+          <span>♙</span>
+          Usuários
+        </a>
+
+        <a href="./admin-configuracoes.html" class="admin-menu-item">
+          <span>⚙</span>
+          Configurações
+        </a>
+      </nav>
+    </div>
+
+    <div class="admin-sidebar-user">
+      <div class="admin-user-avatar">A</div>
+
+      <div>
+        <strong>Admin Geral</strong>
+        <small>admin@clinica.com</small>
+      </div>
+
+      <button id="logoutButton" title="Sair">↪</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-topbar">
+      <div class="admin-breadcrumb">
+        <span>Clínica OdontoFlow</span>
+        <strong>/ Prontuários</strong>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <label class="admin-search">
+          <span>⌕</span>
+          <input type="text" placeholder="Buscar..." />
+        </label>
+
+        <button class="admin-notification">
+          🔔
+          <span></span>
+        </button>
+
+        <div class="admin-top-avatar">A</div>
+      </div>
+    </header>
+
+    <section class="admin-content">
+
+      <div class="admin-page-title">
+        <div>
+          <h1>Prontuários</h1>
+          <p>Registre e acompanhe o histórico clínico dos pacientes.</p>
+        </div>
+
+        <button class="admin-primary-btn" id="openRecordFormButton">
+          + Novo registro
+        </button>
+      </div>
+
+      <section class="admin-panel" id="recordFormPanel" style="display: none;">
+        <div class="admin-panel-header">
+          <div>
+            <h2 id="recordFormTitle">Novo prontuário</h2>
+            <p>Preencha as informações clínicas do atendimento.</p>
+          </div>
+        </div>
+
+        <form class="admin-form" id="recordForm">
+          <input type="hidden" id="editingRecordId" />
+
+          <div class="admin-form-grid">
+            <div class="form-group">
+              <label for="recordPatient">Paciente *</label>
+              <select id="recordPatient">
+                <option value="">Selecione o paciente</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="recordDentist">Dentista *</label>
+              <select id="recordDentist">
+                <option value="">Selecione o dentista</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="recordDate">Data *</label>
+              <input type="date" id="recordDate" />
+            </div>
+
+            <div class="form-group admin-form-wide">
+              <label for="chiefComplaint">Queixa principal</label>
+              <textarea id="chiefComplaint" placeholder="Ex: Sensibilidade dental e gengiva sangrando"></textarea>
+            </div>
+
+            <div class="form-group admin-form-wide">
+              <label for="clinicalHistory">Histórico clínico</label>
+              <textarea id="clinicalHistory" placeholder="Ex: Paciente sem histórico de doenças sistêmicas"></textarea>
+            </div>
+
+            <div class="form-group admin-form-wide">
+              <label for="diagnosis">Diagnóstico</label>
+              <textarea id="diagnosis" placeholder="Ex: Gengivite leve"></textarea>
+            </div>
+
+            <div class="form-group admin-form-wide">
+              <label for="performedProcedure">Procedimento realizado</label>
+              <textarea id="performedProcedure" placeholder="Ex: Limpeza profissional e orientação de higiene bucal"></textarea>
+            </div>
+
+            <div class="form-group admin-form-wide">
+              <label for="dentistNotes">Observações do dentista</label>
+              <textarea id="dentistNotes" placeholder="Observações internas do atendimento"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="recommendedReturnDays">Retorno recomendado em dias</label>
+              <input type="number" id="recommendedReturnDays" placeholder="Ex: 30" min="0" />
+            </div>
+
+            <div class="form-group">
+              <label for="recordStatus">Status</label>
+              <select id="recordStatus">
+                <option value="completed">Concluído</option>
+                <option value="in_treatment">Em tratamento</option>
+                <option value="follow_up">Retorno</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="admin-form-actions">
+            <button type="button" class="admin-outline-btn" id="cancelRecordFormButton">
+              Cancelar
+            </button>
+
+            <button type="submit" class="admin-primary-btn" id="saveRecordButton">
+              Salvar prontuário
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-panel">
+        <div class="admin-filter-bar">
+          <div class="admin-search-box">
+            <input 
+              type="text" 
+              id="recordSearchInput" 
+              placeholder="Buscar paciente, dentista, procedimento ou diagnóstico..."
+            />
+          </div>
+
+          <select id="recordStatusFilter">
+            <option value="all">Todos os status</option>
+            <option value="completed">Concluído</option>
+            <option value="in_treatment">Em tratamento</option>
+            <option value="follow_up">Retorno</option>
+          </select>
+        </div>
+
+        <div class="admin-table-wrapper">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Dentista</th>
+                <th>Data</th>
+                <th>Procedimento</th>
+                <th>Diagnóstico</th>
+                <th>Status</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+
+            <tbody id="recordsTable">
+              <tr>
+                <td colspan="7">Carregando prontuários...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="admin-table-footer">
+          <span id="recordsCount">Mostrando 0 prontuários</span>
+
+          <div class="admin-pagination">
+            <button class="ghost" type="button">‹</button>
+            <button type="button">1</button>
+            <button class="ghost" type="button">›</button>
+          </div>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <div class="admin-modal-overlay" id="recordModal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <div>
+          <h2 id="modalRecordTitle">Prontuário</h2>
+          <p id="modalRecordSubtitle">-</p>
+        </div>
+
+        <button type="button" id="closeRecordModal">×</button>
+      </div>
+
+      <div class="admin-modal-body">
+        <div class="patient-detail-grid">
+          <div class="patient-detail-card">
+            <span>Paciente</span>
+            <strong id="modalRecordPatient">-</strong>
+          </div>
+
+          <div class="patient-detail-card">
+            <span>Dentista</span>
+            <strong id="modalRecordDentist">-</strong>
+          </div>
+
+          <div class="patient-detail-card">
+            <span>Data</span>
+            <strong id="modalRecordDate">-</strong>
+          </div>
+
+          <div class="patient-detail-card">
+            <span>Status</span>
+            <strong id="modalRecordStatus">-</strong>
+          </div>
+
+          <div class="patient-detail-card">
+            <span>Retorno recomendado</span>
+            <strong id="modalRecordReturn">-</strong>
+          </div>
+        </div>
+
+        <div class="record-detail-list">
+          <div>
+            <span>Queixa principal</span>
+            <p id="modalChiefComplaint">-</p>
+          </div>
+
+          <div>
+            <span>Histórico clínico</span>
+            <p id="modalClinicalHistory">-</p>
+          </div>
+
+          <div>
+            <span>Diagnóstico</span>
+            <p id="modalDiagnosis">-</p>
+          </div>
+
+          <div>
+            <span>Procedimento realizado</span>
+            <p id="modalPerformedProcedure">-</p>
+          </div>
+
+          <div>
+            <span>Observações do dentista</span>
+            <p id="modalDentistNotes">-</p>
+          </div>
+        </div>
+
+        <div class="record-odontogram-placeholder">
+          <strong>🦷 Odontograma</strong>
+          <span>Visualização interativa do odontograma em breve.</span>
+        </div>
+      </div>
+
+      <div class="admin-modal-footer">
+        <button type="button" class="admin-outline-btn" id="closeRecordModalFooter">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/admin-auth.js"></script>
+  <script src="./scripts/admin-clinic-ui.js"></script>
+  <script src="./scripts/admin-prontuarios.js"></script>
+</body>
+</html>

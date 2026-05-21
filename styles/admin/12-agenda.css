@@ -1,0 +1,411 @@
+/* =========================================================
+   AGENDA SEMANAL
+========================================================= */
+
+/* 
+  Barra superior da agenda.
+
+  Junta controle de semana, filtros e botão novo agendamento.
+*/
+.agenda-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+/* 
+  Controle da semana.
+
+  Contém seta anterior, título da semana e seta próxima.
+*/
+.agenda-week-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 
+  Título da semana atual.
+*/
+.agenda-week-control h1 {
+  color: #14213d;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* 
+  Botões de navegação da semana.
+*/
+.agenda-week-control button {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: #14213d;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 
+  Hover das setas.
+*/
+.agenda-week-control button:hover {
+  background: #eaf2ff;
+  color: #1455ff;
+}
+
+/* 
+  Ações da agenda.
+
+  Botões e selects do lado direito.
+*/
+.agenda-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 
+  Botão ativo de visualização.
+*/
+.agenda-view-active {
+  color: #1455ff;
+  border-color: #dbeafe;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.08);
+}
+
+/* 
+  Legenda de status da agenda.
+*/
+.agenda-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 14px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+/* 
+  Item da legenda.
+*/
+.agenda-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 
+  Bolinha da legenda.
+*/
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* 
+  Cores da legenda.
+*/
+.legend-dot.requested {
+  background: #facc15;
+}
+
+.legend-dot.clinic_confirmed {
+  background: #2563eb;
+}
+
+.legend-dot.patient_confirmed {
+  background: #22c55e;
+}
+
+.legend-dot.cancelled {
+  background: #ef4444;
+}
+
+.legend-dot.completed {
+  background: #94a3b8;
+}
+
+/* 
+  Painel da agenda.
+*/
+.agenda-panel {
+  background: #ffffff;
+  border: 1px solid #e7ebf2;
+  border-radius: 16px;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+/* 
+  Grade principal.
+
+  8 colunas:
+  - 1 coluna para horários
+  - 7 colunas para dias da semana
+*/
+.agenda-grid {
+  min-width: 1050px;
+  display: grid;
+  grid-template-columns: 62px repeat(7, 1fr);
+}
+
+/* 
+  Estado de carregamento.
+*/
+.agenda-loading {
+  grid-column: 1 / -1;
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a96ad;
+}
+
+/* 
+  Canto vazio da grade.
+*/
+.agenda-corner {
+  min-height: 72px;
+  border-right: 1px solid #eef2f7;
+  border-bottom: 1px solid #eef2f7;
+  background: #ffffff;
+}
+
+/* 
+  Cabeçalho do dia.
+*/
+.agenda-day-header {
+  min-height: 72px;
+  border-right: 1px solid #eef2f7;
+  border-bottom: 1px solid #eef2f7;
+  background: #ffffff;
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+
+/* 
+  Nome do dia.
+*/
+.agenda-day-header span {
+  color: #8a96ad;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+/* 
+  Número do dia.
+*/
+.agenda-day-header strong {
+  color: #14213d;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* 
+  Dia atual.
+*/
+.agenda-day-header.today {
+  background: #eaf2ff;
+}
+
+/* 
+  Número do dia atual.
+*/
+.agenda-day-header.today strong {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 
+  Célula de horário.
+*/
+.agenda-hour-cell {
+  min-height: 62px;
+  border-right: 1px solid #eef2f7;
+  border-bottom: 1px solid #eef2f7;
+  background: #ffffff;
+  color: #8a96ad;
+  font-size: 12px;
+  padding-top: 12px;
+  text-align: center;
+}
+
+/* 
+  Célula de agendamento.
+*/
+.agenda-slot {
+  min-height: 62px;
+  border-right: 1px solid #eef2f7;
+  border-bottom: 1px solid #eef2f7;
+  background: #ffffff;
+  padding: 5px;
+  position: relative;
+}
+
+/* 
+  Card de agendamento.
+*/
+.agenda-appointment {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 9px;
+  padding: 8px;
+  text-align: left;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  display: grid;
+  gap: 3px;
+}
+
+/* 
+  Nome do paciente no card.
+*/
+.agenda-appointment strong {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* 
+  Procedimento no card.
+*/
+.agenda-appointment span {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* 
+  Status solicitado.
+*/
+.agenda-appointment.requested {
+  background: #fff7d6;
+  border-color: #facc15;
+  color: #9a6700;
+}
+
+/* 
+  Status confirmado pela clínica.
+*/
+.agenda-appointment.clinic_confirmed {
+  background: #dbeafe;
+  border-color: #60a5fa;
+  color: #1455ff;
+}
+
+/* 
+  Status presença confirmada.
+*/
+.agenda-appointment.patient_confirmed {
+  background: #dcfce7;
+  border-color: #4ade80;
+  color: #008236;
+}
+
+/* 
+  Status cancelado.
+*/
+.agenda-appointment.cancelled {
+  background: #ffe8e8;
+  border-color: #fca5a5;
+  color: #ef4444;
+}
+
+/* 
+  Status concluído.
+*/
+.agenda-appointment.completed {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+/* 
+  Responsivo da agenda.
+*/
+@media (max-width: 1200px) {
+  .agenda-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .agenda-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .agenda-actions select,
+  .agenda-actions button {
+    flex: 1;
+  }
+
+  .agenda-panel {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .agenda-week-control h1 {
+    font-size: 18px;
+  }
+
+  .agenda-actions {
+    flex-direction: column;
+  }
+
+  .agenda-actions select,
+  .agenda-actions button {
+    width: 100%;
+  }
+}
+
+/* 
+  OBSERVAÇÕES DO MODAL DA AGENDA
+
+  Caixa usada para mostrar observações enviadas pelo paciente.
+*/
+.agenda-modal-notes {
+  min-height: 72px;
+  background: #f8fafc;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+  padding: 16px;
+  color: #31415f;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 
+  RODAPÉ DO MODAL DA AGENDA
+
+  Deixa os botões alinhados e com quebra em telas pequenas.
+*/
+.agenda-modal-footer {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* 
+  RESPONSIVO DOS BOTÕES DO MODAL DA AGENDA
+*/
+@media (max-width: 640px) {
+  .agenda-modal-footer {
+    flex-direction: column;
+  }
+
+  .agenda-modal-footer button {
+    width: 100%;
+  }
+}
+

@@ -1,0 +1,245 @@
+/* =========================================================
+   CAIXA
+========================================================= */
+
+.cash-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cash-status-badge {
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.cash-status-badge.open {
+  background: #dcfce7;
+  color: #008236;
+}
+
+.cash-status-badge.closed {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.admin-dark-btn,
+.admin-success-btn,
+.admin-danger-btn,
+.admin-warning-btn {
+  min-height: 42px;
+  border: none;
+  border-radius: 12px;
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-dark-btn {
+  background: #334155;
+  color: #ffffff;
+}
+
+.admin-success-btn {
+  background: #22c55e;
+  color: #ffffff;
+}
+
+.admin-danger-btn {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.admin-warning-btn {
+  background: #facc15;
+  color: #14213d;
+}
+
+.admin-dark-btn:hover,
+.admin-success-btn:hover,
+.admin-danger-btn:hover,
+.admin-warning-btn:hover {
+  filter: brightness(0.96);
+}
+
+.cash-summary-grid {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.success-text {
+  color: #00b451 !important;
+}
+
+.danger-text {
+  color: #ef4444 !important;
+}
+
+.primary-text {
+  color: #2563eb !important;
+}
+
+.cash-payment-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.cash-payment-card {
+  background: #ffffff;
+  border: 1px solid #e7ebf2;
+  border-radius: 16px;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.06);
+  padding: 22px;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.cash-payment-card span {
+  font-size: 24px;
+}
+
+.cash-payment-card small {
+  color: #8a96ad;
+  font-size: 13px;
+}
+
+.cash-payment-card strong {
+  color: #14213d;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.cash-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.cash-action-btn {
+  min-height: 42px;
+  border: none;
+  border-radius: 12px;
+  padding: 0 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.cash-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cash-action-btn.income {
+  background: #22c55e;
+}
+
+.cash-action-btn.expense {
+  background: #ef4444;
+}
+
+.cash-action-btn.withdrawal {
+  background: #facc15;
+  color: #14213d;
+}
+
+.cash-action-btn.injection {
+  background: #2563eb;
+}
+
+.admin-modal.small {
+  max-width: 520px;
+}
+
+.cash-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.cash-close-summary {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.cash-close-summary div {
+  display: flex;
+  justify-content: space-between;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.cash-close-summary strong {
+  color: #14213d;
+}
+
+.cash-difference-preview {
+  margin: 12px 0 18px;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+}
+
+.cash-difference-preview.positive {
+  background: #dcfce7;
+  color: #008236;
+}
+
+.cash-difference-preview.negative {
+  background: #ffe8e8;
+  color: #ef4444;
+}
+
+@media (max-width: 1200px) {
+  .cash-summary-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cash-payment-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cash-header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 700px) {
+  .cash-summary-grid,
+  .cash-payment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cash-actions-row {
+    flex-direction: column;
+  }
+
+  .cash-action-btn {
+    width: 100%;
+  }
+
+  .cash-modal-actions {
+    grid-template-columns: 1fr;
+  }
+}
+

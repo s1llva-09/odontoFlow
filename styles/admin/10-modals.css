@@ -1,0 +1,173 @@
+  FUNDO ESCURO DO MODAL
+
+  Cobre a tela inteira quando o modal está aberto.
+*/
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 999;
+}
+
+/* 
+  MODAL ABERTO
+
+  Quando o JS adiciona a classe active,
+  o modal aparece.
+*/
+.admin-modal-overlay.active {
+  display: flex;
+}
+
+/* 
+  CAIXA DO MODAL
+
+  Card principal com os detalhes do paciente.
+*/
+.admin-modal {
+  width: 100%;
+  max-width: 980px;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 
+  CABEÇALHO DO MODAL
+
+  Nome do paciente + botão fechar.
+*/
+.admin-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #eef2f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* 
+  TÍTULO DO MODAL
+*/
+.admin-modal-header h2 {
+  color: #14213d;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+/* 
+  SUBTÍTULO DO MODAL
+*/
+.admin-modal-header p {
+  color: #8a96ad;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* 
+  BOTÃO FECHAR DO MODAL
+*/
+.admin-modal-header button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #14213d;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 
+  CORPO DO MODAL
+
+  Tem scroll interno se o conteúdo for grande.
+*/
+.admin-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+/* 
+  RODAPÉ DO MODAL
+*/
+.admin-modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #eef2f7;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 
+  GRID DOS DADOS DO PACIENTE
+
+  Cards pequenos com telefone, CPF, total gasto etc.
+*/
+.patient-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+/* 
+  CARD DE DETALHE DO PACIENTE
+*/
+.patient-detail-card {
+  background: #f8fafc;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+/* 
+  LABEL DO CARD
+*/
+.patient-detail-card span {
+  display: block;
+  color: #8a96ad;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+/* 
+  VALOR DO CARD
+*/
+.patient-detail-card strong {
+  color: #14213d;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* 
+  SEÇÃO INTERNA DO MODAL
+*/
+.admin-modal-section h3 {
+  color: #14213d;
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+/* 
+  RESPONSIVO DO MODAL
+*/
+@media (max-width: 800px) {
+  .patient-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-modal {
+    max-height: 95vh;
+  }
+}
+
+/* 

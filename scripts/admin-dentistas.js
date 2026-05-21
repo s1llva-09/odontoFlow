@@ -1,93 +1,131 @@
-const logoutButton = document.querySelector("#logoutButton");
-const reloadButton = document.querySelector("#reloadButton");
+/*
+  TELA ADMIN DE DENTISTAS
+
+  Agora o botão de lápis edita o dentista.
+  A ação de ativar/desativar fica em botão separado.
+*/
+
+const isAdminLogged = localStorage.getItem("odontoflow_admin_logged");
+
+if (isAdminLogged !== "true") {
+  window.location.href = "./admin-login.html";
+}
+
+const dentistFormPanel = document.querySelector("#dentistFormPanel");
+const openDentistFormButton = document.querySelector("#openDentistFormButton");
+const cancelDentistFormButton = document.querySelector("#cancelDentistFormButton");
+
 const dentistForm = document.querySelector("#dentistForm");
-const dentistName = document.querySelector("#dentistName");
-const dentistCro = document.querySelector("#dentistCro");
-const dentistSpecialty = document.querySelector("#dentistSpecialty");
-const dentistInitials = document.querySelector("#dentistInitials");
-const dentistColor = document.querySelector("#dentistColor");
-const dentistSearchInput = document.querySelector("#dentistSearchInput");
-const dentistsTable = document.querySelector("#dentistsTable");
+const editingDentistIdInput = document.querySelector("#editingDentistId");
+
+const dentistNameInput = document.querySelector("#dentistName");
+const dentistCroInput = document.querySelector("#dentistCro");
+const dentistSpecialtyInput = document.querySelector("#dentistSpecialty");
+const dentistPhoneInput = document.querySelector("#dentistPhone");
+const dentistDaysInput = document.querySelector("#dentistDays");
+const dentistCommissionInput = document.querySelector("#dentistCommission");
+const dentistInitialsInput = document.querySelector("#dentistInitials");
+const dentistColorSelect = document.querySelector("#dentistColor");
 const saveDentistButton = document.querySelector("#saveDentistButton");
 
-let dentists = [];
+const dentistsTable = document.querySelector("#dentistsTable");
+const dentistsCount = document.querySelector("#dentistsCount");
+const logoutButton = document.querySelector("#logoutButton");
+const dentistSearchInput = document.querySelector("#dentistSearchInput");
 
-protectAdminPage();
-setupLogout();
-loadDentists();
+let allDentists = [];
 
-reloadButton.addEventListener("click", loadDentists);
-dentistSearchInput.addEventListener("input", () => {
-  renderDentists(filterDentists(dentistSearchInput.value));
+logoutButton.addEventListener("click", () => {
+  localStorage.removeItem("odontoflow_admin_logged");
+  window.location.href = "./admin-login.html";
 });
 
-dentistInitials.addEventListener("input", () => {
-  dentistInitials.value = dentistInitials.value.toUpperCase().slice(0, 3);
+openDentistFormButton.addEventListener("click", () => {
+  openCreateDentistForm();
 });
+
+cancelDentistFormButton.addEventListener("click", () => {
+  closeDentistForm();
+});
+
+dentistSearchInput.addEventListener("input", applyFilters);
 
 dentistForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  await saveDentist();
-});
 
-function protectAdminPage() {
-  const isLogged = localStorage.getItem("odontoflow_admin_logged") === "true";
+  const editingDentistId = editingDentistIdInput.value;
 
-  if (!isLogged) {
-    window.location.href = "./admin-login.html";
-  }
-}
-
-function setupLogout() {
-  logoutButton.addEventListener("click", () => {
-    localStorage.removeItem("odontoflow_admin_logged");
-    window.location.href = "./admin-login.html";
-  });
-}
-
-async function saveDentist() {
-  const name = dentistName.value.trim();
-  const specialty = dentistSpecialty.value.trim();
+  const name = dentistNameInput.value.trim();
+  const cro = dentistCroInput.value.trim();
+  const specialty = dentistSpecialtyInput.value.trim();
+  const phone = dentistPhoneInput.value.trim();
+  const days = dentistDaysInput.value.trim();
+  const commission = Number(dentistCommissionInput.value || 0);
+  const initials = dentistInitialsInput.value.trim().toUpperCase();
+  const avatarColor = dentistColorSelect.value;
 
   if (!name || !specialty) {
-    alert("Informe nome e especialidade do dentista.");
+    alert("Preencha nome e especialidade do dentista.");
     return;
   }
 
-  saveDentistButton.textContent = "Salvando...";
+  if (commission < 0 || commission > 100) {
+    alert("A comissão precisa estar entre 0 e 100.");
+    return;
+  }
+
+  saveDentistButton.textContent = editingDentistId ? "Salvando alterações..." : "Salvando...";
   saveDentistButton.disabled = true;
 
   const dentistData = {
     name,
-    cro: dentistCro.value.trim() || null,
+    cro: cro || null,
     specialty,
-    initials: dentistInitials.value.trim() || getInitials(name),
-    avatar_color: dentistColor.value,
-    active: true
+    phone: phone || null,
+    working_days: days || null,
+    commission_percentage: commission || 0,
+    initials: initials || generateInitials(name),
+    avatar_color: avatarColor
   };
 
-  const { error } = await supabaseClient
-    .from("dentists")
-    .insert(dentistData);
+  let result;
 
-  saveDentistButton.textContent = "Cadastrar dentista";
-  saveDentistButton.disabled = false;
+  if (editingDentistId) {
+    result = await supabaseClient
+      .from("dentists")
+      .update(dentistData)
+      .eq("id", editingDentistId);
+  } else {
+    result = await supabaseClient
+      .from("dentists")
+      .insert({
+        ...dentistData,
+        active: true
+      });
+  }
 
-  if (error) {
-    console.error("Erro ao cadastrar dentista:", error);
-    alert("Erro ao cadastrar dentista.");
+  if (result.error) {
+    console.error("Erro ao salvar dentista:", result.error);
+    alert("Erro ao salvar dentista. Verifique o console.");
+
+    saveDentistButton.textContent = editingDentistId ? "Salvar alterações" : "Cadastrar dentista";
+    saveDentistButton.disabled = false;
+
     return;
   }
 
-  dentistForm.reset();
-  dentistColor.value = "blue";
+  closeDentistForm();
   await loadDentists();
-}
+
+  alert(editingDentistId ? "Dentista atualizado com sucesso!" : "Dentista cadastrado com sucesso!");
+});
+
+loadDentists();
 
 async function loadDentists() {
   dentistsTable.innerHTML = `
     <tr>
-      <td colspan="7">Carregando dentistas...</td>
+      <td colspan="8">Carregando dentistas...</td>
     </tr>
   `;
 
@@ -97,126 +135,209 @@ async function loadDentists() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Erro ao carregar dentistas:", error);
+    console.error("Erro ao buscar dentistas:", error);
+
     dentistsTable.innerHTML = `
       <tr>
-        <td colspan="7">Erro ao carregar dentistas.</td>
+        <td colspan="8">Erro ao carregar dentistas.</td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  allDentists = data || [];
+  renderDentists(allDentists);
+}
+
+function applyFilters() {
+  const searchTerm = dentistSearchInput.value.trim().toLowerCase();
+
+  const filteredDentists = allDentists.filter((dentist) => {
+    const name = dentist.name || "";
+    const cro = dentist.cro || "";
+    const specialty = dentist.specialty || "";
+    const phone = dentist.phone || "";
+
+    return (
+      name.toLowerCase().includes(searchTerm) ||
+      cro.toLowerCase().includes(searchTerm) ||
+      specialty.toLowerCase().includes(searchTerm) ||
+      phone.toLowerCase().includes(searchTerm)
+    );
+  });
+
+  renderDentists(filteredDentists);
+}
+
+function renderDentists(dentists) {
+  dentistsCount.textContent = `Mostrando ${dentists.length} de ${allDentists.length} dentistas`;
+
+  if (!dentists.length) {
+    dentistsTable.innerHTML = `
+      <tr>
+        <td colspan="8">Nenhum dentista encontrado.</td>
       </tr>
     `;
     return;
   }
 
-  dentists = data || [];
-  renderDentists(filterDentists(dentistSearchInput.value));
+  dentistsTable.innerHTML = dentists.map((dentist) => {
+    const statusText = dentist.active ? "Ativo" : "Inativo";
+    const statusClass = dentist.active ? "status-active" : "status-inactive";
+    const initials = dentist.initials || generateInitials(dentist.name || "DR");
+
+    const nextStatus = !dentist.active;
+    const statusActionText = dentist.active ? "Desativar" : "Ativar";
+
+    return `
+      <tr>
+        <td>
+          <div class="patient-name-cell">
+            <span class="admin-avatar ${dentist.avatar_color || "blue"}">
+              ${initials}
+            </span>
+            <strong>${dentist.name || "-"}</strong>
+          </div>
+        </td>
+
+        <td>${dentist.cro || "-"}</td>
+        <td>${dentist.specialty || "-"}</td>
+        <td>${dentist.phone || "-"}</td>
+        <td>${dentist.working_days || "-"}</td>
+
+        <td>
+          <strong>${Number(dentist.commission_percentage || 0)}%</strong>
+        </td>
+
+        <td>
+          <span class="status-badge ${statusClass}">
+            ${statusText}
+          </span>
+        </td>
+
+        <td>
+          <div class="table-actions">
+            <button 
+              class="admin-icon-btn" 
+              type="button"
+              title="Editar dentista"
+              onclick="editDentist('${dentist.id}')"
+            >
+              ✎
+            </button>
+
+            <button 
+              class="admin-status-action ${dentist.active ? "danger" : "success"}" 
+              type="button"
+              title="${statusActionText}"
+              onclick="toggleDentistStatus('${dentist.id}', ${nextStatus})"
+            >
+              ${dentist.active ? "Desativar" : "Ativar"}
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
 }
 
-function filterDentists(searchTerm) {
-  const normalizedSearch = normalizeText(searchTerm);
+function openCreateDentistForm() {
+  dentistForm.reset();
+  editingDentistIdInput.value = "";
 
-  if (!normalizedSearch) {
-    return dentists;
+  saveDentistButton.textContent = "Cadastrar dentista";
+
+  dentistFormPanel.style.display = "block";
+  openDentistFormButton.style.display = "none";
+
+  dentistNameInput.focus();
+}
+
+function editDentist(dentistId) {
+  const dentist = allDentists.find((item) => item.id === dentistId);
+
+  if (!dentist) {
+    alert("Dentista não encontrado.");
+    return;
   }
 
-  return dentists.filter((dentist) => {
-    const searchableText = normalizeText([
-      dentist.name,
-      dentist.cro,
-      dentist.specialty
-    ].join(" "));
+  editingDentistIdInput.value = dentist.id;
 
-    return searchableText.includes(normalizedSearch);
+  dentistNameInput.value = dentist.name || "";
+  dentistCroInput.value = dentist.cro || "";
+  dentistSpecialtyInput.value = dentist.specialty || "";
+  dentistPhoneInput.value = dentist.phone || "";
+  dentistDaysInput.value = dentist.working_days || "";
+  dentistCommissionInput.value = dentist.commission_percentage || 0;
+  dentistInitialsInput.value = dentist.initials || "";
+  dentistColorSelect.value = dentist.avatar_color || "blue";
+
+  saveDentistButton.textContent = "Salvar alterações";
+
+  dentistFormPanel.style.display = "block";
+  openDentistFormButton.style.display = "none";
+
+  dentistFormPanel.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
   });
 }
 
-function renderDentists(dentistList) {
-  if (dentistList.length === 0) {
-    dentistsTable.innerHTML = `
-      <tr>
-        <td colspan="7">Nenhum dentista encontrado.</td>
-      </tr>
-    `;
+function closeDentistForm() {
+  dentistForm.reset();
+  editingDentistIdInput.value = "";
+
+  saveDentistButton.textContent = "Cadastrar dentista";
+  saveDentistButton.disabled = false;
+
+  dentistFormPanel.style.display = "none";
+  openDentistFormButton.style.display = "inline-flex";
+}
+
+async function toggleDentistStatus(dentistId, newStatus) {
+  const message = newStatus
+    ? "Deseja ativar este dentista?"
+    : "Deseja desativar este dentista?";
+
+  const confirmAction = confirm(message);
+
+  if (!confirmAction) {
     return;
   }
 
-  dentistsTable.innerHTML = dentistList
-    .map((dentist) => {
-      return `
-        <tr>
-          <td>
-            <span class="admin-avatar ${dentist.avatar_color || "blue"}">
-              ${dentist.initials || getInitials(dentist.name || "DR")}
-            </span>
-          </td>
-          <td>${dentist.name || "-"}</td>
-          <td>${dentist.cro || "-"}</td>
-          <td>${dentist.specialty || "-"}</td>
-          <td>
-            <span class="status-badge ${dentist.active ? "status-active" : "status-inactive"}">
-              ${dentist.active ? "Ativo" : "Inativo"}
-            </span>
-          </td>
-          <td>${formatDateToBR(dentist.created_at)}</td>
-          <td>
-            <div class="table-actions">
-              <button 
-                type="button" 
-                class="table-action-btn ${dentist.active ? "deactivate" : "activate"}"
-                onclick="toggleDentistStatus('${dentist.id}', ${dentist.active ? "false" : "true"})"
-              >
-                ${dentist.active ? "Desativar" : "Ativar"}
-              </button>
-            </div>
-          </td>
-        </tr>
-      `;
-    })
-    .join("");
-}
-
-async function toggleDentistStatus(dentistId, active) {
   const { error } = await supabaseClient
     .from("dentists")
-    .update({ active })
+    .update({
+      active: newStatus
+    })
     .eq("id", dentistId);
 
   if (error) {
-    console.error("Erro ao atualizar dentista:", error);
-    alert("Erro ao atualizar dentista.");
+    console.error("Erro ao alterar status do dentista:", error);
+    alert("Erro ao alterar status do dentista.");
     return;
   }
 
   await loadDentists();
 }
 
-function getInitials(name) {
-  return String(name || "")
+function generateInitials(name) {
+  const ignoredWords = ["dr", "dra", "sr", "sra"];
+
+  const words = String(name)
+    .replaceAll(".", "")
     .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase() || "DR";
-}
+    .filter((word) => word.trim().length > 0)
+    .filter((word) => !ignoredWords.includes(word.toLowerCase()));
 
-function formatDateToBR(date) {
-  if (!date) {
-    return "-";
+  if (words.length === 0) {
+    return "DR";
   }
 
-  const onlyDate = date.split("T")[0];
-  const [year, month, day] = onlyDate.split("-");
-
-  if (!year || !month || !day) {
-    return date;
+  if (words.length === 1) {
+    return words[0].substring(0, 2).toUpperCase();
   }
 
-  return `${day}/${month}/${year}`;
-}
-
-function normalizeText(value) {
-  return String(value || "")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .trim();
+  return `${words[0][0]}${words[words.length - 1][0]}`.toUpperCase();
 }

@@ -1,0 +1,158 @@
+/* =========================================================
+   LOGIN ADMIN
+========================================================= */
+
+/*
+  Tela de login da area administrativa.
+  Ela nao usa .admin-page, entao precisa das proprias regras.
+*/
+.admin-login-page {
+  min-height: 100vh;
+  background: #1f2125;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+}
+
+.admin-login-page a {
+  text-decoration: none;
+}
+
+/*
+  Centraliza o card de login no meio da tela.
+*/
+.admin-login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/*
+  Card principal do login.
+*/
+.admin-login-card {
+  width: 100%;
+  max-width: 430px;
+  background: #0f0f10;
+  border: 1px solid #3a3d44;
+  border-radius: 20px;
+  padding: 34px;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
+}
+
+/*
+  Marca do login.
+*/
+.admin-login-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.admin-login-brand span {
+  line-height: 1;
+}
+
+/*
+  Botao de voltar para o site.
+*/
+.admin-login-back {
+  width: fit-content;
+  min-height: 34px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-top: 14px;
+  padding: 0 10px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.admin-login-back:hover {
+  background: #202329;
+}
+
+/*
+  Logo no topo do card.
+*/
+.admin-login-logo {
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+/*
+  Titulo e subtitulo do login.
+*/
+.admin-login-title,
+.admin-login-heading {
+  margin-bottom: 26px;
+}
+
+.admin-login-title h1,
+.admin-login-heading h1 {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.admin-login-title p,
+.admin-login-heading p {
+  color: #9fb9e8;
+  font-size: 15px;
+}
+
+/*
+  Formulario do login.
+*/
+.admin-login-form {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-login-form .form-group label {
+  color: #ffffff;
+}
+
+.admin-login-form .form-group input {
+  background: #273142;
+  border-color: #7c8aa5;
+  color: #ffffff;
+}
+
+.admin-login-form .form-group input:focus {
+  background: #273142;
+  border-color: #9fb9e8;
+}
+
+.admin-login-button,
+.admin-login-form .admin-primary-btn {
+  width: 100%;
+  margin-top: 6px;
+}
+
+.admin-login-test,
+.admin-login-help {
+  margin-top: 10px;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.admin-login-help {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+

@@ -1,0 +1,168 @@
+/* =========================================================
+   ÁREA PRINCIPAL
+========================================================= */
+
+/* 
+  Área que recebe topbar e conteúdo.
+*/
+.admin-main {
+  min-width: 0;
+  background: #f6f8fb;
+}
+
+/* 
+  Topbar branca superior.
+*/
+.admin-topbar {
+  height: 65px;
+  background: #ffffff;
+  border-bottom: 1px solid #e7ebf2;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 
+  Breadcrumb no topo.
+*/
+.admin-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #8a96ad;
+  font-size: 14px;
+}
+
+/* 
+  Página atual no breadcrumb.
+*/
+.admin-breadcrumb strong {
+  color: #14213d;
+  font-weight: 800;
+}
+
+/* 
+  Ações da topbar:
+  busca, sino e avatar.
+*/
+.admin-topbar-actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* 
+  Campo de busca do topo.
+*/
+.admin-search {
+  width: 210px;
+  height: 39px;
+  background: #f8fafc;
+  border: 1px solid #dce3ee;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  color: #8a96ad;
+}
+
+/* 
+  Input da busca.
+*/
+.admin-search input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  color: #14213d;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+/* 
+  Placeholder da busca.
+*/
+.admin-search input::placeholder {
+  color: #8a96ad;
+}
+
+/* 
+  Botão do sino.
+*/
+.admin-notification {
+  width: 34px;
+  height: 34px;
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* 
+  Bolinha vermelha de notificação.
+*/
+.admin-notification span {
+  position: absolute;
+  top: 6px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  background: #ef4444;
+  border-radius: 50%;
+}
+
+/* 
+  Avatar no topo.
+*/
+.admin-top-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+/* 
+  Conteúdo interno de cada página.
+*/
+.admin-content {
+  padding: 24px;
+}
+
+/* 
+  Título principal da página.
+*/
+.admin-page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+/* 
+  Texto do título.
+*/
+.admin-page-title h1 {
+  color: #14213d;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* 
+  Subtítulo opcional.
+*/
+.admin-page-title p {
+  color: #8a96ad;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+

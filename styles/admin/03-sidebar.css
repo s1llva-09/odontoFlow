@@ -1,0 +1,185 @@
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+/* 
+  Sidebar fixa na esquerda.
+  Contém logo, menu e usuário logado no rodapé.
+*/
+.admin-sidebar {
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #e7ebf2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+}
+
+/* 
+  Parte superior da sidebar:
+  logo + menu.
+*/
+.admin-sidebar-top {
+  padding: 18px 12px;
+}
+
+/* 
+  Logo/marca OdontoFlow no painel admin.
+*/
+.admin-brand {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 6px;
+  margin-bottom: 22px;
+  color: #2563eb;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+/* 
+  Ícone azul da logo.
+*/
+.admin-brand-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+/* 
+  Menu lateral.
+*/
+.admin-menu {
+  display: grid;
+  gap: 4px;
+}
+
+/* 
+  Item do menu lateral.
+*/
+.admin-menu-item {
+  min-height: 41px;
+  padding: 0 12px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #14213d;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* 
+  Ícone do menu.
+  Mantém largura fixa para alinhar os textos.
+*/
+.admin-menu-item span {
+  width: 18px;
+  color: #94a3b8;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* 
+  Seta opcional no menu.
+*/
+.admin-menu-item strong {
+  margin-left: auto;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* 
+  Hover do item do menu.
+*/
+.admin-menu-item:hover {
+  background: #f3f7ff;
+  color: #2563eb;
+}
+
+/* 
+  Item ativo do menu.
+*/
+.admin-menu-item.active {
+  background: #eaf2ff;
+  color: #1455ff;
+  font-weight: 700;
+}
+
+/* 
+  Ícone do item ativo.
+*/
+.admin-menu-item.active span {
+  color: #1455ff;
+}
+
+/* 
+  Usuário fixo no rodapé da sidebar.
+*/
+.admin-sidebar-user {
+  min-height: 66px;
+  padding: 12px 14px;
+  border-top: 1px solid #eef2f7;
+  display: grid;
+  grid-template-columns: 38px 1fr 28px;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 
+  Avatar do usuário na sidebar.
+*/
+.admin-user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+/* 
+  Nome do usuário.
+*/
+.admin-sidebar-user strong {
+  display: block;
+  color: #14213d;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+/* 
+  E-mail do usuário.
+*/
+.admin-sidebar-user small {
+  display: block;
+  color: #7c8aa5;
+  font-size: 12px;
+}
+
+/* 
+  Botão de sair.
+*/
+.admin-sidebar-user button {
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+

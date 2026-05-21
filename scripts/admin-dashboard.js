@@ -1,53 +1,71 @@
 /*
-  Dashboard da clinica.
+  ADMIN DASHBOARD
 
-  Esta tela usa os dados reais do Supabase para:
-  - atualizar os cards principais;
-  - montar o grafico de faturamento dos ultimos 6 meses;
-  - montar a rosca de status dos agendamentos;
-  - listar os proximos agendamentos.
+  Essa tela resume os dados principais da clínica:
+  - agendamentos
+  - pacientes
+  - financeiro
+  - contas a receber/pagar
+  - gráficos reais com Chart.js
 */
 
-const isAdminLogged = localStorage.getItem("odontoflow_admin_logged");
+const refreshDashboardButton = document.querySelector("#refreshDashboardButton");
 
-if (isAdminLogged !== "true") {
-  window.location.href = "./admin-login.html";
-}
+const todayAppointmentsText = document.querySelector("#todayAppointmentsText");
+const todayAppointmentsSmall = document.querySelector("#todayAppointmentsSmall");
+const pendingAppointmentsText = document.querySelector("#pendingAppointmentsText");
+const patientsTotalText = document.querySelector("#patientsTotalText");
+const monthIncomeText = document.querySelector("#monthIncomeText");
+const receivableDashboardText = document.querySelector("#receivableDashboardText");
+const payableDashboardText = document.querySelector("#payableDashboardText");
+const cancelledAppointmentsText = document.querySelector("#cancelledAppointmentsText");
+const confirmedPresenceText = document.querySelector("#confirmedPresenceText");
 
-const todayAppointments = document.querySelector("#todayAppointments");
-const pendingAppointments = document.querySelector("#pendingAppointments");
-const confirmedAppointments = document.querySelector("#confirmedAppointments");
-const totalPatients = document.querySelector("#totalPatients");
-const estimatedRevenue = document.querySelector("#estimatedRevenue");
-const cancelledAppointments = document.querySelector("#cancelledAppointments");
-const dashboardReceivable = document.querySelector("#dashboardReceivable");
-const dashboardPayable = document.querySelector("#dashboardPayable");
+const nextAppointmentsTable = document.querySelector("#nextAppointmentsTable");
+const financialAlertsList = document.querySelector("#financialAlertsList");
 
-const statusConfirmedCount = document.querySelector("#statusConfirmedCount");
-const statusRequestedCount = document.querySelector("#statusRequestedCount");
-const statusCompletedCount = document.querySelector("#statusCompletedCount");
-const statusCancelledCount = document.querySelector("#statusCancelledCount");
+let allAppointments = [];
+let allPatients = [];
+let allTransactions = [];
+let allReceivables = [];
+let allPayables = [];
 
-/*
-  Elementos dos graficos dinamicos.
+let dashboardIncomeChart = null;
+let dashboardStatusChart = null;
 
-  O HTML deixa apenas os containers vazios.
-  O JavaScript busca os dados no Supabase e monta o visual dentro deles.
-*/
-const monthlyRevenueChart = document.querySelector("#monthlyRevenueChart");
-const appointmentsStatusChart = document.querySelector("#appointmentsStatusChart");
-const recentAppointmentsTable = document.querySelector("#recentAppointmentsTable");
-const logoutButton = document.querySelector("#logoutButton");
+refreshDashboardButton.addEventListener("click", async () => {
+  refreshDashboardButton.textContent = "Atualizando...";
+  refreshDashboardButton.disabled = true;
 
-logoutButton?.addEventListener("click", () => {
-  localStorage.removeItem("odontoflow_admin_logged");
-  window.location.href = "./admin-login.html";
+  await loadDashboardPage();
+
+  refreshDashboardButton.textContent = "Atualizar dados";
+  refreshDashboardButton.disabled = false;
 });
 
-loadDashboard();
+loadDashboardPage();
 
-async function loadDashboard() {
-  const { data: appointments, error: appointmentsError } = await supabaseClient
+async function loadDashboardPage() {
+  await Promise.all([
+    loadAppointments(),
+    loadPatients(),
+    loadTransactions(),
+    loadReceivables(),
+    loadPayables()
+  ]);
+
+  renderDashboardCards();
+  renderIncomeChart();
+  renderStatusChart();
+  renderNextAppointments();
+  renderFinancialAlerts();
+}
+
+/*
+  Busca agendamentos com dados relacionados.
+*/
+async function loadAppointments() {
+  const { data, error } = await supabaseClient
     .from("appointments")
     .select(`
       *,
@@ -58,274 +76,303 @@ async function loadDashboard() {
     .order("appointment_date", { ascending: true })
     .order("appointment_time", { ascending: true });
 
-  if (appointmentsError) {
-    console.error("Erro ao buscar agendamentos:", appointmentsError);
-
-    recentAppointmentsTable.innerHTML = `
-      <tr>
-        <td colspan="6">Erro ao carregar agendamentos.</td>
-      </tr>
-    `;
-
+  if (error) {
+    console.error("Erro ao buscar agendamentos:", JSON.stringify(error, null, 2));
+    allAppointments = [];
     return;
   }
 
-  const { count: patientsCount, error: patientsError } = await supabaseClient
-    .from("patients")
-    .select("*", { count: "exact", head: true });
-
-  if (patientsError) {
-    console.error("Erro ao contar pacientes:", patientsError);
-  }
-
-  const { data: transactions, error: transactionsError } = await supabaseClient
-    .from("financial_transactions")
-    .select("*");
-
-  if (transactionsError) {
-    console.warn("Financeiro ainda indisponivel na dashboard:", transactionsError);
-  }
-
-  const safeAppointments = appointments || [];
-  const safeTransactions = transactions || [];
-
-  /*
-    Atualiza tudo depois que os dados chegam:
-    - cards numericos;
-    - grafico de barras;
-    - grafico de rosca;
-    - tabela de proximos agendamentos.
-  */
-  updateDashboardCards(safeAppointments, patientsCount || 0, safeTransactions);
-  renderMonthlyRevenueChart(safeAppointments);
-  renderStatusDonut(getStatusCounts(safeAppointments));
-  renderRecentAppointments(safeAppointments);
+  allAppointments = data || [];
 }
 
-function updateDashboardCards(appointments, patientsCount, transactions) {
-  const today = getTodayDate();
-  const currentMonth = today.slice(0, 7);
-  const statusCounts = getStatusCounts(appointments);
+/*
+  Busca pacientes.
+*/
+async function loadPatients() {
+  const { data, error } = await supabaseClient
+    .from("patients")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-  /*
-    Conta somente consultas marcadas para hoje.
-    appointment_date ja vem do banco no formato YYYY-MM-DD.
-  */
-  const todayList = appointments.filter((appointment) => {
+  if (error) {
+    console.error("Erro ao buscar pacientes:", JSON.stringify(error, null, 2));
+    allPatients = [];
+    return;
+  }
+
+  allPatients = data || [];
+}
+
+/*
+  Busca movimentações financeiras.
+*/
+async function loadTransactions() {
+  const { data, error } = await supabaseClient
+    .from("financial_transactions")
+    .select("*")
+    .order("transaction_date", { ascending: true });
+
+  if (error) {
+    console.error("Erro ao buscar financeiro:", JSON.stringify(error, null, 2));
+    allTransactions = [];
+    return;
+  }
+
+  allTransactions = data || [];
+}
+
+/*
+  Busca contas a receber.
+*/
+async function loadReceivables() {
+  const { data, error } = await supabaseClient
+    .from("accounts_receivable")
+    .select("*")
+    .order("due_date", { ascending: true });
+
+  if (error) {
+    console.error("Erro ao buscar A Receber:", JSON.stringify(error, null, 2));
+    allReceivables = [];
+    return;
+  }
+
+  allReceivables = data || [];
+}
+
+/*
+  Busca contas a pagar.
+*/
+async function loadPayables() {
+  const { data, error } = await supabaseClient
+    .from("accounts_payable")
+    .select("*")
+    .order("due_date", { ascending: true });
+
+  if (error) {
+    console.error("Erro ao buscar A Pagar:", JSON.stringify(error, null, 2));
+    allPayables = [];
+    return;
+  }
+
+  allPayables = data || [];
+}
+
+/*
+  Renderiza cards do topo.
+*/
+function renderDashboardCards() {
+  const today = getTodayDate();
+  const { startDate, endDate } = getCurrentMonthRange();
+
+  const todayAppointments = allAppointments.filter((appointment) => {
     return appointment.appointment_date === today;
   });
 
-  /*
-    Faturamento do mes atual.
-    Cancelamentos nao entram nessa soma.
-  */
-  const revenue = appointments.reduce((total, appointment) => {
-    const appointmentMonth = appointment.appointment_date?.slice(0, 7);
-
-    if (isCancelledAppointment(appointment) || appointmentMonth !== currentMonth) {
-      return total;
-    }
-
-    return total + getAppointmentPrice(appointment);
-  }, 0);
-
-  /*
-    A receber ainda e um resumo simples:
-    soma solicitados e confirmados, porque esses valores ainda podem entrar.
-  */
-  const receivable = appointments.reduce((total, appointment) => {
-    const canReceive = [
-      "requested",
-      "clinic_confirmed",
-      "patient_confirmed"
-    ].includes(appointment.status);
-
-    if (!canReceive) {
-      return total;
-    }
-
-    return total + getAppointmentPrice(appointment);
-  }, 0);
-
-  /*
-    A pagar vem das movimentacoes financeiras cadastradas como despesa.
-  */
-  const payable = transactions
-    .filter((transaction) => transaction.type === "expense")
-    .reduce((total, transaction) => {
-      return total + Number(transaction.amount || 0);
-    }, 0);
-
-  /*
-    Cancelamentos exibidos no card:
-    conta apenas cancelamentos do mes atual.
-  */
-  const cancelledThisMonth = appointments.filter((appointment) => {
-    const appointmentMonth = appointment.appointment_date?.slice(0, 7);
-
-    return isCancelledAppointment(appointment) && appointmentMonth === currentMonth;
+  const pendingAppointments = allAppointments.filter((appointment) => {
+    return appointment.status === "requested";
   });
 
-  setText(todayAppointments, todayList.length);
-  setText(pendingAppointments, statusCounts.requested);
-  setText(confirmedAppointments, statusCounts.confirmed);
-  setText(totalPatients, patientsCount);
-  setText(estimatedRevenue, formatMoney(revenue));
-  setText(cancelledAppointments, cancelledThisMonth.length);
-  setText(dashboardReceivable, formatMoney(receivable));
-  setText(dashboardPayable, formatMoney(payable));
+  const monthAppointments = allAppointments.filter((appointment) => {
+    return appointment.appointment_date >= startDate && appointment.appointment_date <= endDate;
+  });
 
-  setText(statusConfirmedCount, statusCounts.confirmed);
-  setText(statusRequestedCount, statusCounts.requested);
-  setText(statusCompletedCount, statusCounts.completed);
-  setText(statusCancelledCount, statusCounts.cancelled);
+  const cancelledAppointments = monthAppointments.filter((appointment) => {
+    return [
+      "cancelled",
+      "cancelled_by_patient",
+      "cancelled_by_clinic",
+      "no_show"
+    ].includes(appointment.status);
+  });
+
+  const confirmedPresence = todayAppointments.filter((appointment) => {
+    return appointment.status === "patient_confirmed";
+  });
+
+  const monthIncome = allTransactions
+    .filter((transaction) => {
+      return transaction.transaction_date >= startDate && transaction.transaction_date <= endDate;
+    })
+    .filter((transaction) => {
+      return ["income", "cash_injection"].includes(transaction.type);
+    })
+    .reduce((sum, transaction) => {
+      return sum + Number(transaction.amount || 0);
+    }, 0);
+
+  const receivablePending = allReceivables
+    .filter((item) => item.status === "pending")
+    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+
+  const payablePending = allPayables
+    .filter((item) => item.status === "pending")
+    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+
+  todayAppointmentsText.textContent = todayAppointments.length;
+  todayAppointmentsSmall.textContent = todayAppointments.length === 1
+    ? "1 consulta para hoje"
+    : `${todayAppointments.length} consultas para hoje`;
+
+  pendingAppointmentsText.textContent = pendingAppointments.length;
+  patientsTotalText.textContent = allPatients.length;
+  monthIncomeText.textContent = formatCurrency(monthIncome);
+  receivableDashboardText.textContent = formatCurrency(receivablePending);
+  payableDashboardText.textContent = formatCurrency(payablePending);
+  cancelledAppointmentsText.textContent = cancelledAppointments.length;
+  confirmedPresenceText.textContent = confirmedPresence.length;
 }
 
-function renderMonthlyRevenueChart(appointments) {
-  if (!monthlyRevenueChart) {
-    return;
-  }
-
-  /*
-    Gera os ultimos 6 meses em ordem cronologica.
-    Cada mes recebe uma key no formato YYYY-MM para comparar com appointment_date.
-  */
+/*
+  Gráfico de faturamento dos últimos 6 meses.
+*/
+function renderIncomeChart() {
   const months = getLastMonths(6);
 
-  /*
-    Para cada mes, soma o valor dos procedimentos daquele periodo.
-    Agendamentos cancelados ficam fora do faturamento.
-  */
-  const revenueByMonth = months.map((month) => {
-    const total = appointments.reduce((sum, appointment) => {
-      const appointmentMonth = appointment.appointment_date?.slice(0, 7);
+  const incomeByMonth = {};
 
-      if (isCancelledAppointment(appointment) || appointmentMonth !== month.key) {
-        return sum;
-      }
-
-      return sum + getAppointmentPrice(appointment);
-    }, 0);
-
-    return {
-      ...month,
-      total
-    };
+  months.forEach((month) => {
+    incomeByMonth[month.key] = 0;
   });
 
-  /*
-    A maior receita vira a barra de 100%.
-    As outras barras usam porcentagem proporcional a ela.
-  */
-  const maxRevenue = Math.max(...revenueByMonth.map((month) => month.total), 0);
+  allTransactions
+    .filter((transaction) => ["income", "cash_injection"].includes(transaction.type))
+    .forEach((transaction) => {
+      const monthKey = transaction.transaction_date?.slice(0, 7);
 
-  monthlyRevenueChart.innerHTML = revenueByMonth.map((month) => {
-    /*
-      Mesmo com valor zero, deixamos altura minima de 6%.
-      Isso evita que o grafico pareca quebrado quando um mes nao faturou.
-    */
-    const height = maxRevenue > 0 ? Math.max((month.total / maxRevenue) * 100, 6) : 6;
-
-    return `
-      <div class="fake-bar-item" title="${month.label}: ${formatMoney(month.total)}">
-        <span class="fake-bar-value">${formatShortMoney(month.total)}</span>
-
-        <div class="fake-bar-track">
-          <div class="fake-bar" style="height: ${height}%;"></div>
-        </div>
-
-        <small>${month.shortLabel}</small>
-      </div>
-    `;
-  }).join("");
-}
-
-function renderStatusDonut(statusCounts) {
-  if (!appointmentsStatusChart) {
-    return;
-  }
-
-  /*
-    Cada item representa uma fatia da rosca:
-    confirmado, solicitado, concluido e cancelado.
-  */
-  const slices = [
-    { value: statusCounts.confirmed, color: "#2563eb" },
-    { value: statusCounts.requested, color: "#facc15" },
-    { value: statusCounts.completed, color: "#22c55e" },
-    { value: statusCounts.cancelled, color: "#ef4444" }
-  ];
-
-  const total = slices.reduce((sum, slice) => sum + slice.value, 0);
-
-  /*
-    Sem dados, a rosca fica cinza para indicar estado vazio.
-  */
-  if (total === 0) {
-    appointmentsStatusChart.style.background = "#e2e8f0";
-    appointmentsStatusChart.title = "Nenhum agendamento encontrado";
-    return;
-  }
-
-  let currentPercentage = 0;
-
-  /*
-    Monta o conic-gradient de forma acumulada.
-    Exemplo final: azul 0% 40%, amarelo 40% 60%, ...
-  */
-  const gradientParts = slices
-    .filter((slice) => slice.value > 0)
-    .map((slice) => {
-      const start = currentPercentage;
-      const end = currentPercentage + (slice.value / total) * 100;
-
-      currentPercentage = end;
-
-      return `${slice.color} ${start}% ${end}%`;
+      if (incomeByMonth[monthKey] !== undefined) {
+        incomeByMonth[monthKey] += Number(transaction.amount || 0);
+      }
     });
 
-  appointmentsStatusChart.style.background = `conic-gradient(${gradientParts.join(", ")})`;
-  appointmentsStatusChart.title = `${total} agendamento(s) no resumo`;
+  const ctx = document.querySelector("#dashboardIncomeChart");
+
+  if (dashboardIncomeChart) {
+    dashboardIncomeChart.destroy();
+  }
+
+  dashboardIncomeChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: months.map((month) => month.label),
+      datasets: [
+        {
+          label: "Faturamento",
+          data: months.map((month) => incomeByMonth[month.key]),
+          borderColor: "#2563eb",
+          backgroundColor: "rgba(37, 99, 235, 0.12)",
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4
+        }
+      ]
+    },
+    options: getMoneyChartOptions()
+  });
 }
 
-function renderRecentAppointments(appointments) {
-  if (!appointments.length) {
-    recentAppointmentsTable.innerHTML = `
+/*
+  Gráfico de status dos agendamentos do mês.
+*/
+function renderStatusChart() {
+  const { startDate, endDate } = getCurrentMonthRange();
+
+  const monthAppointments = allAppointments.filter((appointment) => {
+    return appointment.appointment_date >= startDate && appointment.appointment_date <= endDate;
+  });
+
+  const grouped = {};
+
+  monthAppointments.forEach((appointment) => {
+    const status = translateAppointmentStatus(appointment.status);
+
+    if (!grouped[status]) {
+      grouped[status] = 0;
+    }
+
+    grouped[status] += 1;
+  });
+
+  const labels = Object.keys(grouped);
+  const data = Object.values(grouped);
+
+  const ctx = document.querySelector("#dashboardStatusChart");
+
+  if (dashboardStatusChart) {
+    dashboardStatusChart.destroy();
+  }
+
+  dashboardStatusChart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels,
+      datasets: [
+        {
+          data,
+          backgroundColor: [
+            "#2563eb",
+            "#facc15",
+            "#22c55e",
+            "#ef4444",
+            "#8b5cf6",
+            "#94a3b8"
+          ]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            color: "#94a3b8"
+          }
+        }
+      }
+    }
+  });
+}
+
+/*
+  Lista próximos agendamentos.
+*/
+function renderNextAppointments() {
+  const today = getTodayDate();
+
+  const nextAppointments = allAppointments
+    .filter((appointment) => {
+      return appointment.appointment_date >= today;
+    })
+    .filter((appointment) => {
+      return ![
+        "cancelled",
+        "cancelled_by_patient",
+        "cancelled_by_clinic"
+      ].includes(appointment.status);
+    })
+    .slice(0, 6);
+
+  if (!nextAppointments.length) {
+    nextAppointmentsTable.innerHTML = `
       <tr>
-        <td colspan="6">Nenhum agendamento encontrado.</td>
+        <td colspan="6">Nenhum agendamento futuro encontrado.</td>
       </tr>
     `;
-
     return;
   }
 
-  const today = getTodayDate();
-
-  /*
-    A tabela da dashboard prioriza proximos agendamentos ativos.
-    Se nao existir nenhum proximo, ela mostra os primeiros registros retornados.
-  */
-  const upcomingAppointments = appointments.filter((appointment) => {
-    return (
-      appointment.appointment_date >= today &&
-      !isCancelledAppointment(appointment) &&
-      appointment.status !== "completed"
-    );
-  });
-
-  const recent = (upcomingAppointments.length ? upcomingAppointments : appointments).slice(0, 6);
-
-  recentAppointmentsTable.innerHTML = recent.map((appointment) => {
+  nextAppointmentsTable.innerHTML = nextAppointments.map((appointment) => {
     return `
       <tr>
-        <td>${appointment.patients?.full_name || "-"}</td>
+        <td>${appointment.patients?.full_name || appointment.patient_name || "-"}</td>
         <td>${appointment.procedures?.name || "-"}</td>
         <td>${appointment.dentists?.name || "-"}</td>
         <td>${formatDateToBR(appointment.appointment_date)}</td>
-        <td>${appointment.appointment_time?.slice(0, 5) || "-"}</td>
+        <td>${formatTime(appointment.appointment_time)}</td>
         <td>
-          <span class="status-badge status-${appointment.status}">
-            ${translateStatus(appointment.status)}
+          <span class="status-badge ${getAppointmentStatusClass(appointment.status)}">
+            ${translateAppointmentStatus(appointment.status)}
           </span>
         </td>
       </tr>
@@ -333,180 +380,223 @@ function renderRecentAppointments(appointments) {
   }).join("");
 }
 
-function getStatusCounts(appointments) {
-  /*
-    Agrupa os status tecnicos do banco nos quatro grupos mostrados no grafico.
-  */
-  return appointments.reduce((counts, appointment) => {
-    if (appointment.status === "requested") {
-      counts.requested += 1;
-      return counts;
-    }
+/*
+  Alertas financeiros.
+*/
+function renderFinancialAlerts() {
+  const today = getTodayDate();
+  const limitDate = addDaysToDate(today, 3);
 
-    if (
-      appointment.status === "clinic_confirmed" ||
-      appointment.status === "patient_confirmed"
-    ) {
-      counts.confirmed += 1;
-      return counts;
-    }
-
-    if (appointment.status === "completed") {
-      counts.completed += 1;
-      return counts;
-    }
-
-    if (isCancelledAppointment(appointment)) {
-      counts.cancelled += 1;
-    }
-
-    return counts;
-  }, {
-    confirmed: 0,
-    requested: 0,
-    completed: 0,
-    cancelled: 0
+  const overdueReceivables = allReceivables.filter((item) => {
+    return item.status === "pending" && item.due_date < today;
   });
+
+  const dueSoonReceivables = allReceivables.filter((item) => {
+    return item.status === "pending" && item.due_date >= today && item.due_date <= limitDate;
+  });
+
+  const overduePayables = allPayables.filter((item) => {
+    return item.status === "pending" && item.due_date < today;
+  });
+
+  const dueSoonPayables = allPayables.filter((item) => {
+    return item.status === "pending" && item.due_date >= today && item.due_date <= limitDate;
+  });
+
+  const alerts = [
+    ...overdueReceivables.map((item) => ({
+      type: "danger",
+      title: "Conta a receber vencida",
+      description: `${item.description || "Cobrança"} — ${formatCurrency(item.amount)}`
+    })),
+
+    ...dueSoonReceivables.map((item) => ({
+      type: "warning",
+      title: "Conta a receber próxima",
+      description: `${item.description || "Cobrança"} — vence em ${formatDateToBR(item.due_date)}`
+    })),
+
+    ...overduePayables.map((item) => ({
+      type: "danger",
+      title: "Conta a pagar vencida",
+      description: `${item.description || "Despesa"} — ${formatCurrency(item.amount)}`
+    })),
+
+    ...dueSoonPayables.map((item) => ({
+      type: "warning",
+      title: "Conta a pagar próxima",
+      description: `${item.description || "Despesa"} — vence em ${formatDateToBR(item.due_date)}`
+    }))
+  ].slice(0, 8);
+
+  if (!alerts.length) {
+    financialAlertsList.innerHTML = `
+      <div class="dashboard-alert empty">
+        <strong>Nenhum alerta financeiro</strong>
+        <span>Não há contas vencidas ou próximas do vencimento.</span>
+      </div>
+    `;
+    return;
+  }
+
+  financialAlertsList.innerHTML = alerts.map((alert) => {
+    return `
+      <div class="dashboard-alert ${alert.type}">
+        <strong>${alert.title}</strong>
+        <span>${alert.description}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+/*
+  Utilidades.
+*/
+function getTodayDate() {
+  return new Date().toISOString().split("T")[0];
+}
+
+function getCurrentMonthRange() {
+  const today = new Date();
+
+  const start = new Date(today.getFullYear(), today.getMonth(), 1);
+  const end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  return {
+    startDate: formatDateToDatabase(start),
+    endDate: formatDateToDatabase(end)
+  };
 }
 
 function getLastMonths(totalMonths) {
-  /*
-    Cria labels e keys dos meses.
-    key: usada no calculo.
-    label/shortLabel: usadas no grafico.
-  */
-  const formatter = new Intl.DateTimeFormat("pt-BR", {
-    month: "short"
-  });
-
-  const fullFormatter = new Intl.DateTimeFormat("pt-BR", {
-    month: "long",
-    year: "numeric"
-  });
-
-  const today = new Date();
   const months = [];
+  const today = new Date();
 
-  for (let index = totalMonths - 1; index >= 0; index -= 1) {
+  for (let index = totalMonths - 1; index >= 0; index--) {
     const date = new Date(today.getFullYear(), today.getMonth() - index, 1);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const shortLabel = formatter.format(date).replace(".", "");
-    const label = fullFormatter.format(date);
 
     months.push({
-      key: `${year}-${month}`,
-      shortLabel: capitalizeFirstLetter(shortLabel),
-      label: capitalizeFirstLetter(label)
+      key: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`,
+      label: date.toLocaleDateString("pt-BR", {
+        month: "short"
+      })
     });
   }
 
   return months;
 }
 
-function getAppointmentPrice(appointment) {
-  /*
-    O preco do atendimento vem da tabela procedures relacionada ao agendamento.
-  */
-  return Number(appointment.procedures?.price || 0);
+function addDaysToDate(dateString, days) {
+  const [year, month, day] = dateString.split("-");
+
+  const date = new Date(Number(year), Number(month) - 1, Number(day));
+  date.setDate(date.getDate() + days);
+
+  return formatDateToDatabase(date);
 }
 
-function isCancelledAppointment(appointment) {
-  /*
-    Centraliza a regra de cancelamento para reaproveitar em cards e graficos.
-  */
-  return (
-    appointment.status === "cancelled_by_patient" ||
-    appointment.status === "cancelled_by_clinic"
-  );
-}
-
-function setText(element, value) {
-  /*
-    Protecao simples para nao quebrar caso algum card ainda nao exista no HTML.
-  */
-  if (element) {
-    element.textContent = value;
-  }
-}
-
-function getTodayDate() {
-  /*
-    Retorna a data local no mesmo formato salvo no banco: YYYY-MM-DD.
-  */
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
+function formatDateToDatabase(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
 }
 
-function translateStatus(status) {
-  /*
-    Traduz os status tecnicos para textos melhores na interface.
-  */
-  const statusMap = {
+function formatDateToBR(date) {
+  if (!date) return "-";
+
+  const [year, month, day] = date.split("-");
+
+  return `${day}/${month}/${year}`;
+}
+
+function formatTime(time) {
+  if (!time) return "-";
+
+  return String(time).slice(0, 5);
+}
+
+function formatCurrency(value) {
+  return Number(value || 0).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+}
+
+function translateAppointmentStatus(status) {
+  const map = {
     requested: "Solicitado",
     clinic_confirmed: "Confirmado",
     patient_confirmed: "Presença conf.",
-    cancelled_by_patient: "Cancelado",
-    cancelled_by_clinic: "Cancelado",
     completed: "Concluído",
-    no_show: "Faltou"
+    cancelled: "Cancelado",
+    cancelled_by_patient: "Cancelado paciente",
+    cancelled_by_clinic: "Cancelado clínica",
+    no_show: "Faltou",
+    rescheduled: "Reagendamento"
   };
 
-  return statusMap[status] || status;
+  return map[status] || status || "Sem status";
 }
 
-function formatDateToBR(date) {
-  /*
-    Converte YYYY-MM-DD para DD/MM/YYYY.
-  */
-  if (!date) {
-    return "-";
-  }
+function getAppointmentStatusClass(status) {
+  const map = {
+    requested: "status-pending",
+    clinic_confirmed: "status-confirmed",
+    patient_confirmed: "status-paid",
+    completed: "status-neutral",
+    cancelled: "status-overdue",
+    cancelled_by_patient: "status-overdue",
+    cancelled_by_clinic: "status-overdue",
+    no_show: "status-overdue",
+    rescheduled: "status-draft"
+  };
 
-  const parts = date.split("-");
-
-  if (parts.length !== 3) {
-    return date;
-  }
-
-  return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  return map[status] || "status-neutral";
 }
 
-function formatMoney(value) {
-  /*
-    Formata valor completo em Real brasileiro.
-  */
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL"
-  }).format(Number(value || 0));
-}
+function getMoneyChartOptions() {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
 
-function formatShortMoney(value) {
-  /*
-    Versao curta para caber acima das barras.
-    Exemplo: R$ 1,5 mil.
-  */
-  const amount = Number(value || 0);
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          color: "#94a3b8"
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            return `${context.dataset.label}: ${formatCurrency(context.raw || 0)}`;
+          }
+        }
+      }
+    },
 
-  if (amount >= 1000) {
-    const shortValue = amount / 1000;
-    const fractionDigits = shortValue >= 10 ? 0 : 1;
+    scales: {
+      x: {
+        ticks: {
+          color: "#94a3b8"
+        },
+        grid: {
+          color: "rgba(148, 163, 184, 0.12)"
+        }
+      },
 
-    return `R$ ${shortValue.toFixed(fractionDigits).replace(".", ",")} mil`;
-  }
-
-  return formatMoney(amount);
-}
-
-function capitalizeFirstLetter(text) {
-  if (!text) {
-    return "";
-  }
-
-  return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+      y: {
+        beginAtZero: true,
+        ticks: {
+          color: "#94a3b8",
+          callback: (value) => formatCurrency(value)
+        },
+        grid: {
+          color: "rgba(148, 163, 184, 0.12)"
+        }
+      }
+    }
+  };
 }

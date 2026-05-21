@@ -1,390 +1,229 @@
 /*
   TELA ADMIN FINANCEIRO
 
-  Responsabilidades:
-  1. Verificar login fake temporário
-  2. Buscar movimentações financeiras no Supabase
-  3. Cadastrar entrada ou saída
-  4. Calcular total de entradas
-  5. Calcular total de saídas
-  6. Calcular saldo
-  7. Filtrar movimentações por texto e tipo
-  8. Excluir movimentação
+  Aqui os gráficos não são fake.
+  Eles puxam dados reais da tabela financial_transactions.
+
+  Também busca:
+  - accounts_receivable para A Receber
+  - accounts_payable para A Pagar
 */
 
-/*
-  Verifica se o admin está logado.
-  Por enquanto usamos login fake no localStorage.
-  Depois vamos substituir por Supabase Auth.
-*/
 const isAdminLogged = localStorage.getItem("odontoflow_admin_logged");
 
 if (isAdminLogged !== "true") {
   window.location.href = "./admin-login.html";
 }
 
-/*
-  Seleciona o formulário financeiro.
-*/
-const financeForm = document.querySelector("#financeForm");
-
-/*
-  Seleciona os campos do formulário.
-*/
-const transactionTypeInput = document.querySelector("#transactionType");
-const transactionDescriptionInput = document.querySelector("#transactionDescription");
-const transactionAmountInput = document.querySelector("#transactionAmount");
-const transactionCategoryInput = document.querySelector("#transactionCategory");
-const paymentMethodInput = document.querySelector("#paymentMethod");
-const transactionDateInput = document.querySelector("#transactionDate");
-const transactionNotesInput = document.querySelector("#transactionNotes");
-
-/*
-  Botão de salvar.
-*/
-const saveTransactionButton = document.querySelector("#saveTransactionButton");
-
-/*
-  Elementos dos cards financeiros.
-*/
-const totalIncomeElement = document.querySelector("#totalIncome");
-const totalExpenseElement = document.querySelector("#totalExpense");
-const balanceElement = document.querySelector("#balance");
-const totalTransactionsElement = document.querySelector("#totalTransactions");
-
-/*
-  Tabela de movimentações.
-*/
-const transactionsTable = document.querySelector("#transactionsTable");
-
-/*
-  Botões e filtros.
-*/
-const reloadButton = document.querySelector("#reloadButton");
 const logoutButton = document.querySelector("#logoutButton");
-const financeSearchInput = document.querySelector("#financeSearchInput");
-const typeFilter = document.querySelector("#typeFilter");
 
-/*
-  Lista completa de movimentações carregadas do banco.
-*/
+const incomeTotalText = document.querySelector("#incomeTotalText");
+const expenseTotalText = document.querySelector("#expenseTotalText");
+const profitTotalText = document.querySelector("#profitTotalText");
+const receivableTotalText = document.querySelector("#receivableTotalText");
+const payableTotalText = document.querySelector("#payableTotalText");
+const averageTicketText = document.querySelector("#averageTicketText");
+
+const financialTable = document.querySelector("#financialTable");
+
+const periodButtons = document.querySelectorAll(".finance-period-tabs button");
+
+let selectedPeriod = "month";
+
 let allTransactions = [];
+let filteredTransactions = [];
 
-/*
-  Define a data atual no campo de data ao abrir a tela.
-*/
-transactionDateInput.value = getTodayDate();
+let incomeExpenseChart = null;
+let paymentMethodChart = null;
+let expenseCategoryChart = null;
+let incomeCategoryChart = null;
 
-/*
-  Evento de logout.
-*/
 logoutButton.addEventListener("click", () => {
   localStorage.removeItem("odontoflow_admin_logged");
   window.location.href = "./admin-login.html";
 });
 
-/*
-  Evento do botão atualizar.
-*/
-reloadButton.addEventListener("click", () => {
-  loadTransactions();
+periodButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    periodButtons.forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+
+    selectedPeriod = button.dataset.period;
+
+    applyPeriodFilter();
+    renderFinancePage();
+  });
 });
 
-/*
-  Quando digita na busca, aplicamos filtros.
-*/
-financeSearchInput.addEventListener("input", applyFilters);
+loadFinancePage();
 
-/*
-  Quando muda o tipo, aplicamos filtros.
-*/
-typeFilter.addEventListener("change", applyFilters);
+async function loadFinancePage() {
+  await Promise.all([
+    loadTransactions(),
+    loadReceivableTotal(),
+    loadPayableTotal()
+  ]);
 
-/*
-  Evento de cadastro de movimentação.
-*/
-financeForm.addEventListener("submit", async (event) => {
-  /*
-    Evita recarregar a página.
-  */
-  event.preventDefault();
+  applyPeriodFilter();
+  renderFinancePage();
+}
 
-  /*
-    Pega os valores digitados.
-  */
-  const type = transactionTypeInput.value;
-  const description = transactionDescriptionInput.value.trim();
-  const amount = Number(transactionAmountInput.value);
-  const category = transactionCategoryInput.value;
-  const paymentMethod = paymentMethodInput.value;
-  const transactionDate = transactionDateInput.value;
-  const notes = transactionNotesInput.value.trim();
-
-  /*
-    Validação dos campos obrigatórios.
-  */
-  if (!type || !description || !amount || !transactionDate) {
-    alert("Preencha tipo, descrição, valor e data.");
-    return;
-  }
-
-  /*
-    Evita valor inválido.
-  */
-  if (amount <= 0) {
-    alert("Informe um valor maior que zero.");
-    return;
-  }
-
-  /*
-    Bloqueia o botão para evitar duplo cadastro.
-  */
-  saveTransactionButton.textContent = "Salvando...";
-  saveTransactionButton.disabled = true;
-
-  /*
-    Monta o objeto no formato da tabela financial_transactions.
-  */
-  const transactionData = {
-    type: type,
-    description: description,
-    category: category || null,
-    amount: amount,
-    payment_method: paymentMethod || null,
-    transaction_date: transactionDate,
-    notes: notes || null
-  };
-
-  /*
-    Insere no Supabase.
-  */
-  const { error } = await supabaseClient
-    .from("financial_transactions")
-    .insert(transactionData);
-
-  /*
-    Trata erro.
-  */
-  if (error) {
-    console.error("Erro ao cadastrar movimentação:", error);
-    alert("Erro ao cadastrar movimentação.");
-
-    saveTransactionButton.textContent = "Cadastrar movimentação";
-    saveTransactionButton.disabled = false;
-
-    return;
-  }
-
-  /*
-    Limpa o formulário.
-  */
-  financeForm.reset();
-
-  /*
-    Recoloca a data de hoje após limpar.
-  */
-  transactionDateInput.value = getTodayDate();
-
-  /*
-    Restaura o botão.
-  */
-  saveTransactionButton.textContent = "Cadastrar movimentação";
-  saveTransactionButton.disabled = false;
-
-  /*
-    Atualiza a lista.
-  */
-  await loadTransactions();
-
-  alert("Movimentação cadastrada com sucesso!");
-});
-
-/*
-  Carrega movimentações ao abrir a página.
-*/
-loadTransactions();
-
-/*
-  Busca movimentações financeiras no Supabase.
-*/
 async function loadTransactions() {
-  transactionsTable.innerHTML = `
-    <tr>
-      <td colspan="8">Carregando movimentações...</td>
-    </tr>
-  `;
-
   const { data, error } = await supabaseClient
     .from("financial_transactions")
-    .select("*")
-    .order("transaction_date", { ascending: false })
-    .order("created_at", { ascending: false });
+    .select(`
+      *,
+      patients (*)
+    `)
+    .order("transaction_date", { ascending: true })
+    .order("created_at", { ascending: true });
 
   if (error) {
-    console.error("Erro ao buscar movimentações:", error);
+    console.error("Erro ao buscar movimentações financeiras:", JSON.stringify(error, null, 2));
 
-    transactionsTable.innerHTML = `
+    financialTable.innerHTML = `
       <tr>
-        <td colspan="8">Erro ao carregar movimentações.</td>
+        <td colspan="7">Erro ao carregar movimentações financeiras.</td>
       </tr>
     `;
 
+    allTransactions = [];
     return;
   }
 
-  /*
-    Guarda a lista completa.
-  */
   allTransactions = data || [];
-
-  /*
-    Atualiza cards com a lista completa.
-  */
-  updateFinanceCards(allTransactions);
-
-  /*
-    Renderiza tabela.
-  */
-  renderTransactions(allTransactions);
 }
 
-/*
-  Atualiza os cards financeiros.
-*/
-function updateFinanceCards(transactions) {
-  /*
-    Soma todas as entradas.
-  */
-  const totalIncome = transactions
-    .filter((transaction) => transaction.type === "income")
-    .reduce((total, transaction) => {
-      return total + Number(transaction.amount || 0);
-    }, 0);
+async function loadReceivableTotal() {
+  const { data, error } = await supabaseClient
+    .from("accounts_receivable")
+    .select("amount, status");
 
-  /*
-    Soma todas as saídas.
-  */
-  const totalExpense = transactions
-    .filter((transaction) => transaction.type === "expense")
-    .reduce((total, transaction) => {
-      return total + Number(transaction.amount || 0);
-    }, 0);
-
-  /*
-    Saldo = entradas - saídas.
-  */
-  const balance = totalIncome - totalExpense;
-
-  /*
-    Atualiza o HTML.
-  */
-  totalIncomeElement.textContent = formatCurrency(totalIncome);
-  totalExpenseElement.textContent = formatCurrency(totalExpense);
-  balanceElement.textContent = formatCurrency(balance);
-  totalTransactionsElement.textContent = transactions.length;
-}
-
-/*
-  Aplica filtros de busca e tipo.
-*/
-function applyFilters() {
-  const searchTerm = financeSearchInput.value.trim().toLowerCase();
-  const selectedType = typeFilter.value;
-
-  /*
-    Começa com a lista completa.
-  */
-  let filteredTransactions = [...allTransactions];
-
-  /*
-    Filtra por tipo, se não for "all".
-  */
-  if (selectedType !== "all") {
-    filteredTransactions = filteredTransactions.filter((transaction) => {
-      return transaction.type === selectedType;
-    });
+  if (error) {
+    console.error("Erro ao buscar A Receber:", JSON.stringify(error, null, 2));
+    receivableTotalText.textContent = formatCurrency(0);
+    return;
   }
 
-  /*
-    Filtra por texto.
-  */
-  if (searchTerm) {
-    filteredTransactions = filteredTransactions.filter((transaction) => {
-      const description = transaction.description || "";
-      const category = transaction.category || "";
-      const paymentMethod = transaction.payment_method || "";
-      const notes = transaction.notes || "";
+  const total = (data || [])
+    .filter((item) => item.status === "pending")
+    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
 
-      return (
-        description.toLowerCase().includes(searchTerm) ||
-        category.toLowerCase().includes(searchTerm) ||
-        paymentMethod.toLowerCase().includes(searchTerm) ||
-        notes.toLowerCase().includes(searchTerm)
-      );
-    });
-  }
-
-  /*
-    Cards devem refletir o filtro atual.
-  */
-  updateFinanceCards(filteredTransactions);
-
-  /*
-    Renderiza tabela filtrada.
-  */
-  renderTransactions(filteredTransactions);
+  receivableTotalText.textContent = formatCurrency(total);
 }
 
-/*
-  Renderiza movimentações na tabela.
-*/
-function renderTransactions(transactions) {
-  if (!transactions.length) {
-    transactionsTable.innerHTML = `
+async function loadPayableTotal() {
+  const { data, error } = await supabaseClient
+    .from("accounts_payable")
+    .select("amount, status");
+
+  if (error) {
+    console.error("Erro ao buscar A Pagar:", JSON.stringify(error, null, 2));
+    payableTotalText.textContent = formatCurrency(0);
+    return;
+  }
+
+  const total = (data || [])
+    .filter((item) => item.status === "pending")
+    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+
+  payableTotalText.textContent = formatCurrency(total);
+}
+
+function applyPeriodFilter() {
+  const { startDate, endDate } = getPeriodRange(selectedPeriod);
+
+  filteredTransactions = allTransactions.filter((transaction) => {
+    const date = transaction.transaction_date;
+
+    return date >= startDate && date <= endDate;
+  });
+}
+
+function renderFinancePage() {
+  renderCards();
+  renderFinancialTable();
+
+  renderIncomeExpenseChart();
+  renderPaymentMethodChart();
+  renderExpenseCategoryChart();
+  renderIncomeCategoryChart();
+}
+
+function renderCards() {
+  const incomeTransactions = filteredTransactions.filter((item) => {
+    return ["income", "cash_injection"].includes(item.type);
+  });
+
+  const expenseTransactions = filteredTransactions.filter((item) => {
+    return ["expense", "withdrawal"].includes(item.type);
+  });
+
+  const incomeTotal = incomeTransactions.reduce((sum, item) => {
+    return sum + Number(item.amount || 0);
+  }, 0);
+
+  const expenseTotal = expenseTransactions.reduce((sum, item) => {
+    return sum + Number(item.amount || 0);
+  }, 0);
+
+  const profit = incomeTotal - expenseTotal;
+
+  const averageTicket = incomeTransactions.length > 0
+    ? incomeTotal / incomeTransactions.length
+    : 0;
+
+  incomeTotalText.textContent = formatCurrency(incomeTotal);
+  expenseTotalText.textContent = formatCurrency(expenseTotal);
+  profitTotalText.textContent = formatCurrency(profit);
+  averageTicketText.textContent = formatCurrency(averageTicket);
+
+  profitTotalText.classList.remove("success-text", "danger-text", "primary-text");
+
+  if (profit >= 0) {
+    profitTotalText.classList.add("success-text");
+  } else {
+    profitTotalText.classList.add("danger-text");
+  }
+}
+
+function renderFinancialTable() {
+  if (!filteredTransactions.length) {
+    financialTable.innerHTML = `
       <tr>
-        <td colspan="8">Nenhuma movimentação encontrada.</td>
+        <td colspan="7">Nenhuma movimentação encontrada no período.</td>
       </tr>
     `;
 
     return;
   }
 
-  transactionsTable.innerHTML = transactions.map((transaction) => {
-    const isIncome = transaction.type === "income";
+  const ordered = [...filteredTransactions].sort((a, b) => {
+    return new Date(b.created_at) - new Date(a.created_at);
+  });
 
-    const typeLabel = isIncome ? "Entrada" : "Saída";
-    const typeClass = isIncome ? "finance-type-income" : "finance-type-expense";
-    const valueClass = isIncome ? "finance-value-income" : "finance-value-expense";
-    const valuePrefix = isIncome ? "+" : "-";
+  financialTable.innerHTML = ordered.map((transaction) => {
+    const isPositive = ["income", "cash_injection"].includes(transaction.type);
 
     return `
       <tr>
+        <td>${formatDateToBR(transaction.transaction_date)}</td>
+
         <td>
-          <span class="status-badge ${typeClass}">
-            ${typeLabel}
+          <span class="status-badge ${isPositive ? "status-paid" : "status-overdue"}">
+            ${translateTransactionType(transaction.type)}
           </span>
         </td>
 
         <td>${transaction.description || "-"}</td>
         <td>${transaction.category || "-"}</td>
-
-        <td class="${valueClass}">
-          ${valuePrefix} ${formatCurrency(transaction.amount || 0)}
-        </td>
-
+        <td>${transaction.patients?.full_name || "-"}</td>
         <td>${transaction.payment_method || "-"}</td>
-        <td>${formatDateToBR(transaction.transaction_date)}</td>
-        <td>${transaction.notes || "-"}</td>
 
         <td>
-          <div class="table-actions">
-            <button 
-              class="table-action-btn cancel"
-              onclick="deleteTransaction('${transaction.id}')"
-            >
-              Excluir
-            </button>
-          </div>
+          <strong class="${isPositive ? "success-text" : "danger-text"}">
+            ${isPositive ? "+" : "-"}${formatCurrency(transaction.amount || 0)}
+          </strong>
         </td>
       </tr>
     `;
@@ -392,52 +231,344 @@ function renderTransactions(transactions) {
 }
 
 /*
-  Exclui uma movimentação financeira.
+  GRÁFICO 1: ENTRADAS X SAÍDAS
+
+  Agrupa por data no período.
 */
-async function deleteTransaction(transactionId) {
-  const confirmAction = confirm("Tem certeza que deseja excluir esta movimentação?");
+function renderIncomeExpenseChart() {
+  const grouped = groupTransactionsByDate(filteredTransactions);
 
-  if (!confirmAction) {
-    return;
+  const labels = Object.keys(grouped);
+
+  const incomeData = labels.map((date) => grouped[date].income);
+  const expenseData = labels.map((date) => grouped[date].expense);
+
+  const ctx = document.querySelector("#incomeExpenseChart");
+
+  if (incomeExpenseChart) {
+    incomeExpenseChart.destroy();
   }
 
-  const { error } = await supabaseClient
-    .from("financial_transactions")
-    .delete()
-    .eq("id", transactionId);
-
-  if (error) {
-    console.error("Erro ao excluir movimentação:", error);
-    alert("Erro ao excluir movimentação.");
-    return;
-  }
-
-  await loadTransactions();
-
-  alert("Movimentação excluída com sucesso!");
+  incomeExpenseChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels.map(formatShortDate),
+      datasets: [
+        {
+          label: "Entradas",
+          data: incomeData,
+          backgroundColor: "#22c55e"
+        },
+        {
+          label: "Saídas",
+          data: expenseData,
+          backgroundColor: "#ef4444"
+        }
+      ]
+    },
+    options: getDefaultChartOptions()
+  });
 }
 
 /*
-  Retorna a data atual no formato YYYY-MM-DD.
-  Esse é o formato aceito pelo input type="date".
+  GRÁFICO 2: FORMAS DE PAGAMENTO
+
+  Considera apenas entradas.
 */
-function getTodayDate() {
-  return new Date().toISOString().split("T")[0];
+function renderPaymentMethodChart() {
+  const incomeTransactions = filteredTransactions.filter((item) => {
+    return ["income", "cash_injection"].includes(item.type);
+  });
+
+  const grouped = groupByField(incomeTransactions, "payment_method", "Não informado");
+
+  const labels = Object.keys(grouped);
+  const data = Object.values(grouped);
+
+  const ctx = document.querySelector("#paymentMethodChart");
+
+  if (paymentMethodChart) {
+    paymentMethodChart.destroy();
+  }
+
+  paymentMethodChart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels,
+      datasets: [
+        {
+          data,
+          backgroundColor: [
+            "#22c55e",
+            "#2563eb",
+            "#6366f1",
+            "#facc15",
+            "#f97316",
+            "#94a3b8"
+          ]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "right"
+        }
+      }
+    }
+  });
 }
 
 /*
-  Formata data YYYY-MM-DD para DD/MM/YYYY.
+  GRÁFICO 3: DESPESAS POR CATEGORIA
+
+  Considera apenas saídas.
 */
+function renderExpenseCategoryChart() {
+  const expenseTransactions = filteredTransactions.filter((item) => {
+    return ["expense", "withdrawal"].includes(item.type);
+  });
+
+  const grouped = groupByField(expenseTransactions, "category", "Sem categoria");
+
+  const labels = Object.keys(grouped);
+  const data = Object.values(grouped);
+
+  const ctx = document.querySelector("#expenseCategoryChart");
+
+  if (expenseCategoryChart) {
+    expenseCategoryChart.destroy();
+  }
+
+  expenseCategoryChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Despesas",
+          data,
+          backgroundColor: "#ef4444"
+        }
+      ]
+    },
+    options: {
+      ...getDefaultChartOptions(),
+      indexAxis: "y"
+    }
+  });
+}
+
+/*
+  GRÁFICO 4: RECEITAS POR CATEGORIA
+
+  Considera apenas entradas.
+*/
+function renderIncomeCategoryChart() {
+  const incomeTransactions = filteredTransactions.filter((item) => {
+    return ["income", "cash_injection"].includes(item.type);
+  });
+
+  const grouped = groupByField(incomeTransactions, "category", "Sem categoria");
+
+  const labels = Object.keys(grouped);
+  const data = Object.values(grouped);
+
+  const ctx = document.querySelector("#incomeCategoryChart");
+
+  if (incomeCategoryChart) {
+    incomeCategoryChart.destroy();
+  }
+
+  incomeCategoryChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Receitas",
+          data,
+          backgroundColor: "#2563eb"
+        }
+      ]
+    },
+    options: {
+      ...getDefaultChartOptions(),
+      indexAxis: "y"
+    }
+  });
+}
+
+function groupTransactionsByDate(transactions) {
+  const grouped = {};
+
+  transactions.forEach((transaction) => {
+    const date = transaction.transaction_date;
+
+    if (!grouped[date]) {
+      grouped[date] = {
+        income: 0,
+        expense: 0
+      };
+    }
+
+    if (["income", "cash_injection"].includes(transaction.type)) {
+      grouped[date].income += Number(transaction.amount || 0);
+    }
+
+    if (["expense", "withdrawal"].includes(transaction.type)) {
+      grouped[date].expense += Number(transaction.amount || 0);
+    }
+  });
+
+  return grouped;
+}
+
+function groupByField(transactions, field, fallbackLabel) {
+  const grouped = {};
+
+  transactions.forEach((transaction) => {
+    const label = transaction[field] || fallbackLabel;
+
+    if (!grouped[label]) {
+      grouped[label] = 0;
+    }
+
+    grouped[label] += Number(transaction.amount || 0);
+  });
+
+  return grouped;
+}
+
+function getPeriodRange(period) {
+  const today = new Date();
+
+  const start = new Date(today);
+  const end = new Date(today);
+
+  if (period === "today") {
+    return {
+      startDate: formatDateToDatabase(today),
+      endDate: formatDateToDatabase(today)
+    };
+  }
+
+  if (period === "week") {
+    const dayOfWeek = today.getDay();
+    const mondayDistance = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+
+    start.setDate(today.getDate() + mondayDistance);
+    end.setDate(start.getDate() + 6);
+
+    return {
+      startDate: formatDateToDatabase(start),
+      endDate: formatDateToDatabase(end)
+    };
+  }
+
+  if (period === "month") {
+    start.setDate(1);
+
+    end.setMonth(today.getMonth() + 1);
+    end.setDate(0);
+
+    return {
+      startDate: formatDateToDatabase(start),
+      endDate: formatDateToDatabase(end)
+    };
+  }
+
+  if (period === "year") {
+    start.setMonth(0);
+    start.setDate(1);
+
+    end.setMonth(11);
+    end.setDate(31);
+
+    return {
+      startDate: formatDateToDatabase(start),
+      endDate: formatDateToDatabase(end)
+    };
+  }
+
+  return {
+    startDate: formatDateToDatabase(today),
+    endDate: formatDateToDatabase(today)
+  };
+}
+
+function getDefaultChartOptions() {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom"
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const value = context.raw || 0;
+            return `${context.dataset.label}: ${formatCurrency(value)}`;
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: (value) => formatCurrency(value)
+        }
+      }
+    }
+  };
+}
+
+function translateTransactionType(type) {
+  const map = {
+    income: "Entrada",
+    expense: "Saída",
+    withdrawal: "Sangria",
+    cash_injection: "Reforço"
+  };
+
+  return map[type] || type;
+}
+
+function formatDateToDatabase(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
 function formatDateToBR(date) {
-  if (!date) {
-    return "-";
-  }
+  if (!date) return "-";
 
   const parts = date.split("-");
 
-  if (parts.length !== 3) {
-    return date;
-  }
+  if (parts.length !== 3) return date;
 
   return `${parts[2]}/${parts[1]}/${parts[0]}`;
+}
+
+function formatShortDate(date) {
+  if (!date) return "-";
+
+  const parts = date.split("-");
+
+  if (parts.length !== 3) return date;
+
+  return `${parts[2]}/${parts[1]}`;
+}
+
+function formatCurrency(value) {
+  return Number(value || 0).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
 }

@@ -1,0 +1,201 @@
+/* =========================================================
+   GRÁFICOS FAKE / VISUAIS DO FIGMA
+========================================================= */
+
+/* 
+  Card de gráfico.
+*/
+.admin-chart-card {
+  background: #ffffff;
+  border: 1px solid #e7ebf2;
+  border-radius: 16px;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.06);
+  padding: 20px;
+}
+
+/* 
+  Título do gráfico.
+*/
+.admin-chart-card h2 {
+  color: #14213d;
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+
+/* 
+  Grid de gráficos.
+*/
+.admin-charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 22px;
+}
+
+/* 
+  Barras simples.
+*/
+.fake-bars {
+  height: 220px;
+  display: flex;
+  align-items: flex-end;
+  gap: 22px;
+  padding: 20px 25px;
+}
+
+/* 
+  Barra.
+*/
+.fake-bar {
+  flex: 1;
+  background: #2563eb;
+  border-radius: 6px 6px 0 0;
+}
+
+/* 
+  Rosca simples.
+*/
+.fake-donut {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  margin: 20px auto;
+  background: conic-gradient(
+    #2563eb 0 30%,
+    #22c55e 30% 70%,
+    #facc15 70% 88%,
+    #ef4444 88% 100%
+  );
+  position: relative;
+}
+
+/* 
+  Miolo da rosca.
+*/
+.fake-donut::after {
+  content: "";
+  width: 72px;
+  height: 72px;
+  background: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  inset: 34px;
+}
+
+
+/* =========================================================
+   CONFIGURAÇÕES
+========================================================= */
+
+/* 
+  Abas da página de configurações.
+*/
+.admin-tabs {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  border-bottom: 1px solid #eef2f7;
+  padding: 0 22px;
+}
+
+/* 
+  Botão de aba.
+*/
+.admin-tab {
+  min-height: 46px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+/* 
+  Aba ativa.
+*/
+.admin-tab.active {
+  color: #1455ff;
+  font-weight: 800;
+  border-bottom-color: #1455ff;
+}
+
+/* 
+  Conteúdo de aba.
+*/
+.admin-tab-content {
+  padding: 26px 22px;
+}
+
+/* 
+  Item de configuração.
+*/
+.settings-row {
+  max-width: 680px;
+  min-height: 68px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* 
+  Título da configuração.
+*/
+.settings-row strong {
+  display: block;
+  color: #14213d;
+  font-size: 14px;
+}
+
+/* 
+  Descrição da configuração.
+*/
+.settings-row small {
+  display: block;
+  color: #8a96ad;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+/* 
+  Switch visual.
+*/
+.settings-switch {
+  width: 40px;
+  height: 22px;
+  background: #2563eb;
+  border-radius: 999px;
+  position: relative;
+}
+
+/* 
+  Bolinha do switch.
+*/
+.settings-switch::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+}
+
+/* 
+  Zona de perigo.
+*/
+.danger-zone {
+  max-width: 680px;
+  border: 1px solid #ffb4b4;
+  border-radius: 14px;
+  padding: 18px;
+  color: #ef4444;
+}
+
+

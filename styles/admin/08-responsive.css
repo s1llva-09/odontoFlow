@@ -1,0 +1,110 @@
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+/* 
+  Tablet.
+*/
+@media (max-width: 1100px) {
+  .admin-page {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-sidebar {
+    height: auto;
+    position: static;
+  }
+
+  .admin-sidebar-user {
+    display: none;
+  }
+
+  .admin-menu {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .admin-cards-grid,
+  .finance-cards-grid,
+  .cash-cards-grid,
+  .admin-cards-grid.five {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 
+  Mobile.
+*/
+@media (max-width: 640px) {
+  .admin-topbar {
+    height: auto;
+    padding: 14px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-topbar-actions {
+    width: 100%;
+  }
+
+  .admin-search {
+    width: 100%;
+  }
+
+  .admin-content {
+    padding: 16px;
+  }
+
+  .admin-menu {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-cards-grid,
+  .finance-cards-grid,
+  .cash-cards-grid,
+  .admin-cards-grid.five,
+  .admin-cards-grid.three {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-page-title {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .admin-filter-bar,
+  .finance-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-wide {
+    grid-column: span 1;
+  }
+
+  .admin-form-actions {
+    justify-content: stretch;
+  }
+
+  .admin-form-actions button,
+  .admin-form-actions .btn {
+    width: 100%;
+  }
+
+  .admin-login-card {
+    padding: 26px;
+  }
+}
+
+/* 

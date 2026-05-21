@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>OdontoFlow - Procedimentos</title>
+  <title>OdontoFlow - A Receber</title>
 
   <link rel="stylesheet" href="./styles/index.css" />
 
@@ -51,10 +51,9 @@
           Dentistas
         </a>
 
-        <a href="./admin-procedimentos.html" class="admin-menu-item active">
+        <a href="./admin-procedimentos.html" class="admin-menu-item">
           <span>▥</span>
           Procedimentos
-          <strong>›</strong>
         </a>
 
         <a href="./admin-prontuarios.html" class="admin-menu-item">
@@ -77,9 +76,10 @@
           Caixa
         </a>
 
-        <a href="./admin-receber.html" class="admin-menu-item">
+        <a href="./admin-receber.html" class="admin-menu-item active">
           <span>▭</span>
           A Receber
+          <strong>›</strong>
         </a>
 
         <a href="./admin-pagar.html" class="admin-menu-item">
@@ -121,7 +121,7 @@
     <header class="admin-topbar">
       <div class="admin-breadcrumb">
         <span>Clínica OdontoFlow</span>
-        <strong>/ Procedimentos</strong>
+        <strong>/ A Receber</strong>
       </div>
 
       <div class="admin-topbar-actions">
@@ -143,92 +143,118 @@
 
       <div class="admin-page-title">
         <div>
-          <h1>Procedimentos</h1>
+          <h1>A Receber</h1>
+          <p>Controle cobranças pendentes, vencidas e pagas.</p>
         </div>
 
-        <button class="admin-primary-btn" id="openProcedureFormButton">
-          + Novo procedimento
+        <button class="admin-primary-btn" id="openReceivableFormButton">
+          + Nova cobrança
         </button>
       </div>
 
-      <section class="admin-panel" id="procedureFormPanel" style="display: none;">
+      <section class="admin-cards-grid three">
+        <article class="admin-stat-card">
+          <span>Pendente</span>
+          <strong id="pendingReceivableTotal">R$ 0,00</strong>
+          <small>Valores em aberto</small>
+        </article>
+
+        <article class="admin-stat-card">
+          <span>Pago</span>
+          <strong id="paidReceivableTotal">R$ 0,00</strong>
+          <small>Valores recebidos</small>
+        </article>
+
+        <article class="admin-stat-card">
+          <span>Vencido</span>
+          <strong id="overdueReceivableTotal">R$ 0,00</strong>
+          <small>Cobranças em atraso</small>
+        </article>
+      </section>
+
+      <section class="admin-panel" id="receivableFormPanel" style="display: none;">
         <div class="admin-panel-header">
           <div>
-            <h2 id="procedureFormTitle">Novo procedimento</h2>
-            <p>Cadastre ou edite os serviços oferecidos pela clínica.</p>
+            <h2>Nova cobrança</h2>
+            <p>Cadastre uma conta a receber manualmente.</p>
           </div>
         </div>
 
-        <form class="admin-form" id="procedureForm">
-          <input type="hidden" id="editingProcedureId" />
+        <form class="admin-form" id="receivableForm">
+          <input type="hidden" id="editingReceivableId" />
 
           <div class="admin-form-grid">
             <div class="form-group">
-              <label for="procedureName">Nome *</label>
+              <label for="receivablePatient">Paciente</label>
+              <select id="receivablePatient">
+                <option value="">Selecione o paciente</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="receivableDescription">Descrição *</label>
               <input 
                 type="text" 
-                id="procedureName" 
-                placeholder="Ex: Limpeza"
+                id="receivableDescription" 
+                placeholder="Ex: Tratamento ortodôntico"
               />
             </div>
 
             <div class="form-group">
-              <label for="procedureCategory">Categoria</label>
-              <input 
-                type="text" 
-                id="procedureCategory" 
-                placeholder="Ex: Preventivo"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="procedureDuration">Duração em minutos *</label>
+              <label for="receivableAmount">Valor *</label>
               <input 
                 type="number" 
-                id="procedureDuration" 
-                placeholder="Ex: 40"
-                min="1"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="procedurePrice">Valor *</label>
-              <input 
-                type="number" 
-                id="procedurePrice" 
-                placeholder="Ex: 200"
+                id="receivableAmount" 
                 min="0"
                 step="0.01"
+                placeholder="Ex: 300"
               />
             </div>
 
             <div class="form-group">
-              <label for="procedureIcon">Ícone</label>
-              <input 
-                type="text" 
-                id="procedureIcon" 
-                placeholder="Ex: 🦷"
-                maxlength="4"
-              />
+              <label for="receivableDueDate">Vencimento *</label>
+              <input type="date" id="receivableDueDate" />
+            </div>
+
+            <div class="form-group">
+              <label for="receivablePaymentMethod">Forma de pagamento</label>
+              <select id="receivablePaymentMethod">
+                <option value="">Não definido</option>
+                <option value="Pix">Pix</option>
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Cartão de crédito">Cartão de crédito</option>
+                <option value="Cartão de débito">Cartão de débito</option>
+                <option value="Boleto">Boleto</option>
+                <option value="Transferência">Transferência</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="receivableStatus">Status</label>
+              <select id="receivableStatus">
+                <option value="pending">Pendente</option>
+                <option value="paid">Pago</option>
+                <option value="cancelled">Cancelado</option>
+              </select>
             </div>
 
             <div class="form-group admin-form-wide">
-              <label for="procedureDescription">Descrição</label>
+              <label for="receivableNotes">Observações</label>
               <input 
                 type="text" 
-                id="procedureDescription" 
-                placeholder="Ex: Profilaxia e remoção de tártaro"
+                id="receivableNotes" 
+                placeholder="Observações internas"
               />
             </div>
           </div>
 
           <div class="admin-form-actions">
-            <button type="button" class="admin-outline-btn" id="cancelProcedureFormButton">
+            <button type="button" class="admin-outline-btn" id="cancelReceivableFormButton">
               Cancelar
             </button>
 
-            <button type="submit" class="admin-primary-btn" id="saveProcedureButton">
-              Cadastrar procedimento
+            <button type="submit" class="admin-primary-btn" id="saveReceivableButton">
+              Salvar cobrança
             </button>
           </div>
         </form>
@@ -239,13 +265,17 @@
           <div class="admin-search-box">
             <input 
               type="text" 
-              id="procedureSearchInput" 
-              placeholder="Buscar procedimento..."
+              id="receivableSearchInput" 
+              placeholder="Buscar por paciente ou descrição..."
             />
           </div>
 
-          <select id="procedureCategoryFilter">
-            <option value="all">Todas as categorias</option>
+          <select id="receivableStatusFilter">
+            <option value="all">Todos os status</option>
+            <option value="pending">Pendente</option>
+            <option value="paid">Pago</option>
+            <option value="overdue">Vencido</option>
+            <option value="cancelled">Cancelado</option>
           </select>
         </div>
 
@@ -253,25 +283,26 @@
           <table class="admin-table">
             <thead>
               <tr>
-                <th>Procedimento</th>
-                <th>Categoria</th>
-                <th>Duração</th>
+                <th>Descrição</th>
+                <th>Paciente</th>
                 <th>Valor</th>
+                <th>Vencimento</th>
+                <th>Pagamento</th>
                 <th>Status</th>
                 <th>Ação</th>
               </tr>
             </thead>
 
-            <tbody id="proceduresTable">
+            <tbody id="receivablesTable">
               <tr>
-                <td colspan="6">Carregando procedimentos...</td>
+                <td colspan="7">Carregando contas a receber...</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="admin-table-footer">
-          <span id="proceduresCount">Mostrando 0 procedimentos</span>
+          <span id="receivablesCount">Mostrando 0 cobranças</span>
 
           <div class="admin-pagination">
             <button class="ghost" type="button">‹</button>
@@ -289,6 +320,6 @@
   <script src="./scripts/storage.js"></script>
   <script src="./scripts/admin-auth.js"></script>
   <script src="./scripts/admin-clinic-ui.js"></script>
-  <script src="./scripts/admin-procedimentos.js"></script>
+  <script src="./scripts/admin-receber.js"></script>
 </body>
 </html>

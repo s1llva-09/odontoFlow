@@ -1,0 +1,79 @@
+  FILTRO DE DENTISTAS
+
+  Nesta tela existe apenas a busca, então ela ocupa uma largura confortável.
+*/
+.dentist-filter-bar {
+  grid-template-columns: 390px;
+}
+
+/* 
+  Em telas pequenas, a busca ocupa 100%.
+*/
+@media (max-width: 640px) {
+  .dentist-filter-bar {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 
+  BOTÃO DE STATUS NA TABELA
+
+  Usado para ativar/desativar dentista sem confundir com edição.
+*/
+.admin-status-action {
+  height: 32px;
+  border: none;
+  border-radius: 9px;
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 
+  Ação positiva: ativar.
+*/
+.admin-status-action.success {
+  background: #dcfce7;
+  color: #008236;
+}
+
+/* 
+  Ação perigosa: desativar.
+*/
+.admin-status-action.danger {
+  background: #ffe8e8;
+  color: #ef4444;
+}
+
+/* 
+  CÉLULA DO PROCEDIMENTO
+
+  Junta ícone, nome e descrição do procedimento.
+*/
+.procedure-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 
+  NOME DO PROCEDIMENTO
+*/
+.procedure-name-cell strong {
+  display: block;
+  color: #14213d;
+  font-weight: 800;
+}
+
+/* 
+  DESCRIÇÃO DO PROCEDIMENTO
+*/
+.procedure-name-cell small {
+  display: block;
+  color: #8a96ad;
+  font-size: 12px;
+  margin-top: 3px;
+}
+

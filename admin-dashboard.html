@@ -135,155 +135,157 @@
           <span></span>
         </button>
 
-        <div class="admin-top-avatar">
-          A
-        </div>
+        <div class="admin-top-avatar">A</div>
       </div>
     </header>
 
     <section class="admin-content">
 
-      <section class="admin-cards-grid">
+      <div class="admin-page-title">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Resumo geral da clínica com dados reais do sistema.</p>
+        </div>
+
+        <button class="admin-primary-btn" id="refreshDashboardButton">
+          Atualizar dados
+        </button>
+      </div>
+
+      <section class="admin-cards-grid dashboard-cards-grid">
         <article class="admin-stat-card">
           <span>Consultas hoje</span>
-          <strong id="todayAppointments">0</strong>
-          <small>Agendamentos para hoje</small>
+          <strong id="todayAppointmentsText">0</strong>
+          <small id="todayAppointmentsSmall">Agendamentos para hoje</small>
         </article>
 
         <article class="admin-stat-card">
           <span>Agend. pendentes</span>
-          <strong id="pendingAppointments">0</strong>
+          <strong id="pendingAppointmentsText">0</strong>
           <small>Solicitações aguardando confirmação</small>
         </article>
 
         <article class="admin-stat-card">
           <span>Pacientes cad.</span>
-          <strong id="totalPatients">0</strong>
-          <small>Total de pacientes cadastrados</small>
+          <strong id="patientsTotalText">0</strong>
+          <small>Total de pacientes</small>
         </article>
 
         <article class="admin-stat-card">
           <span>Faturamento mês</span>
-          <strong id="estimatedRevenue">R$ 0,00</strong>
-          <small>Estimativa com agendamentos ativos</small>
+          <strong class="success-text" id="monthIncomeText">R$ 0,00</strong>
+          <small>Entradas do mês atual</small>
         </article>
 
         <article class="admin-stat-card">
           <span>A receber</span>
-          <strong id="dashboardReceivable">R$ 0,00</strong>
-          <small>Valores pendentes</small>
+          <strong class="primary-text" id="receivableDashboardText">R$ 0,00</strong>
+          <small>Cobranças pendentes</small>
         </article>
 
         <article class="admin-stat-card">
           <span>A pagar</span>
-          <strong id="dashboardPayable">R$ 0,00</strong>
-          <small>Despesas em aberto</small>
+          <strong class="danger-text" id="payableDashboardText">R$ 0,00</strong>
+          <small>Despesas pendentes</small>
         </article>
 
         <article class="admin-stat-card">
           <span>Cancelamentos</span>
-          <strong id="cancelledAppointments">0</strong>
-          <small>Este mês</small>
+          <strong class="danger-text" id="cancelledAppointmentsText">0</strong>
+          <small>Cancelados no mês</small>
         </article>
 
         <article class="admin-stat-card">
           <span>Presenças conf.</span>
-          <strong id="confirmedAppointments">0</strong>
-          <small>Pacientes confirmados</small>
+          <strong class="success-text" id="confirmedPresenceText">0</strong>
+          <small>Presenças confirmadas hoje</small>
         </article>
       </section>
 
-      <section class="admin-charts-grid">
-        <article class="admin-chart-card">
-          <h2>Faturamento Mensal</h2>
+      <section class="dashboard-grid">
+        <article class="admin-panel dashboard-chart-card large">
+          <div class="admin-panel-header">
+            <div>
+              <h2>Faturamento Mensal</h2>
+              <p>Entradas registradas nos últimos 6 meses.</p>
+            </div>
+          </div>
 
-          <!--
-            O JavaScript preenche este bloco com as barras reais.
-            Cada barra representa o faturamento de um dos ultimos 6 meses.
-          -->
-          <div class="fake-bars" id="monthlyRevenueChart">
-            <div class="chart-loading">Carregando gráfico...</div>
+          <div class="chart-box">
+            <canvas id="dashboardIncomeChart"></canvas>
           </div>
         </article>
 
-        <article class="admin-chart-card">
-          <h2>Status dos Agendamentos</h2>
-
-          <!--
-            A rosca tambem e dinamica.
-            O JavaScript troca o background por um conic-gradient
-            calculado com os status reais dos agendamentos.
-          -->
-          <div class="fake-donut" id="appointmentsStatusChart"></div>
-
-          <div class="dashboard-status-list">
+        <article class="admin-panel dashboard-chart-card">
+          <div class="admin-panel-header">
             <div>
-              <span class="dot blue"></span>
-              Confirmado
-              <strong id="statusConfirmedCount">0</strong>
+              <h2>Status dos Agendamentos</h2>
+              <p>Distribuição do mês atual.</p>
             </div>
+          </div>
 
-            <div>
-              <span class="dot yellow"></span>
-              Solicitado
-              <strong id="statusRequestedCount">0</strong>
-            </div>
-
-            <div>
-              <span class="dot green"></span>
-              Concluído
-              <strong id="statusCompletedCount">0</strong>
-            </div>
-
-            <div>
-              <span class="dot red"></span>
-              Cancelado
-              <strong id="statusCancelledCount">0</strong>
-            </div>
+          <div class="chart-box small">
+            <canvas id="dashboardStatusChart"></canvas>
           </div>
         </article>
       </section>
 
-      <section class="admin-panel admin-panel-spacing">
-        <div class="admin-panel-header">
-          <div>
-            <h2>Próximos agendamentos</h2>
-            <p>Últimas solicitações feitas pelos pacientes.</p>
+      <section class="dashboard-bottom-grid">
+        <article class="admin-panel">
+          <div class="admin-panel-header">
+            <div>
+              <h2>Próximos agendamentos</h2>
+              <p>Agenda mais próxima da clínica.</p>
+            </div>
+
+            <a href="./admin-agendamentos.html" class="admin-link-btn">Ver todos</a>
           </div>
 
-          <a href="./admin-agendamentos.html" class="admin-primary-btn">
-            Ver todos
-          </a>
-        </div>
+          <div class="admin-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Paciente</th>
+                  <th>Procedimento</th>
+                  <th>Dentista</th>
+                  <th>Data</th>
+                  <th>Hora</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
 
-        <div class="admin-table-wrapper">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Paciente</th>
-                <th>Procedimento</th>
-                <th>Dentista</th>
-                <th>Data</th>
-                <th>Horário</th>
-                <th>Status</th>
-              </tr>
-            </thead>
+              <tbody id="nextAppointmentsTable">
+                <tr>
+                  <td colspan="6">Carregando...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
 
-            <tbody id="recentAppointmentsTable">
-              <tr>
-                <td colspan="6">Carregando agendamentos...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <article class="admin-panel">
+          <div class="admin-panel-header">
+            <div>
+              <h2>Alertas financeiros</h2>
+              <p>Contas vencidas ou próximas do vencimento.</p>
+            </div>
+          </div>
+
+          <div class="dashboard-alert-list" id="financialAlertsList">
+            <p>Carregando alertas...</p>
+          </div>
+        </article>
       </section>
 
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./scripts/supabase.js"></script>
   <script src="./scripts/storage.js"></script>
+  <script src="./scripts/admin-auth.js"></script>
+  <script src="./scripts/admin-clinic-ui.js"></script>
   <script src="./scripts/admin-dashboard.js"></script>
 </body>
 </html>

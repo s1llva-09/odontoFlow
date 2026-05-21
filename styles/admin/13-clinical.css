@@ -1,0 +1,187 @@
+/* =========================================================
+   PRONTUÁRIOS
+========================================================= */
+
+/* 
+  Lista de detalhes clínicos dentro do modal.
+*/
+.record-detail-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+/* 
+  Cada bloco do detalhe clínico.
+*/
+.record-detail-list div {
+  background: #f8fafc;
+  border: 1px solid #eef2f7;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+/* 
+  Título pequeno do detalhe.
+*/
+.record-detail-list span {
+  display: block;
+  color: #8a96ad;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* 
+  Texto do detalhe.
+*/
+.record-detail-list p {
+  color: #14213d;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 
+  Placeholder do odontograma.
+*/
+.record-odontogram-placeholder {
+  min-height: 150px;
+  border: 2px dashed #dce3ee;
+  border-radius: 16px;
+  margin-top: 22px;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  color: #8a96ad;
+}
+
+/* 
+  Título do odontograma.
+*/
+.record-odontogram-placeholder strong {
+  display: block;
+  color: #14213d;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+/* 
+  Texto do odontograma.
+*/
+.record-odontogram-placeholder span {
+  font-size: 14px;
+}
+
+/* =========================================================
+   ORÇAMENTOS
+========================================================= */
+
+.budget-items-box {
+  margin: 22px;
+  border: 1px solid #eef2f7;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.budget-items-header {
+  padding: 16px;
+  border-bottom: 1px solid #eef2f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.budget-items-header h3 {
+  color: #14213d;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+#budgetItemsContainer {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+}
+
+.budget-item-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 120px 130px 42px;
+  gap: 10px;
+  align-items: center;
+}
+
+.budget-item-row select,
+.budget-item-row input {
+  width: 100%;
+  min-height: 40px;
+  border: 1px solid #dce3ee;
+  border-radius: 12px;
+  background: #f8fafc;
+  padding: 0 12px;
+  font-family: inherit;
+  outline: none;
+}
+
+.budget-item-total {
+  color: #14213d;
+  font-size: 14px;
+  text-align: right;
+}
+
+.budget-item-remove {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  justify-content: center;
+}
+
+.budget-total-box,
+.budget-modal-total {
+  border-top: 1px solid #eef2f7;
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.budget-total-box div,
+.budget-modal-total div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.budget-total-box span,
+.budget-modal-total span {
+  color: #8a96ad;
+  font-size: 14px;
+}
+
+.budget-total-box strong,
+.budget-modal-total strong {
+  color: #14213d;
+  font-size: 15px;
+}
+
+.budget-total-box .total,
+.budget-modal-total .total {
+  border-top: 1px solid #eef2f7;
+  padding-top: 12px;
+}
+
+.budget-total-box .total strong,
+.budget-modal-total .total strong {
+  color: #2563eb;
+  font-size: 22px;
+}
+
+@media (max-width: 900px) {
+  .budget-item-row {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-item-total {
+    text-align: left;
+  }
+}
+

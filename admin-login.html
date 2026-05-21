@@ -17,18 +17,17 @@
 </head>
 
 <body class="admin-login-page">
+
   <main class="admin-login-wrapper">
     <section class="admin-login-card">
-      <a href="./index.html" class="admin-login-back">←</a>
+      <div class="admin-login-brand">
+        <span>🦷</span>
+        <strong>OdontoFlow</strong>
+      </div>
 
-      <a href="./index.html" class="logo admin-login-logo">
-        <span class="logo-icon">🦷</span>
-        <span>OdontoFlow</span>
-      </a>
-
-      <div class="admin-login-title">
-        <h1>Acesso da Clínica</h1>
-        <p>Entre para gerenciar agendamentos, pacientes e financeiro.</p>
+      <div class="admin-login-heading">
+        <h1>Área Clínica</h1>
+        <p>Acesse o painel administrativo da clínica.</p>
       </div>
 
       <form class="admin-login-form" id="adminLoginForm">
@@ -38,6 +37,7 @@
             type="email" 
             id="adminEmail" 
             placeholder="admin@clinica.com"
+            autocomplete="email"
           />
         </div>
 
@@ -47,30 +47,28 @@
             type="password" 
             id="adminPassword" 
             placeholder="Digite sua senha"
+            autocomplete="current-password"
           />
         </div>
 
-        <button type="submit" class="btn btn-primary admin-login-button">
-          Entrar
+        <button type="submit" class="admin-primary-btn" id="adminLoginButton">
+          Entrar no painel
         </button>
       </form>
 
-      <p class="admin-login-test">
-        Para teste, clique em entrar com qualquer e-mail e senha.
-      </p>
+      <div class="admin-login-help">
+        <strong>Teste rápido:</strong>
+        <span>admin@clinica.com / 123456</span>
+      </div>
+
+      <a href="./index.html" class="admin-login-back">
+        ← Voltar para o site
+      </a>
     </section>
   </main>
 
-  <script>
-    const adminLoginForm = document.querySelector("#adminLoginForm");
-
-    adminLoginForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      localStorage.setItem("odontoflow_admin_logged", "true");
-
-      window.location.href = "./admin-dashboard.html";
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/admin-login.js"></script>
 </body>
 </html>

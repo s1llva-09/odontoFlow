@@ -1,0 +1,44 @@
+/* =========================================================
+   ADMIN.CSS — BASE VISUAL DO PAINEL ADMINISTRATIVO
+
+   Esse arquivo controla o layout principal do painel da clínica:
+   - Sidebar lateral
+   - Topbar superior
+   - Área de conteúdo
+   - Cards
+   - Tabelas
+   - Botões
+   - Badges/status
+   - Formulários
+   - Responsividade
+
+   A estrutura foi ajustada para seguir o design do Figma.
+========================================================= */
+
+
+/* =========================================================
+   LAYOUT GERAL
+========================================================= */
+
+/* 
+  Define o painel inteiro como uma grade:
+  - 256px para a sidebar
+  - restante da tela para o conteúdo
+*/
+.admin-page {
+  min-height: 100vh;
+  background: #f6f8fb;
+  color: #0f1f3d;
+  display: grid;
+  grid-template-columns: 256px 1fr;
+  font-family: "Inter", sans-serif;
+}
+
+/* 
+  Remove sublinhado dos links dentro do admin.
+*/
+.admin-page a {
+  text-decoration: none;
+}
+
+

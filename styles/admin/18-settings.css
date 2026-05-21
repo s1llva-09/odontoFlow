@@ -1,0 +1,210 @@
+/* =========================================================
+   CONFIGURAÇÕES
+========================================================= */
+
+.settings-panel {
+  overflow: hidden;
+}
+
+.settings-tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #eef2f7;
+  padding: 0 20px;
+}
+
+.settings-tab {
+  min-height: 52px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.settings-tab.active {
+  color: #1455ff;
+  border-color: #1455ff;
+}
+
+.settings-content {
+  display: none;
+  padding-top: 20px;
+}
+
+.settings-content.active {
+  display: block;
+}
+
+.working-hours-form {
+  padding: 0 20px 22px;
+}
+
+#workingHoursContainer {
+  display: grid;
+  gap: 12px;
+  max-width: 680px;
+}
+
+.working-hour-row {
+  display: grid;
+  grid-template-columns: 44px 100px 100px 24px 100px 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.working-hour-row strong {
+  color: #14213d;
+  font-size: 14px;
+}
+
+.working-hour-row span,
+.working-hour-row small {
+  color: #8a96ad;
+  font-size: 14px;
+}
+
+.working-hour-row input[type="time"] {
+  min-height: 36px;
+  border: 1px solid #dce3ee;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 0 10px;
+  font-family: inherit;
+}
+
+.working-hour-row input[type="time"]:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.switch-control {
+  width: 40px;
+  height: 22px;
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.switch-control input {
+  display: none;
+}
+
+.switch-control span {
+  position: absolute;
+  inset: 0;
+  background: #d8dee9;
+  border-radius: 999px;
+  transition: 0.2s ease;
+}
+
+.switch-control span::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: 0.2s ease;
+}
+
+.switch-control input:checked + span {
+  background: #2563eb;
+}
+
+.switch-control input:checked + span::before {
+  transform: translateX(18px);
+}
+
+.settings-toggle-list {
+  display: grid;
+  gap: 14px;
+  max-width: 700px;
+  padding: 0 20px 24px;
+}
+
+.settings-toggle-card {
+  min-height: 70px;
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid #eef2f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+}
+
+.settings-toggle-card strong {
+  display: block;
+  color: #14213d;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.settings-toggle-card span {
+  color: #8a96ad;
+  font-size: 13px;
+}
+
+.settings-toggle-card input {
+  width: 22px;
+  height: 22px;
+  accent-color: #2563eb;
+}
+
+.danger-zone {
+  max-width: 700px;
+  margin: 20px;
+  border: 1px solid #fecaca;
+  background: #fffafa;
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.danger-zone h3 {
+  color: #ef4444;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.danger-zone p {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+/* 
+  Botão desabilitado da zona de perigo.
+*/
+.danger-zone button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 800px) {
+  .settings-tabs {
+    overflow-x: auto;
+  }
+
+  .settings-tab {
+    white-space: nowrap;
+  }
+
+  .working-hour-row {
+    grid-template-columns: 44px 1fr;
+  }
+
+  .working-hour-row input[type="time"],
+  .working-hour-row span,
+  .working-hour-row small {
+    grid-column: 2;
+  }
+}

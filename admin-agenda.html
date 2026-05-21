@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>OdontoFlow - Agendamentos</title>
+  <title>OdontoFlow - Agenda</title>
 
   <link rel="stylesheet" href="./styles/index.css" />
 
@@ -31,15 +31,15 @@
           Dashboard
         </a>
 
-        <a href="./admin-agenda.html" class="admin-menu-item">
+        <a href="./admin-agenda.html" class="admin-menu-item active">
           <span>▣</span>
           Agenda
+          <strong>›</strong>
         </a>
 
-        <a href="./admin-agendamentos.html" class="admin-menu-item active">
+        <a href="./admin-agendamentos.html" class="admin-menu-item">
           <span>▤</span>
           Agendamentos
-          <strong>›</strong>
         </a>
 
         <a href="./admin-pacientes.html" class="admin-menu-item">
@@ -121,7 +121,7 @@
     <header class="admin-topbar">
       <div class="admin-breadcrumb">
         <span>Clínica OdontoFlow</span>
-        <strong>/ Agendamentos</strong>
+        <strong>/ Agenda</strong>
       </div>
 
       <div class="admin-topbar-actions">
@@ -141,27 +141,25 @@
 
     <section class="admin-content">
 
-      <div class="admin-page-title">
-        <div>
-          <h1>Agendamentos</h1>
+      <div class="agenda-toolbar">
+        <div class="agenda-week-control">
+          <button type="button" id="previousWeekButton">‹</button>
+
+          <h1 id="weekRangeTitle">Carregando semana...</h1>
+
+          <button type="button" id="nextWeekButton">›</button>
         </div>
 
-        <button class="admin-primary-btn" id="newAppointmentButton">
-          + Novo agendamento
-        </button>
-      </div>
+        <div class="agenda-actions">
+          <button class="admin-outline-btn agenda-view-active" type="button">
+            Semana
+          </button>
 
-      <section class="admin-panel">
-        <div class="admin-filter-bar">
-          <div class="admin-search-box">
-            <input 
-              type="text" 
-              id="appointmentSearchInput" 
-              placeholder="Buscar por paciente ou código..."
-            />
-          </div>
+          <button class="admin-outline-btn" type="button" id="todayButton">
+            Hoje
+          </button>
 
-          <select id="statusFilter">
+          <select id="agendaStatusFilter" class="admin-filter-select">
             <option value="all">Todos os status</option>
             <option value="requested">Solicitado</option>
             <option value="clinic_confirmed">Confirmado</option>
@@ -170,50 +168,128 @@
             <option value="cancelled_by_patient">Cancelado pelo paciente</option>
             <option value="cancelled_by_clinic">Cancelado pela clínica</option>
           </select>
+
+          <select id="agendaDentistFilter" class="admin-filter-select">
+            <option value="all">Todos os dentistas</option>
+          </select>
+
+          <button class="admin-primary-btn" id="newAgendaAppointmentButton">
+            + Novo agendamento
+          </button>
         </div>
+      </div>
 
-        <div class="admin-table-wrapper">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Código</th>
-                <th>Paciente</th>
-                <th>Procedimento</th>
-                <th>Dentista</th>
-                <th>Data</th>
-                <th>Horário</th>
-                <th>Status</th>
-                <th>Ações</th>
-              </tr>
-            </thead>
+      <div class="agenda-legend">
+        <span><i class="legend-dot requested"></i> Solicitado</span>
+        <span><i class="legend-dot clinic_confirmed"></i> Confirmado</span>
+        <span><i class="legend-dot patient_confirmed"></i> Presença confirmada</span>
+        <span><i class="legend-dot cancelled"></i> Cancelado</span>
+        <span><i class="legend-dot completed"></i> Concluído</span>
+      </div>
 
-            <tbody id="appointmentsTable">
-              <tr>
-                <td colspan="8">Carregando agendamentos...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="admin-table-footer">
-          <span id="appointmentsCount">Mostrando 0 agendamentos</span>
-
-          <div class="admin-pagination">
-            <button class="ghost" type="button">‹</button>
-            <button type="button">1</button>
-            <button class="ghost" type="button">›</button>
+      <section class="agenda-panel">
+        <div class="agenda-grid" id="agendaGrid">
+          <div class="agenda-loading">
+            Carregando agenda...
           </div>
         </div>
       </section>
 
     </section>
   </main>
+  <div class="admin-modal-overlay" id="agendaAppointmentModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <div>
+        <h2 id="modalAppointmentPatient">Agendamento</h2>
+        <p id="modalAppointmentCode">-</p>
+      </div>
+
+      <button type="button" id="closeAgendaModal">×</button>
+    </div>
+
+    <div class="admin-modal-body">
+      <div class="patient-detail-grid">
+        <div class="patient-detail-card">
+          <span>Paciente</span>
+          <strong id="modalAgendaPatient">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Telefone</span>
+          <strong id="modalAgendaPhone">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>E-mail</span>
+          <strong id="modalAgendaEmail">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Procedimento</span>
+          <strong id="modalAgendaProcedure">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Dentista</span>
+          <strong id="modalAgendaDentist">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Valor</span>
+          <strong id="modalAgendaPrice">R$ 0,00</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Data</span>
+          <strong id="modalAgendaDate">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Horário</span>
+          <strong id="modalAgendaTime">-</strong>
+        </div>
+
+        <div class="patient-detail-card">
+          <span>Status</span>
+          <strong id="modalAgendaStatus">-</strong>
+        </div>
+      </div>
+
+      <div class="admin-modal-section">
+        <h3>Observações do paciente</h3>
+
+        <div class="agenda-modal-notes" id="modalAgendaNotes">
+          Nenhuma observação informada.
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-modal-footer agenda-modal-footer">
+      <button type="button" class="admin-outline-btn" id="closeAgendaModalFooter">
+        Fechar
+      </button>
+
+      <button type="button" class="admin-primary-btn" id="confirmAgendaAppointmentButton">
+        Confirmar
+      </button>
+
+      <button type="button" class="admin-success-btn" id="completeAgendaAppointmentButton">
+        Concluir
+      </button>
+
+      <button type="button" class="admin-danger-btn" id="cancelAgendaAppointmentButton">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./scripts/supabase.js"></script>
   <script src="./scripts/storage.js"></script>
   <script src="./scripts/admin-auth.js"></script>
   <script src="./scripts/admin-clinic-ui.js"></script>
-  <script src="./scripts/admin-agendamentos.js"></script>
+  <script src="./scripts/admin-agenda.js"></script>
 </body>
 </html>

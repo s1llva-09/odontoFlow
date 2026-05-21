@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>OdontoFlow - Configurações</title>
+
+  <link rel="stylesheet" href="./styles/index.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" 
+    rel="stylesheet"
+  />
+</head>
+
+<body class="admin-page">
+
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-top">
+      <a href="./admin-dashboard.html" class="admin-brand">
+        <span class="admin-brand-icon">🦷</span>
+        <span>OdontoFlow</span>
+      </a>
+
+      <nav class="admin-menu">
+        <a href="./admin-dashboard.html" class="admin-menu-item">
+          <span>▦</span>
+          Dashboard
+        </a>
+
+        <a href="./admin-agenda.html" class="admin-menu-item">
+          <span>▣</span>
+          Agenda
+        </a>
+
+        <a href="./admin-agendamentos.html" class="admin-menu-item">
+          <span>▤</span>
+          Agendamentos
+        </a>
+
+        <a href="./admin-pacientes.html" class="admin-menu-item">
+          <span>♙</span>
+          Pacientes
+        </a>
+
+        <a href="./admin-dentistas.html" class="admin-menu-item">
+          <span>♧</span>
+          Dentistas
+        </a>
+
+        <a href="./admin-procedimentos.html" class="admin-menu-item">
+          <span>▥</span>
+          Procedimentos
+        </a>
+
+        <a href="./admin-prontuarios.html" class="admin-menu-item">
+          <span>▧</span>
+          Prontuários
+        </a>
+
+        <a href="./admin-orcamentos.html" class="admin-menu-item">
+          <span>▩</span>
+          Orçamentos
+        </a>
+
+        <a href="./admin-financeiro.html" class="admin-menu-item">
+          <span>↗</span>
+          Financeiro
+        </a>
+
+        <a href="./admin-caixa.html" class="admin-menu-item">
+          <span>$</span>
+          Caixa
+        </a>
+
+        <a href="./admin-receber.html" class="admin-menu-item">
+          <span>▭</span>
+          A Receber
+        </a>
+
+        <a href="./admin-pagar.html" class="admin-menu-item">
+          <span>▣</span>
+          A Pagar
+        </a>
+
+        <a href="./admin-relatorios.html" class="admin-menu-item">
+          <span>▥</span>
+          Relatórios
+        </a>
+
+        <a href="./admin-usuarios.html" class="admin-menu-item">
+          <span>♙</span>
+          Usuários
+        </a>
+
+        <a href="./admin-configuracoes.html" class="admin-menu-item active">
+          <span>⚙</span>
+          Configurações
+          <strong>›</strong>
+        </a>
+      </nav>
+    </div>
+
+    <div class="admin-sidebar-user">
+      <div class="admin-user-avatar">A</div>
+
+      <div>
+        <strong>Admin Geral</strong>
+        <small>admin@clinica.com</small>
+      </div>
+
+      <button id="logoutButton" title="Sair">↪</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-topbar">
+      <div class="admin-breadcrumb">
+        <span>Clínica OdontoFlow</span>
+        <strong>/ Configurações</strong>
+      </div>
+
+      <div class="admin-topbar-actions">
+        <label class="admin-search">
+          <span>⌕</span>
+          <input type="text" placeholder="Buscar..." />
+        </label>
+
+        <button class="admin-notification">
+          🔔
+          <span></span>
+        </button>
+
+        <div class="admin-top-avatar">A</div>
+      </div>
+    </header>
+
+    <section class="admin-content">
+
+      <div class="admin-page-title">
+        <div>
+          <h1>Configurações</h1>
+          <p>Gerencie dados da clínica, horários e preferências do sistema.</p>
+        </div>
+      </div>
+
+      <section class="admin-panel settings-panel">
+        <div class="settings-tabs">
+          <button type="button" class="settings-tab active" data-tab="clinic">
+            ▦ Clínica
+          </button>
+
+          <button type="button" class="settings-tab" data-tab="hours">
+            ◷ Horários
+          </button>
+
+          <button type="button" class="settings-tab" data-tab="notifications">
+            🔔 Notificações
+          </button>
+
+          <button type="button" class="settings-tab" data-tab="security">
+            🔒 Segurança
+          </button>
+        </div>
+
+        <div class="settings-content active" id="clinicTab">
+          <div class="admin-panel-header">
+            <div>
+              <h2>Informações da clínica</h2>
+              <p>Essas informações podem aparecer no site público e nos comprovantes.</p>
+            </div>
+          </div>
+
+          <form class="admin-form" id="clinicSettingsForm">
+            <input type="hidden" id="clinicSettingsId" />
+
+            <div class="admin-form-grid">
+              <div class="form-group admin-form-wide">
+                <label for="clinicNameInput">Nome da clínica *</label>
+                <input type="text" id="clinicNameInput" placeholder="Nome da clínica" />
+              </div>
+
+              <div class="form-group">
+                <label for="clinicPhoneInput">Telefone</label>
+                <input type="text" id="clinicPhoneInput" placeholder="(11) 99999-9999" />
+              </div>
+
+              <div class="form-group">
+                <label for="clinicEmailInput">E-mail</label>
+                <input type="email" id="clinicEmailInput" placeholder="contato@clinica.com" />
+              </div>
+
+              <div class="form-group admin-form-wide">
+                <label for="clinicAddressInput">Endereço</label>
+                <input type="text" id="clinicAddressInput" placeholder="Rua, número, cidade/UF" />
+              </div>
+
+              <div class="form-group">
+                <label for="clinicCnpjInput">CNPJ</label>
+                <input type="text" id="clinicCnpjInput" placeholder="00.000.000/0001-00" />
+              </div>
+
+              <div class="form-group">
+                <label for="clinicCroInput">CRO Clínica</label>
+                <input type="text" id="clinicCroInput" placeholder="CRO-SP 00000" />
+              </div>
+
+              <div class="form-group admin-form-wide">
+                <label for="clinicDescriptionInput">Sobre a clínica</label>
+                <textarea 
+                  id="clinicDescriptionInput" 
+                  placeholder="Descreva brevemente a clínica"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="admin-primary-btn" id="saveClinicSettingsButton">
+                Salvar informações
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-content" id="hoursTab">
+          <div class="admin-panel-header">
+            <div>
+              <h2>Horários de funcionamento</h2>
+              <p>Defina os dias e horários disponíveis para agendamentos.</p>
+            </div>
+          </div>
+
+          <form class="working-hours-form" id="workingHoursForm">
+            <div id="workingHoursContainer"></div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="admin-primary-btn" id="saveWorkingHoursButton">
+                Salvar horários
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="settings-content" id="notificationsTab">
+          <div class="admin-panel-header">
+            <div>
+              <h2>Notificações</h2>
+              <p>Configurações visuais por enquanto. Depois ligamos e-mail/WhatsApp.</p>
+            </div>
+          </div>
+
+          <div class="settings-toggle-list">
+            <label class="settings-toggle-card">
+              <div>
+                <strong>Novo agendamento recebido</strong>
+                <span>Notificar quando paciente agendar online</span>
+              </div>
+              <input type="checkbox" checked />
+            </label>
+
+            <label class="settings-toggle-card">
+              <div>
+                <strong>Agendamento cancelado</strong>
+                <span>Notificar quando paciente cancelar</span>
+              </div>
+              <input type="checkbox" checked />
+            </label>
+
+            <label class="settings-toggle-card">
+              <div>
+                <strong>Confirmação de presença</strong>
+                <span>Notificar quando paciente confirmar presença</span>
+              </div>
+              <input type="checkbox" checked />
+            </label>
+
+            <label class="settings-toggle-card">
+              <div>
+                <strong>Conta a pagar vencendo</strong>
+                <span>Alertar 3 dias antes do vencimento</span>
+              </div>
+              <input type="checkbox" checked />
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-content" id="securityTab">
+          <div class="admin-panel-header">
+            <div>
+              <h2>Segurança</h2>
+              <p>Alteração de senha temporária para usuários internos.</p>
+            </div>
+          </div>
+
+          <form class="admin-form" id="changePasswordForm">
+            <div class="admin-form-grid">
+              <div class="form-group admin-form-wide">
+                <label for="currentPasswordInput">Senha atual</label>
+                <input 
+                  type="password" 
+                  id="currentPasswordInput" 
+                  placeholder="Digite sua senha atual"
+                  autocomplete="current-password"
+                />
+              </div>
+
+              <div class="form-group admin-form-wide">
+                <label for="newPasswordInput">Nova senha</label>
+                <input 
+                  type="password" 
+                  id="newPasswordInput" 
+                  placeholder="Digite a nova senha"
+                  autocomplete="new-password"
+                />
+              </div>
+
+              <div class="form-group admin-form-wide">
+                <label for="confirmPasswordInput">Confirmar nova senha</label>
+                <input 
+                  type="password" 
+                  id="confirmPasswordInput" 
+                  placeholder="Confirme a nova senha"
+                  autocomplete="new-password"
+                />
+              </div>
+            </div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="admin-primary-btn" id="changePasswordButton">
+                Alterar senha
+              </button>
+            </div>
+          </form>
+
+          <div class="danger-zone">
+            <h3>Zona de perigo</h3>
+            <p>Ações irreversíveis que afetam dados de teste do sistema.</p>
+
+            <button type="button" class="admin-danger-btn" id="clearTestDataButton">
+              Excluir dados de teste
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/storage.js"></script>
+  <script src="./scripts/admin-auth.js"></script>
+  <script src="./scripts/admin-clinic-ui.js"></script>
+  <script src="./scripts/admin-configuracoes.js"></script>
+</body>
+</html>
